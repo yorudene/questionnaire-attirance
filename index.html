@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Questionnaire d'Attirances & Profil</title>
+<title>Questionnaire Kinks, Pratiques & Physiques</title>
 <style>
   :root {
     --bg-color: #0f172a;
@@ -26,18 +26,18 @@
   }
 
   .container {
-    max-width: 680px;
+    max-width: 750px;
     width: 100%;
     background: var(--card-bg);
     border-radius: 12px;
-    padding: 20px;
+    padding: 24px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     border: 1px solid var(--border);
   }
 
   h1 {
     color: var(--accent);
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin-top: 0;
     text-align: center;
     border-bottom: 2px solid var(--border);
@@ -48,13 +48,24 @@
     color: var(--text-secondary);
     font-size: 0.9rem;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+  }
+
+  .section-header {
+    font-size: 1.2rem;
+    color: #38bdf8;
+    margin-top: 30px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-left: 4px solid #38bdf8;
+    padding-left: 10px;
   }
 
   .question-block {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     background: rgba(255, 255, 255, 0.02);
-    padding: 14px;
+    padding: 16px;
     border-radius: 8px;
     border: 1px solid var(--border);
   }
@@ -62,17 +73,17 @@
   .question-title {
     font-size: 1rem;
     font-weight: bold;
-    color: #38bdf8;
+    color: #f1f5f9;
     margin-bottom: 12px;
   }
 
-  .options-group {
-    display: flex;
-    flex-direction: column;
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 8px;
   }
 
-  .radio-card {
+  .checkbox-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border);
     border-radius: 6px;
@@ -83,12 +94,12 @@
     transition: all 0.2s ease;
   }
 
-  .radio-card:hover {
+  .checkbox-card:hover {
     background: rgba(244, 63, 94, 0.1);
     border-color: var(--accent);
   }
 
-  .radio-card input[type="radio"] {
+  .checkbox-card input[type="checkbox"] {
     accent-color: var(--accent);
     width: 18px;
     height: 18px;
@@ -96,23 +107,23 @@
     cursor: pointer;
   }
 
-  .radio-card span {
-    font-size: 0.9rem;
+  .checkbox-card span {
+    font-size: 0.88rem;
   }
 
   .btn {
     display: block;
     width: 100%;
-    padding: 14px;
+    padding: 16px;
     background: var(--accent);
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.2s;
-    margin-top: 20px;
+    margin-top: 30px;
   }
 
   .btn:hover {
@@ -123,37 +134,37 @@
     background: transparent;
     border: 1px solid var(--border);
     color: var(--text-secondary);
-    margin-top: 10px;
+    margin-top: 12px;
   }
 
   #results {
     display: none;
-    margin-top: 24px;
+    margin-top: 30px;
     padding-top: 20px;
     border-top: 2px dashed var(--border);
   }
 
   .profile-badge {
     background: linear-gradient(135deg, #f43f5e, #8b5cf6);
-    padding: 16px;
-    border-radius: 8px;
+    padding: 20px;
+    border-radius: 10px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
 
   .profile-badge h2 {
     margin: 0;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
   }
 
   .profile-badge p {
-    margin: 6px 0 0 0;
-    font-size: 0.85rem;
-    opacity: 0.9;
+    margin: 8px 0 0 0;
+    font-size: 0.95rem;
+    opacity: 0.95;
   }
 
   .stat-bar {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
   .stat-header {
@@ -165,8 +176,8 @@
 
   .bar-bg {
     background: rgba(255, 255, 255, 0.1);
-    height: 8px;
-    border-radius: 4px;
+    height: 10px;
+    border-radius: 5px;
     overflow: hidden;
   }
 
@@ -178,16 +189,22 @@
   }
 
   .summary-box {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 12px;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 16px;
     border-radius: 8px;
-    margin-top: 16px;
-    font-size: 0.85rem;
+    margin-top: 20px;
+    font-size: 0.9rem;
+  }
+
+  .summary-box h3 {
+    margin-top: 0;
+    color: #38bdf8;
+    font-size: 1rem;
   }
 
   .summary-box ul {
-    margin: 6px 0 0 0;
-    padding-left: 18px;
+    margin: 8px 0;
+    padding-left: 20px;
     color: var(--text-secondary);
   }
 </style>
@@ -195,200 +212,281 @@
 <body>
 
 <div class="container">
-  <h1>Questionnaire de Profil</h1>
-  <p class="intro">Répondez aux questions ci-dessous pour obtenir une évaluation de votre profil dominant.</p>
+  <h1>Questionnaire Kinks & Profil physique</h1>
+  <p class="intro">Cochez **toutes les options** qui vous attirent. Vous pouvez sélectionner plusieurs choix par question (Donner, Recevoir, ou les deux).</p>
 
-  <form id="qcmForm">
+  <form id="kinkForm">
     
-    <!-- QUESTION 1 -->
+    <div class="section-header">A. Kinks, Pratiques & Roles</div>
+
+    <!-- Q1 -->
     <div class="question-block">
-      <div class="question-title">1. Votre soirée idéale commence plutôt par :</div>
-      <div class="options-group">
-        <label class="radio-card">
-          <input type="radio" name="q1" data-cat="romantique" value="Un dîner en tête-à-tête dans un endroit calme" required>
-          <span>Un dîner en tête-à-tête dans un endroit calme</span>
-        </label>
-        <label class="radio-card">
-          <input type="radio" name="q1" data-cat="sensuel" value="Un verre intimiste axé sur le regard et les massages">
-          <span>Un verre intimiste axé sur le regard et les massages</span>
-        </label>
-        <label class="radio-card">
-          <input type="radio" name="q1" data-cat="festif" value="Un apéro dynamique dans un lieu animé ou un club">
-          <span>Un apéro dynamique dans un lieu animé ou un club</span>
-        </label>
-        <label class="radio-card">
-          <input type="radio" name="q1" data-cat="kink" value="Une discussion directe sur les limites et les fantasmes">
-          <span>Une discussion directe sur les limites et les fantasmes</span>
-        </label>
+      <div class="question-title">1. Contrôle & Énergie Dominante / Soumise</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="top,dom" value="Donner : Prendre le contrôle, guider et dominer"><span>Donner : Prendre le contrôle et guider</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,sub" value="Recevoir : Lâcher prise, obéir et se soumettre"><span>Recevoir : Lâcher prise et se soumettre</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="switch" value="Switch : Alterner selon l'envie (Dom ou Sub)"><span>Switch : Alterner selon l'envie</span></label>
       </div>
     </div>
 
-    <!-- QUESTION 2 -->
+    <!-- Q2 -->
     <div class="question-block">
-      <div class="question-title">2. Face à l'idée d'intégrer d'autres personnes :</div>
-      <div class="options-group">
-        <label class="radio-card">
-          <input type="radio" name="q2" data-cat="romantique" value="Pas question, la complicité se vit exclusivement à deux" required>
-          <span>Pas question, la complicité se vit exclusivement à deux</span>
-        </label>
-        <label class="radio-card">
-          <input type="radio" name="q2" data-cat="echangisme" value="Très curieux(se) du voyeurisme ou des rencontres en trio">
-          <span>Très curieux(se) du voyeurisme ou des rencontres en trio</span>
-        </label>
-        <label class="radio-card">
-          <input type="radio" name="q2" data-cat="echangisme,festif" value="Ouvert(e) à l'échange de partenaires (soft ou full)">
-          <span>Ouvert(e) à l'échange de partenaires (soft ou full)</span>
-        </label>
-        <label class="radio-card">
-          <input type="radio" name="q2" data-cat="sensuel" value="Seulement si cela reste très doux et sans pression">
-          <span>Seulement si cela reste très doux et sans pression</span>
-        </label>
+      <div class="question-title">2. Bondage & Attaches (Cordes, Menottes)</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="top,bondage" value="Donner : Attacher / Ligoter le/la partenaire"><span>Donner : Attacher / Ligoter</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,bondage" value="Recevoir : Être attaché(e) / Immobilisé(e)"><span>Recevoir : Être attaché(e)</span></label>
       </div>
     </div>
 
-    <!-- QUESTION 3 -->
+    <!-- Q3 -->
     <div class="question-block">
-      <div class="question-title">3. Côté pratiques et jeux sexuels, vous êtes plutôt :</div>
-      <div class="options-group">
-        <label class="radio-card">
-          <input type="radio" name="q3" data-cat="sensuel" value="Lenteur, caresses, huiles et éveil des sens" required>
-          <span>Lenteur, caresses, huiles et éveil des sens</span>
-        </label>
-        <label class="radio-card">
-          <input type="radio" name="q3" data-cat="kink" value="Bondage, accessoires (toys) et jeux de rôles">
-          <span>Bondage, accessoires (toys) et jeux de rôles</span>
-        </label>
-        <label class="radio-card">
-          <input type="radio" name="q3" data-cat="kink" value="Domination / Soumission ou scénarios travaillés">
-          <span>Domination / Soumission ou scénarios travaillés</span>
-        </label>
-        <label class="radio-card">
-          <input type="radio" name="q3" data-cat="romantique" value="Spontanéité, passion et connexion visuelle">
-          <span>Spontanéité, passion et connexion visuelle</span>
-        </label>
+      <div class="question-title">3. Impact Play (Fessées, Cravache, Martinet)</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="top,impact" value="Donner : Donner des fessées / Coups de cravache"><span>Donner : Frapper / Donner la fessée</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,impact" value="Recevoir : Recevoir des fessées / Impact"><span>Recevoir : Recevoir des fessées / Impact</span></label>
       </div>
     </div>
 
-    <!-- QUESTION 4 -->
+    <!-- Q4 -->
     <div class="question-block">
-      <div class="question-title">4. Quel cadre vous met le plus en confiance ?</div>
-      <div class="options-group">
-        <label class="radio-card">
-          <input type="radio" name="q4" data-cat="romantique,sensuel" value="À la maison, dans un cocon totalement privé" required>
-          <span>À la maison, dans un cocon totalement privé</span>
-        </label>
-        <label class="radio-card">
-          <input type="radio" name="q4" data-cat="festif" value="En club spécialisé ou sauna avec du monde autour">
-          <span>En club spécialisé ou sauna avec du monde autour</span>
-        </label>
-        <label class="radio-card">
-          <input type="radio" name="q4" data-cat="echangisme,kink" value="En play-party privée avec des initiés">
-          <span>En play-party privée avec des initiés</span>
-        </label>
+      <div class="question-title">4. Domination & Dégradation verbale (Dirty Talk)</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="top,verbal" value="Donner : Donner des ordres, vulgarité, dégradation"><span>Donner : Ordres / Dégradation verbale</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,verbal" value="Recevoir : Écouter des ordres, être dégradé(e)"><span>Recevoir : Être commandé(e) / Vulgarité</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,praise" value="Recevoir : Compliments soutenus (Praise kink)"><span>Recevoir : Compliments (Praise kink)</span></label>
       </div>
     </div>
 
-    <button type="button" class="btn" onclick="calculateProfile()">Valider et voir mon Profil</button>
+    <!-- Q5 -->
+    <div class="question-block">
+      <div class="question-title">5. Jeux de Rôles (Roleplay / Scénarios)</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="top,roleplay" value="Donner : Imposer un rôle autoritaire (Prof, Patron, BDSM)"><span>Donner : Rôle d'autorité</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,roleplay" value="Recevoir : Jouer le rôle soumis (Élève, Secrétaire, Soumis)"><span>Recevoir : Rôle soumis</span></label>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="question-block">
+      <div class="question-title">6. Restauration de l'attention & Sensory Play (Yeux bandés, Glace, Cire)</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="top,sensory" value="Donner : Bander les yeux, faire couler de la cire, glaçons"><span>Donner : Bander les yeux / Appliquer glace ou cire</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,sensory" value="Recevoir : Avoir les yeux bandés, subir la cire/froid"><span>Recevoir : Yeux bandés / Cire / Glaçons</span></label>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question-block">
+      <div class="question-title">7. Jeux de Souffle (Breathplay)</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="top,breath" value="Donner : Main sur la gorge, étouffement contrôlé"><span>Donner : Main sur la gorge / Étranglement léger</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,breath" value="Recevoir : Être pris(e) à la gorge, souffle coupé"><span>Recevoir : Avoir la main sur la gorge</span></label>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="question-block">
+      <div class="question-title">8. Contrôle de l'Orgasme (Edging / Denial)</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="top,denial" value="Donner : Refuser/Retarder l'orgasme de l'autre"><span>Donner : Contrôler et refuser l'orgasme</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,denial" value="Recevoir : Se faire refuser/imposer l'orgasme"><span>Recevoir : Être privé(e) d'orgasme</span></label>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="question-block">
+      <div class="question-title">9. Pegging & Pénétration Anale (Strap-On)</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="top,pegging" value="Donner : Pénétrer son partenaire avec un Strap-on"><span>Donner : Pénétrer avec un Strap-on</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,pegging" value="Recevoir : Être pénétré(e) par un Strap-on"><span>Recevoir : Être pénétré(e) par Strap-on</span></label>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-title">10. Humiliation & Servitude</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="top,servitude" value="Donner : Traiter l'autre comme un objet/serviteur"><span>Donner : Utiliser l'autre comme serviteur</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,servitude" value="Recevoir : Servir de repose-pied, obéir au doigt et à l'œil"><span>Recevoir : Servir l'autre / Obéir totalement</span></label>
+      </div>
+    </div>
+
+    <!-- Q11 à Q20 : Kinks spécifiques sans forcément axe opposé -->
+    <div class="question-block">
+      <div class="question-title">11. Voyeurisme & Exhibitionnisme</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="voyeur" value="Regarder d'autres personnes (Voyeurisme)"><span>Regarder d'autres personnes</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="exhib" value="Se faire regarder / Faire l'amour en public (Exhibition)"><span>Se faire regarder / Lieu public</span></label>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-title">12. Fétichisme Matières & Lingerie</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="fetiche" value="Cuir, Latex, Vinyle, PVC"><span>Cuir, Latex, Vinyle</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="fetiche" value="Lingerie fine, Talons, Bas nylon"><span>Lingerie fine & Talons</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="fetiche" value="Pieds / Fétichisme des pieds"><span>Pieds (Foot fetish)</span></label>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-title">13. Cuckolding & Partage</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-cat="cuck" value="Cuckold / Hotwife : Voir son/sa partenaire avec quelqu'un d'autre"><span>Voir son/sa partenaire avec un(e) autre</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-cat="pluralite" value="Trio ou partouze"><span>Pratiques en groupe (Trio/Partouze)</span></label>
+      </div>
+    </div>
+
+    <div class="section-header">B. Préférences Physiques & Style</div>
+
+    <!-- Q21 -->
+    <div class="question-block">
+      <div class="question-title">14. Silhouette & Morphologie recherchée</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Mince / Élancé(e)"><span>Mince / Élancé(e)</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Athlétique / Fit / Musclé(e)"><span>Athlétique / Fit / Musclé(e)</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Curvy / En formes / Ronde / Massif"><span>Curvy / En formes / Massif</span></label>
+      </div>
+    </div>
+
+    <!-- Q22 -->
+    <div class="question-block">
+      <div class="question-title">15. Poitrine / Buste</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Petite poitrine / Buste menu"><span>Petite poitrine / Menue</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Poitrine moyenne / Proportionnée"><span>Moyenne / Équilibrée</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Gros seins / Poitrine très généreuse"><span>Gros seins / Très généreuse</span></label>
+      </div>
+    </div>
+
+    <!-- Q23 -->
+    <div class="question-block">
+      <div class="question-title">16. Fessiers & Hanches</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Gros cul / Hanches larges / Formes rebondies"><span>Gros cul / Hanches marquées</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Fessier ferme et sculpté"><span>Fessier ferme / Sculpté</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Fessier menu / Silhouette étroite"><span>Fessier menu / Étroit</span></label>
+      </div>
+    </div>
+
+    <!-- Q24 -->
+    <div class="question-block">
+      <div class="question-title">17. Look & Style vestimentaire</div>
+      <div class="options-grid">
+        <label class="checkbox-card"><input type="checkbox" data-phys="style" value="Style Très Sexy / Moulant / Provocant"><span>Style Très Sexy / Provocant</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-phys="style" value="Style Casual / Chic / Naturel"><span>Style Casual / Chic</span></label>
+        <label class="checkbox-card"><input type="checkbox" data-phys="style" value="Style Alternative / Goth / Rock / Tatoué(e)"><span>Style Rock / Goth / Tatoué(e)</span></label>
+      </div>
+    </div>
+
+    <button type="button" class="btn" onclick="calculateProfile()">Générer l'Analyse du Profil</button>
   </form>
 
   <!-- RESULTATS -->
   <div id="results">
     <div class="profile-badge">
-      <h2 id="mainProfileTitle">Profil...</h2>
-      <p id="mainProfileDesc">Analyse de vos réponses...</p>
+      <h2 id="mainProfileTitle">Analyse du Profil...</h2>
+      <p id="mainProfileDesc">Chargement des tendances...</p>
     </div>
 
-    <div class="question-title">Détail de votre orientation</div>
+    <div class="section-header">Orientation BDSM / Rôles</div>
     
     <div class="stat-bar">
-      <div class="stat-header"><span>Sensuel & Tactile</span><span id="score-sensuel">0%</span></div>
-      <div class="bar-bg"><div class="bar-fill" id="fill-sensuel"></div></div>
+      <div class="stat-header"><span>Côté Dominant / Top (Donner)</span><span id="score-top">0%</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="fill-top"></div></div>
     </div>
     <div class="stat-bar">
-      <div class="stat-header"><span>Échangisme & Pluralité</span><span id="score-echangisme">0%</span></div>
-      <div class="bar-bg"><div class="bar-fill" id="fill-echangisme"></div></div>
-    </div>
-    <div class="stat-bar">
-      <div class="stat-header"><span>Kink & BDSM</span><span id="score-kink">0%</span></div>
-      <div class="bar-bg"><div class="bar-fill" id="fill-kink"></div></div>
-    </div>
-    <div class="stat-bar">
-      <div class="stat-header"><span>Romantique & Exclusif</span><span id="score-romantique">0%</span></div>
-      <div class="bar-bg"><div class="bar-fill" id="fill-romantique"></div></div>
-    </div>
-    <div class="stat-bar">
-      <div class="stat-header"><span>Festif & Clubbing</span><span id="score-festif">0%</span></div>
-      <div class="bar-bg"><div class="bar-fill" id="fill-festif"></div></div>
+      <div class="stat-header"><span>Côté Soumis / Bottom (Recevoir)</span><span id="score-bottom">0%</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="fill-bottom"></div></div>
     </div>
 
     <div class="summary-box">
-      <strong>Récapitulatif de vos choix :</strong>
-      <ul id="selectedList"></ul>
+      <h3>Kinks & Pratiques validées :</h3>
+      <ul id="kinkList"></ul>
     </div>
 
-    <button type="button" class="btn btn-reset" onclick="resetForm()">Recommencer le test</button>
+    <div class="summary-box">
+      <h3>Goûts & Attirances Physiques :</h3>
+      <ul id="physList"></ul>
+    </div>
+
+    <button type="button" class="btn btn-reset" onclick="resetForm()">Réinitialiser le questionnaire</button>
   </div>
 </div>
 
 <script>
   function calculateProfile() {
-    const categories = {
-      sensuel: { name: "Profil Sensuel & Doux", score: 0, color: "#ec4899", desc: "Vous privilégiez la douceur, le toucher, l'éveil des sens et la montée progressive de la complicité." },
-      echangisme: { name: "Profil Échangiste & Curieux", score: 0, color: "#8b5cf6", desc: "Vous êtes attiré(e) par la découverte à plusieurs, le voyeurisme, l'exhibition ou l'échange de partenaires." },
-      kink: { name: "Profil Kink & Intensité", score: 0, color: "#f43f5e", desc: "Vous aimez pimenter l'intimité avec du BDSM, des accessoires, du bondage ou des jeux de pouvoir." },
-      romantique: { name: "Profil Romantique & Fusionnel", score: 0, color: "#3b82f6", desc: "Pour vous, le plaisir passe avant tout par la relation privilégiée à deux, la confiance et le sentiment d'exclusivité." },
-      festif: { name: "Profil Festif & Social", score: 0, color: "#10b981", desc: "Vous appréciez l'ambiance des soirées, la séduction décomplexée, le flirt et l'énergie des lieux spécialisés." }
-    };
+    let topScore = 0;
+    let bottomScore = 0;
 
-    const form = document.getElementById('qcmForm');
-    const checkedRadios = form.querySelectorAll('input[type="radio"]:checked');
+    const checkedBoxes = document.querySelectorAll('#kinkForm input[type="checkbox"]:checked');
 
-    // Vérifier que toutes les questions ont une réponse
-    if (checkedRadios.length < 4) {
-      alert("Merci de répondre à toutes les questions avant de valider.");
+    if (checkedBoxes.length === 0) {
+      alert("Veuillez cocher au moins une option.");
       return;
     }
 
-    const selectedValues = [];
+    const kinkChoices = [];
+    const physChoices = [];
 
-    checkedRadios.forEach(radio => {
-      selectedValues.push(radio.value);
-      const cats = radio.getAttribute('data-cat').split(',');
-      cats.forEach(c => {
-        if (categories[c]) {
-          categories[c].score += 1;
-        }
-      });
-    });
+    checkedBoxes.forEach(cb => {
+      const cats = cb.getAttribute('data-cat');
+      const phys = cb.getAttribute('data-phys');
 
-    let totalPoints = 0;
-    Object.keys(categories).forEach(k => totalPoints += categories[k].score);
+      if (cats) {
+        const catArray = cats.split(',');
+        if (catArray.includes('top')) topScore++;
+        if (catArray.includes('bottom')) bottomScore++;
+        kinkChoices.push(cb.value);
+      }
 
-    let dominantKey = "sensuel";
-    let maxScore = -1;
-
-    Object.keys(categories).forEach(k => {
-      const pct = totalPoints > 0 ? Math.round((categories[k].score / totalPoints) * 100) : 0;
-      document.getElementById(`score-${k}`).innerText = pct + "%";
-      const fillBar = document.getElementById(`fill-${k}`);
-      fillBar.style.width = pct + "%";
-      fillBar.style.backgroundColor = categories[k].color;
-
-      if (categories[k].score > maxScore) {
-        maxScore = categories[k].score;
-        dominantKey = k;
+      if (phys) {
+        physChoices.push(cb.value);
       }
     });
 
-    document.getElementById('mainProfileTitle').innerText = categories[dominantKey].name;
-    document.getElementById('mainProfileDesc').innerText = categories[dominantKey].desc;
+    const totalBDSM = topScore + bottomScore;
+    const topPct = totalBDSM > 0 ? Math.round((topScore / totalBDSM) * 100) : 0;
+    const bottomPct = totalBDSM > 0 ? Math.round((bottomScore / totalBDSM) * 100) : 0;
 
-    const listEl = document.getElementById('selectedList');
-    listEl.innerHTML = "";
-    selectedValues.forEach(val => {
+    document.getElementById('score-top').innerText = topPct + "%";
+    document.getElementById('fill-top').style.width = topPct + "%";
+    document.getElementById('fill-top').style.backgroundColor = "#f43f5e";
+
+    document.getElementById('score-bottom').innerText = bottomPct + "%";
+    document.getElementById('fill-bottom').style.width = bottomPct + "%";
+    document.getElementById('fill-bottom').style.backgroundColor = "#8b5cf6";
+
+    // Titre profil
+    let title = "Profil Équilibré / Switch";
+    let desc = "Vous appréciez autant donner que recevoir selon les moments et le/la partenaire.";
+
+    if (topPct > 65) {
+      title = "Profil Dominant / Top";
+      desc = "Vous prenez plaisir à guider, imposer les règles et donner les sensations.";
+    } else if (bottomPct > 65) {
+      title = "Profil Soumis / Bottom";
+      desc = "Vous recherchez le lâcher-prise, la remise du contrôle et le plaisir de recevoir.";
+    }
+
+    document.getElementById('mainProfileTitle').innerText = title;
+    document.getElementById('mainProfileDesc').innerText = desc;
+
+    // Listes
+    const kList = document.getElementById('kinkList');
+    kList.innerHTML = kinkChoices.length ? "" : "<li>Aucun kink spécifique coché</li>";
+    kinkChoices.forEach(k => {
       const li = document.createElement('li');
-      li.innerText = val;
-      listEl.appendChild(li);
+      li.innerText = k;
+      kList.appendChild(li);
+    });
+
+    const pList = document.getElementById('physList');
+    pList.innerHTML = physChoices.length ? "" : "<li>Aucun critère physique coché</li>";
+    physChoices.forEach(p => {
+      const li = document.createElement('li');
+      li.innerText = p;
+      pList.appendChild(li);
     });
 
     document.getElementById('results').style.display = 'block';
@@ -396,7 +494,7 @@
   }
 
   function resetForm() {
-    document.getElementById('qcmForm').reset();
+    document.getElementById('kinkForm').reset();
     document.getElementById('results').style.display = 'none';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
