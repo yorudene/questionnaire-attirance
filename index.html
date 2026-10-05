@@ -16,6 +16,7 @@
     --success: #2ecc71;
     --warning: #f39c12;
     --danger: #e74c3c;
+    --info: #3498db;
   }
 
   * { box-sizing: border-box; }
@@ -30,276 +31,221 @@
   }
 
   .progress-bar-container {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 8px;
-    background-color: #222;
-    z-index: 1000;
+    position: sticky; top: 0; width: 100%; height: 8px;
+    background-color: #222; z-index: 1000;
   }
 
   .progress-bar {
-    height: 100%;
-    background-color: var(--accent-color);
-    width: 0%;
-    transition: width 0.3s ease;
+    height: 100%; background-color: var(--accent-color);
+    width: 0%; transition: width 0.3s ease;
   }
 
-  .container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 0 20px;
-  }
+  .container { max-width: 800px; margin: 20px auto; padding: 0 20px; }
 
   h1, h2, h3 { color: #fff; text-align: center; }
-
   h1 { font-size: 1.6rem; margin-bottom: 5px; }
 
   .subtitle {
-    text-align: center;
-    color: var(--text-muted);
-    margin-bottom: 30px;
-    font-size: 0.95rem;
+    text-align: center; color: var(--text-muted);
+    margin-bottom: 30px; font-size: 0.95rem;
   }
 
   .category-title {
-    margin-top: 40px;
-    border-bottom: 2px solid var(--accent-color);
-    padding-bottom: 5px;
-    color: var(--accent-color);
-    font-size: 1.2rem;
+    margin-top: 40px; border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 5px; color: var(--accent-color); font-size: 1.2rem;
   }
 
   .question-card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 15px 20px;
-    margin-bottom: 15px;
+    background-color: var(--card-bg); border: 1px solid var(--border-color);
+    border-radius: 8px; padding: 15px 20px; margin-bottom: 15px;
     transition: border-color 0.2s;
   }
 
   .question-card:hover { border-color: #444; }
 
   .question-title {
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 0.98rem;
+    font-weight: bold; margin-bottom: 10px; font-size: 0.98rem;
   }
 
   .options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 10px;
   }
 
   label {
-    display: flex;
-    align-items: center;
-    background: #2a2a2a;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background 0.2s, border-color 0.2s;
-    border: 1px solid transparent;
-    user-select: none;
+    display: flex; align-items: center; background: #2a2a2a;
+    padding: 8px 12px; border-radius: 5px; cursor: pointer;
+    font-size: 0.9em; transition: background 0.2s, border-color 0.2s;
+    border: 1px solid transparent; user-select: none;
   }
 
   label:hover { background: #3a3a3a; }
-
   label.checked {
     background: var(--accent-soft);
     border-color: rgba(229, 9, 20, 0.4);
   }
-
   label.limit { color: var(--text-muted); font-style: italic; }
   label.explore { color: var(--warning); }
 
   input[type="checkbox"], input[type="radio"] {
-    margin-right: 10px;
-    accent-color: var(--accent-color);
-    flex-shrink: 0;
+    margin-right: 10px; accent-color: var(--accent-color); flex-shrink: 0;
   }
 
   .actions {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin: 30px 0;
-    flex-wrap: wrap;
+    display: flex; gap: 15px; justify-content: center;
+    margin: 30px 0; flex-wrap: wrap;
   }
 
   button {
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
-    font-size: 1em;
-    cursor: pointer;
-    font-weight: bold;
+    background-color: var(--accent-color); color: white; border: none;
+    padding: 12px 25px; border-radius: 5px; font-size: 1em;
+    cursor: pointer; font-weight: bold;
     transition: opacity 0.2s, transform 0.1s;
   }
-
   button:hover { opacity: 0.9; }
   button:active { transform: scale(0.98); }
-
   button.btn-reset { background-color: #444; }
 
   #results-container {
     background-color: var(--card-bg);
     border: 2px solid var(--accent-color);
-    border-radius: 8px;
-    padding: 25px;
-    margin-bottom: 40px;
+    border-radius: 8px; padding: 25px; margin-bottom: 40px;
   }
-
   #results-container h2 { margin-top: 0; }
 
   .profile-summary {
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.15em;
-    margin: 15px 0 25px;
-    padding: 12px;
-    background: var(--accent-soft);
-    border-radius: 6px;
+    text-align: center; font-weight: bold; font-size: 1.15em;
+    margin: 15px 0 25px; padding: 15px;
+    background: var(--accent-soft); border-radius: 6px;
     border-left: 4px solid var(--accent-color);
   }
 
   .score-line {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9em;
-    margin-bottom: 5px;
+    display: flex; justify-content: space-between;
+    font-size: 0.9em; margin-bottom: 5px;
   }
 
   .score-bar-bg {
-    background: #333;
-    border-radius: 5px;
-    height: 20px;
-    overflow: hidden;
-    margin-bottom: 15px;
+    background: #333; border-radius: 5px; height: 20px;
+    overflow: hidden; margin-bottom: 15px;
   }
 
   .score-bar-fill {
-    height: 100%;
-    background: var(--accent-color);
-    transition: width 0.6s ease;
-    min-width: 0;
+    height: 100%; background: var(--accent-color);
+    transition: width 0.6s ease; min-width: 0;
   }
 
-  .section-block {
-    margin-top: 25px;
-    padding-top: 15px;
-    border-top: 1px solid var(--border-color);
+  .analysis-block {
+    margin-top: 30px; padding: 18px 20px;
+    background: rgba(255,255,255,0.02);
+    border-left: 3px solid var(--accent-color);
+    border-radius: 4px;
   }
 
-  .section-block h3 {
-    text-align: left;
-    font-size: 1rem;
-    color: var(--accent-color);
+  .analysis-block h3 {
+    text-align: left; font-size: 1.05rem;
+    color: var(--accent-color); margin: 0 0 12px 0;
+  }
+
+  .analysis-block p { margin: 8px 0; font-size: 0.95em; }
+  .analysis-block ul { margin: 8px 0; padding-left: 22px; }
+  .analysis-block li { margin-bottom: 6px; font-size: 0.93em; }
+
+  .cat-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 50px;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 10px;
+    font-size: 0.9em;
   }
 
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 8px;
+  .cat-row .cat-name { color: var(--text-color); }
+  .cat-row .cat-bar-bg {
+    background: #2a2a2a; height: 14px;
+    border-radius: 7px; overflow: hidden;
+  }
+  .cat-row .cat-bar-fill {
+    height: 100%; background: linear-gradient(90deg, var(--accent-color), #ff7b00);
+    transition: width 0.6s ease; width: 0;
+  }
+  .cat-row .cat-val {
+    text-align: right; color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
   }
 
-  .chip {
-    background: #2a2a2a;
-    padding: 4px 10px;
+  .cat-row.high .cat-bar-fill { background: linear-gradient(90deg, #e50914, #ff7b00); }
+  .cat-row.mid  .cat-bar-fill { background: linear-gradient(90deg, #f39c12, #f1c40f); }
+  .cat-row.low  .cat-bar-fill { background: linear-gradient(90deg, #555, #777); }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
     border-radius: 12px;
     font-size: 0.8em;
-    border: 1px solid #3a3a3a;
+    margin: 2px 4px 2px 0;
+    border: 1px solid transparent;
+  }
+  .tag-high   { background: rgba(229,9,20,0.15); color: #ff6b6b; border-color: rgba(229,9,20,0.3); }
+  .tag-mid    { background: rgba(243,156,18,0.15); color: #f1c40f; border-color: rgba(243,156,18,0.3); }
+  .tag-low    { background: rgba(120,120,120,0.15); color: #aaa; border-color: rgba(120,120,120,0.3); }
+  .tag-limit  { background: rgba(231,76,60,0.15); color: #ffb3b3; border-color: rgba(231,76,60,0.3); }
+  .tag-explore{ background: rgba(52,152,219,0.15); color: #7ec8ff; border-color: rgba(52,152,219,0.3); }
+
+  .incoherence {
+    background: rgba(243,156,18,0.1);
+    border-left: 3px solid var(--warning);
+    padding: 12px 15px;
+    border-radius: 4px;
+    margin: 10px 0;
+    font-size: 0.93em;
   }
 
-  .chip.limit { color: var(--text-muted); }
-  .chip.explore { color: var(--warning); border-color: rgba(243,156,18,0.4); }
+  .compat-box {
+    background: rgba(52,152,219,0.08);
+    border-left: 3px solid var(--info);
+    padding: 12px 15px;
+    border-radius: 4px;
+    margin: 10px 0;
+  }
 
   .export-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 25px;
-    flex-wrap: wrap;
+    display: flex; gap: 10px; justify-content: center;
+    margin-top: 25px; flex-wrap: wrap;
   }
 
-  /* Écran d'accueil (choix du genre) */
-  #intro-screen {
-    display: block;
-    text-align: center;
-    padding: 40px 20px;
-  }
-
-  #intro-screen h2 {
-    color: var(--accent-color);
-    margin-bottom: 10px;
-  }
-
-  #intro-screen p {
-    color: var(--text-muted);
-    max-width: 500px;
-    margin: 0 auto 30px;
-  }
+  /* Écran d'accueil */
+  #intro-screen { display: block; text-align: center; padding: 40px 20px; }
+  #intro-screen h2 { color: var(--accent-color); margin-bottom: 10px; }
+  #intro-screen p { color: var(--text-muted); max-width: 500px; margin: 0 auto 30px; }
 
   .gender-buttons {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
+    display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
   }
 
   .gender-btn {
-    background: var(--card-bg);
-    border: 2px solid var(--border-color);
-    color: var(--text-color);
-    padding: 25px 40px;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    min-width: 160px;
+    background: var(--card-bg); border: 2px solid var(--border-color);
+    color: var(--text-color); padding: 25px 40px; border-radius: 10px;
+    font-size: 1.1rem; cursor: pointer; transition: all 0.2s; min-width: 160px;
   }
-
-  .gender-btn:hover {
-    border-color: var(--accent-color);
-    background: var(--accent-soft);
-  }
-
+  .gender-btn:hover { border-color: var(--accent-color); background: var(--accent-soft); }
   .gender-btn .icon { font-size: 2rem; display: block; margin-bottom: 8px; }
 
-  /* Masquage initial */
   #quiz-wrapper { display: none; }
 
-  /* Modal custom */
+  /* Modal */
   .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    padding: 20px;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    display: none; align-items: center; justify-content: center;
+    z-index: 2000; padding: 20px;
   }
-
   .modal-overlay.active { display: flex; }
 
   .modal {
-    background: var(--card-bg);
-    border: 1px solid var(--accent-color);
-    border-radius: 10px;
-    padding: 25px;
-    max-width: 420px;
-    width: 100%;
+    background: var(--card-bg); border: 1px solid var(--accent-color);
+    border-radius: 10px; padding: 25px; max-width: 420px; width: 100%;
     text-align: center;
   }
-
   .modal h3 { margin-top: 0; color: var(--accent-color); }
   .modal p { color: var(--text-color); margin-bottom: 20px; }
   .modal-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
@@ -308,17 +254,15 @@
   .warning-box {
     background: rgba(231, 76, 60, 0.12);
     border-left: 4px solid var(--danger);
-    padding: 10px 15px;
-    border-radius: 4px;
-    margin: 10px 0 15px;
-    font-size: 0.85em;
-    color: #ffb3b3;
+    padding: 10px 15px; border-radius: 4px;
+    margin: 10px 0 15px; font-size: 0.85em; color: #ffb3b3;
   }
 
   @media (max-width: 600px) {
     .options { grid-template-columns: 1fr; }
     .gender-btn { padding: 20px 30px; font-size: 1rem; }
     h1 { font-size: 1.3rem; }
+    .cat-row { grid-template-columns: 120px 1fr 40px; font-size: 0.85em; }
   }
 </style>
 </head>
@@ -330,30 +274,26 @@
 
 <div class="container">
 
-  <!-- ===== ÉCRAN D'ACCUEIL : CHOIX DU GENRE ===== -->
+  <!-- ÉCRAN D'ACCUEIL -->
   <div id="intro-screen">
     <h1>Questionnaire d'Attirance & Pratiques</h1>
     <p class="subtitle">Explore tes désirs, tes limites et tes préférences.</p>
-
     <h2>Avant de commencer</h2>
     <p>
-      Pour adapter les questions anatomiques et les préférences physiques,
-      indique ton profil. Cette information reste sur ton appareil.
+      Pour adapter les questions anatomiques, les préférences physiques
+      et l'analyse finale, indique ton profil.
     </p>
-
     <div class="gender-buttons">
       <button class="gender-btn" onclick="selectGender('H')">
-        <span class="icon">♂</span>
-        Homme
+        <span class="icon">♂</span> Homme
       </button>
       <button class="gender-btn" onclick="selectGender('F')">
-        <span class="icon">♀</span>
-        Femme
+        <span class="icon">♀</span> Femme
       </button>
     </div>
   </div>
 
-  <!-- ===== QUESTIONNAIRE ===== -->
+  <!-- QUESTIONNAIRE -->
   <div id="quiz-wrapper">
     <h1>Questionnaire d'Attirance & Pratiques</h1>
     <p class="subtitle" id="gender-indicator"></p>
@@ -361,9 +301,9 @@
     <form id="quiz-form">
 
       <!-- 1. DYNAMIQUES & RÔLES -->
-      <h2 class="category-title" data-gender="both">1. Dynamiques & Rôles</h2>
+      <h2 class="category-title" data-gender="both" data-cat="pouvoir">1. Dynamiques & Rôles</h2>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pouvoir">
         <div class="question-title">Q2. Donner des ordres et imposer tes règles pendant l'acte</div>
         <div class="options">
           <label><input type="checkbox" name="q2" data-type="D" data-weight="2"> Excité(e) de le faire</label>
@@ -373,7 +313,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pouvoir">
         <div class="question-title">Q3. Soumission totale temporaire (obéissance aveugle)</div>
         <div class="options">
           <label><input type="checkbox" name="q3" data-type="D" data-weight="3"> Diriger le jeu</label>
@@ -383,7 +323,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pouvoir">
         <div class="question-title">Q4. Protocole et formules de politesse (demander la permission)</div>
         <div class="options">
           <label><input type="checkbox" name="q4" data-type="D" data-weight="2"> L'exiger</label>
@@ -393,7 +333,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pouvoir">
         <div class="question-title">Q5. Adoration du corps du partenaire (culte des pieds, du sexe...)</div>
         <div class="options">
           <label><input type="checkbox" name="q5" data-type="D" data-weight="2"> Se faire adorer</label>
@@ -403,7 +343,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pouvoir">
         <div class="question-title">Q6. Contrôle des orgasmes (Orgasm Control / Denial)</div>
         <div class="options">
           <label><input type="checkbox" name="q6" data-type="D" data-weight="3"> Décider quand l'autre jouit</label>
@@ -413,7 +353,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pouvoir">
         <div class="question-title">Q7. Châtiments et punitions scénarisées</div>
         <div class="options">
           <label><input type="checkbox" name="q7" data-type="D" data-weight="2"> Infliger la punition</label>
@@ -423,7 +363,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pouvoir">
         <div class="question-title">Q8. Jeux de rôles avec asymétrie de pouvoir (Prof/Élève, Patron/Employé)</div>
         <div class="options">
           <label><input type="checkbox" name="q8" data-type="D" data-weight="2"> Jouer l'autorité</label>
@@ -433,7 +373,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pouvoir">
         <div class="question-title">Q9. Dégradation consensuelle / Humiliation douce</div>
         <div class="options">
           <label><input type="checkbox" name="q9" data-type="D" data-weight="3"> Être humiliant(e)</label>
@@ -443,7 +383,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pouvoir">
         <div class="question-title">Q10. Contrôle de la tenue vestimentaire par le partenaire</div>
         <div class="options">
           <label><input type="checkbox" name="q10" data-type="D" data-weight="2"> Imposer la tenue</label>
@@ -453,7 +393,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pouvoir">
         <div class="question-title">Q11. Guidage physique (main derrière la tête, pousser à genoux)</div>
         <div class="options">
           <label><input type="checkbox" name="q11" data-type="D" data-weight="2"> Guider fermement</label>
@@ -464,9 +404,9 @@
       </div>
 
       <!-- 2. ANAL & ANATOMIE -->
-      <h2 class="category-title" data-gender="both">2. Pratiques Anal & Stimulation</h2>
+      <h2 class="category-title" data-gender="both" data-cat="anal">2. Pratiques Anal & Stimulation</h2>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="anal">
         <div class="question-title">Q12. Analingus (stimuler l'anus avec la langue)</div>
         <div class="options">
           <label><input type="checkbox" name="q12" data-type="D" data-weight="2"> Donner</label>
@@ -476,7 +416,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="anal">
         <div class="question-title">Q13. Pénétration anale classique</div>
         <div class="options">
           <label><input type="checkbox" name="q13" data-type="D" data-weight="2"> Pénétrer</label>
@@ -486,27 +426,25 @@
         </div>
       </div>
 
-      <!-- Q14 : version Homme -->
-      <div class="question-card" data-gender="H">
+      <div class="question-card" data-gender="H" data-cat="anal">
         <div class="question-title">Q14. Stimulation prostatique (doigt/massager) ou Pegging</div>
         <div class="options">
           <label><input type="checkbox" name="q14" data-type="R" data-weight="2"> Curieux / Pratiquant</label>
-          <label class="explore"><input type="checkbox" name="q14" data-type="A" data-weight="1"> À explorer</label>
+          <label class="explore"><input type="checkbox" name="q14" data-type="A" data-weight="1" data-explore="1"> À explorer</label>
           <label class="limit"><input type="checkbox" name="q14" data-type="A" data-weight="1"> Pas pour moi</label>
         </div>
       </div>
 
-      <!-- Q14 : version Femme -->
-      <div class="question-card" data-gender="F">
+      <div class="question-card" data-gender="F" data-cat="anal">
         <div class="question-title">Q14. Pegging (pénétrer un homme avec un strap-on)</div>
         <div class="options">
           <label><input type="checkbox" name="q14" data-type="D" data-weight="2"> J'aime pratiquer</label>
-          <label class="explore"><input type="checkbox" name="q14" data-type="A" data-weight="1"> À explorer</label>
+          <label class="explore"><input type="checkbox" name="q14" data-type="A" data-weight="1" data-explore="1"> À explorer</label>
           <label class="limit"><input type="checkbox" name="q14" data-type="A" data-weight="1"> Pas pour moi</label>
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="anal">
         <div class="question-title">Q15. Plugs anaux portés au quotidien ou en soirée</div>
         <div class="options">
           <label><input type="checkbox" name="q15" data-type="D" data-weight="2"> Faire porter</label>
@@ -516,7 +454,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="anal">
         <div class="question-title">Q16. Utilisation de sextoys imposants (dildos XL, dilatateurs)</div>
         <div class="options">
           <label><input type="checkbox" name="q16" data-type="D" data-weight="3"> Utiliser sur l'autre</label>
@@ -526,7 +464,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="anal">
         <div class="question-title">Q17. Double pénétration (DP)</div>
         <div class="options">
           <label><input type="checkbox" name="q17" data-type="D" data-weight="3"> Pénétrer à deux</label>
@@ -536,7 +474,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="anal">
         <div class="question-title">Q18. Fisting anal (introduction progressive de la main)</div>
         <div class="options">
           <label><input type="checkbox" name="q18" data-type="D" data-weight="3"> Pratiquer</label>
@@ -546,7 +484,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="anal">
         <div class="question-title">Q19. Lavements / Enema préparatoire ritualisé</div>
         <div class="options">
           <label><input type="checkbox" name="q19" data-type="D" data-weight="2"> Administrer</label>
@@ -556,7 +494,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="anal">
         <div class="question-title">Q20. Asservissement anal (plug verrouillé, chasteté anale)</div>
         <div class="options">
           <label><input type="checkbox" name="q20" data-type="D" data-weight="3"> Contrôler</label>
@@ -566,7 +504,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="anal">
         <div class="question-title">Q21. Exploration lente des zones érogènes profondes</div>
         <div class="options">
           <label><input type="checkbox" name="q21" data-type="D" data-weight="1"> Prendre son temps</label>
@@ -576,10 +514,10 @@
         </div>
       </div>
 
-      <!-- 3. BDSM & SENSATIONS -->
-      <h2 class="category-title" data-gender="both">3. BDSM & Impact Play</h2>
+      <!-- 3. BDSM & IMPACT -->
+      <h2 class="category-title" data-gender="both" data-cat="bdsm">3. BDSM & Impact Play</h2>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="bdsm">
         <div class="question-title">Q22. Shibari / Cordes (art du bondage japonais)</div>
         <div class="options">
           <label><input type="checkbox" name="q22" data-type="D" data-weight="3"> Attacher (Rigger)</label>
@@ -589,7 +527,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="bdsm">
         <div class="question-title">Q23. Spanking (fessées à la main, paddle, martinet)</div>
         <div class="options">
           <label><input type="checkbox" name="q23" data-type="D" data-weight="2"> Donner</label>
@@ -599,7 +537,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="bdsm">
         <div class="question-title">Q24. Cravache & Impact Play lourd (fouet, canne)</div>
         <div class="options">
           <label><input type="checkbox" name="q24" data-type="D" data-weight="3"> Frapper</label>
@@ -609,7 +547,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="bdsm">
         <div class="question-title">Q25. Wax Play (gouttes de bougie chaude)</div>
         <div class="options">
           <label><input type="checkbox" name="q25" data-type="D" data-weight="2"> Faire couler</label>
@@ -619,7 +557,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="bdsm">
         <div class="question-title">Q26. Pinces à seins / Pinces érotiques</div>
         <div class="options">
           <label><input type="checkbox" name="q26" data-type="D" data-weight="2"> Poser les pinces</label>
@@ -629,7 +567,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="bdsm">
         <div class="question-title">Q27. Privation sensorielle (bandeau, casque anti-bruit)</div>
         <div class="options">
           <label><input type="checkbox" name="q27" data-type="D" data-weight="2"> Priver l'autre de ses sens</label>
@@ -639,7 +577,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="bdsm">
         <div class="question-title">Q28. Électro-stimulation (Estim)</div>
         <div class="options">
           <label><input type="checkbox" name="q28" data-type="D" data-weight="3"> Manipuler l'appareil</label>
@@ -649,7 +587,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="bdsm">
         <div class="question-title">Q29. Tenues Cuir / Latex / Rubber</div>
         <div class="options">
           <label><input type="checkbox" name="q29" data-type="D" data-weight="2"> Aimer voir le partenaire vêtu</label>
@@ -659,7 +597,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="bdsm">
         <div class="question-title">Q30. Aiguilles / Play Piercing (perçage éphémère)</div>
         <div class="warning-box">⚠ Pratique à haut risque : matériel stérile et hygiène irréprochable obligatoires.</div>
         <div class="options">
@@ -670,7 +608,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="bdsm">
         <div class="question-title">Q31. Marquage / Traces temporaires (morsures, griffures)</div>
         <div class="options">
           <label><input type="checkbox" name="q31" data-type="D" data-weight="2"> Laisser des marques</label>
@@ -679,11 +617,10 @@
           <label class="limit"><input type="checkbox" name="q31" data-type="A" data-weight="1"> Non</label>
         </div>
       </div>
+            <!-- 4. SOFT & ROMANCE -->
+      <h2 class="category-title" data-gender="both" data-cat="soft">4. Soft, Tendresse & Sensualité</h2>
 
-      <!-- 4. SOFT & ROMANCE -->
-      <h2 class="category-title" data-gender="both">4. Soft, Tendresse & Sensualité</h2>
-
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="soft">
         <div class="question-title">Q32. Massage tantrique et érotique au long cours</div>
         <div class="options">
           <label><input type="checkbox" name="q32" data-type="D" data-weight="1"> Masser</label>
@@ -693,16 +630,16 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="soft">
         <div class="question-title">Q33. Slow Sex (pénétration ultra-lente sans objectif d'orgasme)</div>
         <div class="options">
           <label><input type="checkbox" name="q33" data-type="L" data-weight="1"> Grand adepte</label>
-          <label class="explore"><input type="checkbox" name="q33" data-type="A" data-weight="1"> À explorer</label>
+          <label class="explore"><input type="checkbox" name="q33" data-type="A" data-weight="1" data-explore="1"> À explorer</label>
           <label class="limit"><input type="checkbox" name="q33" data-type="A" data-weight="1"> Pas mon style</label>
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="soft">
         <div class="question-title">Q34. Câlins de fin de session (Aftercare doux)</div>
         <div class="options">
           <label><input type="checkbox" name="q34" data-type="L" data-weight="1"> Indispensable pour moi</label>
@@ -710,16 +647,16 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="soft">
         <div class="question-title">Q35. Masturbation croisée / Regard prolongé</div>
         <div class="options">
           <label><input type="checkbox" name="q35" data-type="L" data-weight="1"> Très excitant</label>
-          <label class="explore"><input type="checkbox" name="q35" data-type="A" data-weight="1"> À tester</label>
+          <label class="explore"><input type="checkbox" name="q35" data-type="A" data-weight="1" data-explore="1"> À tester</label>
           <label class="limit"><input type="checkbox" name="q35" data-type="A" data-weight="1"> Bizarre / Bof</label>
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="soft">
         <div class="question-title">Q36. Dirty talk doux / Murmures à l'oreille</div>
         <div class="options">
           <label><input type="checkbox" name="q36" data-type="D" data-weight="1"> Murmurer à l'autre</label>
@@ -729,7 +666,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="soft">
         <div class="question-title">Q37. Bain ou douche érotique à deux</div>
         <div class="options">
           <label><input type="checkbox" name="q37" data-type="L" data-weight="1"> Adore</label>
@@ -737,7 +674,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="soft">
         <div class="question-title">Q38. Caresses avec plumes / tissus doux</div>
         <div class="options">
           <label><input type="checkbox" name="q38" data-type="D" data-weight="1"> Caresser</label>
@@ -747,7 +684,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="soft">
         <div class="question-title">Q39. Baisers passionnés et prolongés pendant l'acte</div>
         <div class="options">
           <label><input type="checkbox" name="q39" data-type="L" data-weight="1"> Essentiel</label>
@@ -755,7 +692,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="soft">
         <div class="question-title">Q40. Jeux avec de la glace / sensation chaud-froid</div>
         <div class="options">
           <label><input type="checkbox" name="q40" data-type="D" data-weight="1"> Appliquer</label>
@@ -765,7 +702,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="soft">
         <div class="question-title">Q41. Romantisme brut (bougies, musique, cadre soigné)</div>
         <div class="options">
           <label><input type="checkbox" name="q41" data-type="L" data-weight="1"> J'adore l'ambiance</label>
@@ -774,18 +711,18 @@
       </div>
 
       <!-- 5. EXHIBITION & VOYEURISME -->
-      <h2 class="category-title" data-gender="both">5. Exhibition & Voyeurisme</h2>
+      <h2 class="category-title" data-gender="both" data-cat="exhibition">5. Exhibition & Voyeurisme</h2>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="exhibition">
         <div class="question-title">Q42. Fréquenter des clubs libertins / Saunas coquins</div>
         <div class="options">
           <label><input type="checkbox" name="q42" data-type="L" data-weight="2"> Partant(e) / Déjà fait</label>
-          <label class="explore"><input type="checkbox" name="q42" data-type="A" data-weight="1"> Curieux(se)</label>
+          <label class="explore"><input type="checkbox" name="q42" data-type="A" data-weight="1" data-explore="1"> Curieux(se)</label>
           <label class="limit"><input type="checkbox" name="q42" data-type="A" data-weight="1"> Jamais de la vie</label>
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="exhibition">
         <div class="question-title">Q43. Voyeurisme discret (regarder d'autres couples)</div>
         <div class="options">
           <label><input type="checkbox" name="q43" data-type="L" data-weight="2"> Très excitant</label>
@@ -793,7 +730,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="exhibition">
         <div class="question-title">Q44. Exhibitionnisme discret (en sachant qu'on peut être vus)</div>
         <div class="options">
           <label><input type="checkbox" name="q44" data-type="L" data-weight="2"> Stimulant</label>
@@ -801,7 +738,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="exhibition">
         <div class="question-title">Q45. Photos et vidéos coquines privées à deux</div>
         <div class="options">
           <label><input type="checkbox" name="q45" data-type="D" data-weight="2"> Filmer/Photographier</label>
@@ -811,7 +748,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="exhibition">
         <div class="question-title">Q46. Tenues très suggestives en public (sans sous-vêtements, décolleté)</div>
         <div class="options">
           <label><input type="checkbox" name="q46" data-type="D" data-weight="2"> Aimer que l'autre le fasse</label>
@@ -821,16 +758,16 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="exhibition">
         <div class="question-title">Q47. Dogging / Sexe en nature / Plage la nuit</div>
         <div class="options">
           <label><input type="checkbox" name="q47" data-type="L" data-weight="2"> Super fantasme</label>
-          <label class="explore"><input type="checkbox" name="q47" data-type="A" data-weight="1"> À explorer</label>
+          <label class="explore"><input type="checkbox" name="q47" data-type="A" data-weight="1" data-explore="1"> À explorer</label>
           <label class="limit"><input type="checkbox" name="q47" data-type="A" data-weight="1"> Trop risqué / Non</label>
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="exhibition">
         <div class="question-title">Q48. Jeux devant un miroir sans fin</div>
         <div class="options">
           <label><input type="checkbox" name="q48" data-type="L" data-weight="1"> Visuellement excitant</label>
@@ -838,7 +775,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="exhibition">
         <div class="question-title">Q49. Cam / Cam à deux (diffusion sur internet)</div>
         <div class="options">
           <label><input type="checkbox" name="q49" data-type="L" data-weight="2"> Pourquoi pas</label>
@@ -846,7 +783,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="exhibition">
         <div class="question-title">Q50. Nudisme / Naturisme érotique</div>
         <div class="options">
           <label><input type="checkbox" name="q50" data-type="L" data-weight="1"> Libérateur</label>
@@ -854,7 +791,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="exhibition">
         <div class="question-title">Q51. Soirées thématiques avec dress-code strict (Fetish, Glamour)</div>
         <div class="options">
           <label><input type="checkbox" name="q51" data-type="L" data-weight="2"> Ambiance recherchée</label>
@@ -863,44 +800,45 @@
       </div>
 
       <!-- 6. MÉLANGISME & PLURALITÉ -->
-      <h2 class="category-title" data-gender="both">6. Mélangisme & Pluralité</h2>
+      <h2 class="category-title" data-gender="both" data-cat="pluralite">6. Mélangisme & Pluralité</h2>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pluralite">
         <div class="question-title">Q52. Échangisme doux (côte à côte avec un autre couple)</div>
         <div class="options">
           <label><input type="checkbox" name="q52" data-type="L" data-weight="2"> Excité(e) par l'idée</label>
-          <label class="explore"><input type="checkbox" name="q52" data-type="A" data-weight="1"> À explorer</label>
+          <label class="explore"><input type="checkbox" name="q52" data-type="A" data-weight="1" data-explore="1"> À explorer</label>
           <label class="limit"><input type="checkbox" name="q52" data-type="A" data-weight="1"> Non</label>
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pluralite">
         <div class="question-title">Q53. Échangisme accompli (mélange complet des partenaires)</div>
         <div class="options">
           <label><input type="checkbox" name="q53" data-type="L" data-weight="3"> Déjà fait / Souhaité</label>
+          <label class="explore"><input type="checkbox" name="q53" data-type="A" data-weight="1" data-explore="1"> À explorer</label>
           <label class="limit"><input type="checkbox" name="q53" data-type="A" data-weight="1"> Jalousie / Limite</label>
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pluralite">
         <div class="question-title">Q54. Trio à deux femmes et un homme (MFF)</div>
         <div class="options">
           <label><input type="checkbox" name="q54" data-type="L" data-weight="2"> Partant(e)</label>
-          <label class="explore"><input type="checkbox" name="q54" data-type="A" data-weight="1"> À explorer</label>
+          <label class="explore"><input type="checkbox" name="q54" data-type="A" data-weight="1" data-explore="1"> À explorer</label>
           <label class="limit"><input type="checkbox" name="q54" data-type="A" data-weight="1"> Non</label>
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pluralite">
         <div class="question-title">Q55. Trio à deux hommes et une femme (MMF)</div>
         <div class="options">
           <label><input type="checkbox" name="q55" data-type="L" data-weight="2"> Partant(e)</label>
-          <label class="explore"><input type="checkbox" name="q55" data-type="A" data-weight="1"> À explorer</label>
+          <label class="explore"><input type="checkbox" name="q55" data-type="A" data-weight="1" data-explore="1"> À explorer</label>
           <label class="limit"><input type="checkbox" name="q55" data-type="A" data-weight="1"> Non</label>
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pluralite">
         <div class="question-title">Q56. Cuckolding / Hotwifing (voir l'autre avec quelqu'un)</div>
         <div class="options">
           <label><input type="checkbox" name="q56" data-type="D" data-weight="3"> Regarder mon/ma partenaire s'amuser</label>
@@ -910,7 +848,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pluralite">
         <div class="question-title">Q57. Gangbang / Reverse Gangbang</div>
         <div class="options">
           <label><input type="checkbox" name="q57" data-type="D" data-weight="3"> Faire partie des intervenants</label>
@@ -919,7 +857,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pluralite">
         <div class="question-title">Q58. Candaule (offrir la vue de sa/son partenaire)</div>
         <div class="options">
           <label><input type="checkbox" name="q58" data-type="L" data-weight="2"> Excitant</label>
@@ -927,7 +865,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pluralite">
         <div class="question-title">Q59. Soirée privée en petit groupe libertin</div>
         <div class="options">
           <label><input type="checkbox" name="q59" data-type="L" data-weight="2"> Cadre idéal</label>
@@ -935,7 +873,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pluralite">
         <div class="question-title">Q60. Libertinage virtuel (échanges de messages coquins à plusieurs)</div>
         <div class="options">
           <label><input type="checkbox" name="q60" data-type="L" data-weight="1"> Bon début / Excitant</label>
@@ -943,7 +881,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="pluralite">
         <div class="question-title">Q61. Flirt poussé en soirée sans passage à l'acte obligatoire</div>
         <div class="options">
           <label><input type="checkbox" name="q61" data-type="L" data-weight="1"> J'adore le jeu de séduction</label>
@@ -952,9 +890,9 @@
       </div>
 
       <!-- 7. SÉCURITÉ & CONSENTEMENT -->
-      <h2 class="category-title" data-gender="both">7. Sécurité, Cadre & Consentement</h2>
+      <h2 class="category-title" data-gender="both" data-cat="securite">7. Sécurité, Cadre & Consentement</h2>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="securite">
         <div class="question-title">Q62. Emploi strict d'un Safeword (mot de sécurité)</div>
         <div class="options">
           <label><input type="checkbox" name="q62" data-type="L" data-weight="2"> Indispensable à tout jeu</label>
@@ -962,7 +900,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="securite">
         <div class="question-title">Q63. Négociation préalable des limites (check-list avant session)</div>
         <div class="options">
           <label><input type="checkbox" name="q63" data-type="L" data-weight="2"> Nécessaire et rassurant</label>
@@ -970,7 +908,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="securite">
         <div class="question-title">Q64. CNC (Consensual Non-Consent / Non-consentement simulé)</div>
         <div class="options">
           <label><input type="checkbox" name="q64" data-type="D" data-weight="3"> Rôle dominant</label>
@@ -980,7 +918,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="securite">
         <div class="question-title">Q65. Dépistage IST récents obligatoire avant tout échange</div>
         <div class="options">
           <label><input type="checkbox" name="q65" data-type="L" data-weight="2"> Règle d'or absolue</label>
@@ -988,7 +926,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="securite">
         <div class="question-title">Q66. Préservatif systématique avec les tiers</div>
         <div class="options">
           <label><input type="checkbox" name="q66" data-type="L" data-weight="2"> Obligatoire</label>
@@ -996,7 +934,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="securite">
         <div class="question-title">Q67. Débriefing post-session (discuter de ce qui a plu ou non)</div>
         <div class="options">
           <label><input type="checkbox" name="q67" data-type="L" data-weight="2"> Très important pour progresser</label>
@@ -1004,7 +942,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="securite">
         <div class="question-title">Q68. Droit de stopper la session à tout moment sans justification</div>
         <div class="options">
           <label><input type="checkbox" name="q68" data-type="L" data-weight="2"> Règle fondamentale respectée</label>
@@ -1012,7 +950,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="securite">
         <div class="question-title">Q69. Contrat écrit ou protocole moral établi en couple</div>
         <div class="options">
           <label><input type="checkbox" name="q69" data-type="L" data-weight="2"> Rassurant pour le cadre</label>
@@ -1020,7 +958,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="securite">
         <div class="question-title">Q70. Respect strict de l'anonymat des partenaires</div>
         <div class="options">
           <label><input type="checkbox" name="q70" data-type="L" data-weight="2"> Crucial</label>
@@ -1028,18 +966,17 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="securite">
         <div class="question-title">Q71. Utilisation du code couleur (Vert / Orange / Rouge) en jeu</div>
         <div class="options">
           <label><input type="checkbox" name="q71" data-type="L" data-weight="2"> Pratique et clair</label>
           <label class="limit"><input type="checkbox" name="q71" data-type="A" data-weight="1"> Préfère un seul mot</label>
         </div>
       </div>
+            <!-- 8. PRATIQUES HARD & FÉTICHES -->
+      <h2 class="category-title" data-gender="both" data-cat="hard">8. Pratiques Hard & Fétichisme</h2>
 
-      <!-- 8. PRATIQUES HARD & FÉTICHES -->
-      <h2 class="category-title" data-gender="both">8. Pratiques Hard & Fétichisme</h2>
-
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="hard">
         <div class="question-title">Q72. Cage de chasteté à clé gardée par l'autre</div>
         <div class="options">
           <label><input type="checkbox" name="q72" data-type="D" data-weight="3"> Garder la clé</label>
@@ -1049,9 +986,9 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="hard">
         <div class="question-title">Q73. Breathplay / Erotic Asphyxiation (contrôle de la respiration)</div>
-        <div class="warning-box">⚠ Pratique mortelle si mal exécutée. Aucune pression sur la trachée. Formation obligatoire.</div>
+        <div class="warning-box">⚠ Pratique potentiellement mortelle. Aucune pression sur la trachée. Formation obligatoire.</div>
         <div class="options">
           <label><input type="checkbox" name="q73" data-type="D" data-weight="3"> Contrôler le souffle</label>
           <label><input type="checkbox" name="q73" data-type="R" data-weight="3"> Laisser couper le souffle</label>
@@ -1060,7 +997,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="hard">
         <div class="question-title">Q74. Urolagnia / Golden Shower (jeux de pipi)</div>
         <div class="options">
           <label><input type="checkbox" name="q74" data-type="D" data-weight="2"> Uriner sur l'autre</label>
@@ -1070,7 +1007,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="hard">
         <div class="question-title">Q75. Food Play / Messy Play (nourriture sur le corps)</div>
         <div class="options">
           <label><input type="checkbox" name="q75" data-type="L" data-weight="1"> Sympa / Excitant</label>
@@ -1078,7 +1015,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="hard">
         <div class="question-title">Q76. Fétichisme des pieds (Foot Worship / Footjob)</div>
         <div class="options">
           <label><input type="checkbox" name="q76" data-type="D" data-weight="2"> Faire vénérer ses pieds</label>
@@ -1088,7 +1025,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="hard">
         <div class="question-title">Q77. Medical Play (scénarios médicaux, sondes, stéthoscope)</div>
         <div class="options">
           <label><input type="checkbox" name="q77" data-type="D" data-weight="2"> Jouer le médecin/infirmier</label>
@@ -1098,7 +1035,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="hard">
         <div class="question-title">Q78. Sounding (insertion de tiges médicales dans l'urètre)</div>
         <div class="warning-box">⚠ Zone très sensible : matériel stérile, lubrifiant adapté, progression lente obligatoire.</div>
         <div class="options">
@@ -1109,7 +1046,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="hard">
         <div class="question-title">Q79. Human Furniture / Objetification humaine</div>
         <div class="options">
           <label><input type="checkbox" name="q79" data-type="D" data-weight="2"> Utiliser le partenaire comme objet</label>
@@ -1119,7 +1056,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="hard">
         <div class="question-title">Q80. Masques & Petplay (Ponyplay, Puppyplay)</div>
         <div class="options">
           <label><input type="checkbox" name="q80" data-type="D" data-weight="2"> Mener le jeu</label>
@@ -1129,7 +1066,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="hard">
         <div class="question-title">Q81. Suspension BDSM complète au plafond</div>
         <div class="options">
           <label><input type="checkbox" name="q81" data-type="D" data-weight="3"> Suspendre</label>
@@ -1140,10 +1077,10 @@
       </div>
 
       <!-- 9. PRÉFÉRENCES PHYSIQUES -->
-      <h2 class="category-title" data-gender="both">9. Préférences Physiques (Attirance)</h2>
+      <h2 class="category-title" data-gender="both" data-cat="physique">9. Préférences Physiques (Attirance)</h2>
 
       <!-- Version Homme -->
-      <div class="question-card" data-gender="H">
+      <div class="question-card" data-gender="H" data-cat="physique">
         <div class="question-title">Q82. Poitrine préférée</div>
         <div class="options">
           <label><input type="checkbox" name="q82" data-type="Physique" data-weight="1"> Menue / Naturelle</label>
@@ -1152,7 +1089,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="H">
+      <div class="question-card" data-gender="H" data-cat="physique">
         <div class="question-title">Q83. Pilosité intime féminine</div>
         <div class="options">
           <label><input type="checkbox" name="q83" data-type="Physique" data-weight="1"> Totalement rasée</label>
@@ -1162,7 +1099,7 @@
       </div>
 
       <!-- Version Femme -->
-      <div class="question-card" data-gender="F">
+      <div class="question-card" data-gender="F" data-cat="physique">
         <div class="question-title">Q82. Barbe & Pilosité faciale</div>
         <div class="options">
           <label><input type="checkbox" name="q82" data-type="Physique" data-weight="1"> Barbe de 3 jours / Fournie</label>
@@ -1171,7 +1108,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="F">
+      <div class="question-card" data-gender="F" data-cat="physique">
         <div class="question-title">Q83. Carrure masculine</div>
         <div class="options">
           <label><input type="checkbox" name="q83" data-type="Physique" data-weight="1"> Athlétique / Musclé</label>
@@ -1180,8 +1117,8 @@
         </div>
       </div>
 
-      <!-- Questions communes -->
-      <div class="question-card" data-gender="both">
+      <!-- Questions physiques communes -->
+      <div class="question-card" data-gender="both" data-cat="physique">
         <div class="question-title">Q84. Morphologie générale recherchée</div>
         <div class="options">
           <label><input type="checkbox" name="q84" data-type="Physique" data-weight="1"> Mince / Élancé(e)</label>
@@ -1190,7 +1127,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="physique">
         <div class="question-title">Q85. Tatouages et Piercings vus sur le partenaire</div>
         <div class="options">
           <label><input type="checkbox" name="q85" data-type="Physique" data-weight="1"> Très attirant (Heavy Tattooed)</label>
@@ -1199,7 +1136,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="physique">
         <div class="question-title">Q86. Style vestimentaire du quotidien</div>
         <div class="options">
           <label><input type="checkbox" name="q86" data-type="Physique" data-weight="1"> Chic / Élégant(e)</label>
@@ -1208,7 +1145,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="physique">
         <div class="question-title">Q87. Différence d'âge idéale</div>
         <div class="options">
           <label><input type="checkbox" name="q87" data-type="Physique" data-weight="1"> Mon âge (à +/- 5 ans)</label>
@@ -1217,7 +1154,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="physique">
         <div class="question-title">Q88. Charisme de la voix / Regard intense</div>
         <div class="options">
           <label><input type="checkbox" name="q88" data-type="Physique" data-weight="1"> Critère numéro 1 pour moi</label>
@@ -1225,7 +1162,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="physique">
         <div class="question-title">Q89. Pilosité corporelle générale</div>
         <div class="options">
           <label><input type="checkbox" name="q89" data-type="Physique" data-weight="1"> Intégralement glabre / Épilé(e)</label>
@@ -1234,7 +1171,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="physique">
         <div class="question-title">Q90. Grande taille (au-dessus de la moyenne)</div>
         <div class="options">
           <label><input type="checkbox" name="q90" data-type="Physique" data-weight="1"> Un vrai plus</label>
@@ -1242,7 +1179,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="physique">
         <div class="question-title">Q91. Soin des mains et hygiène irréprochable</div>
         <div class="options">
           <label><input type="checkbox" name="q91" data-type="Physique" data-weight="1"> Bloquant si pas parfait</label>
@@ -1251,9 +1188,9 @@
       </div>
 
       <!-- 10. CADRE RELATIONNEL & FRÉQUENCE -->
-      <h2 class="category-title" data-gender="both">10. Cadre Relationnel & Fréquence</h2>
+      <h2 class="category-title" data-gender="both" data-cat="cadre">10. Cadre Relationnel & Fréquence</h2>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="cadre">
         <div class="question-title">Q92. Relation libre / Polyamour assumé</div>
         <div class="options">
           <label><input type="checkbox" name="q92" data-type="L" data-weight="1"> Mon mode de vie idéal</label>
@@ -1261,7 +1198,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="cadre">
         <div class="question-title">Q93. Rencontres éphémères (Plan cul / One night)</div>
         <div class="options">
           <label><input type="checkbox" name="q93" data-type="L" data-weight="1"> D'accord si le courant passe</label>
@@ -1269,7 +1206,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="cadre">
         <div class="question-title">Q94. Démisexualité (besoin de connexion émotionnelle pour s'ouvrir)</div>
         <div class="options">
           <label><input type="checkbox" name="q94" data-type="L" data-weight="1"> C'est tout à fait moi</label>
@@ -1277,7 +1214,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="cadre">
         <div class="question-title">Q95. Fréquence des rapports / jeux coquins</div>
         <div class="options">
           <label><input type="checkbox" name="q95" data-type="L" data-weight="1"> Très élevée (Quotidienne ou presque)</label>
@@ -1285,7 +1222,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="cadre">
         <div class="question-title">Q96. Exclusivité du jeu BDSM (pratiquer uniquement avec un partenaire titulaire)</div>
         <div class="options">
           <label><input type="checkbox" name="q96" data-type="L" data-weight="1"> Oui, domaine réservé</label>
@@ -1293,7 +1230,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="cadre">
         <div class="question-title">Q97. Distinction stricte entre Amour et Sexe</div>
         <div class="options">
           <label><input type="checkbox" name="q97" data-type="L" data-weight="1"> Capable de séparer complètement</label>
@@ -1301,7 +1238,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="cadre">
         <div class="question-title">Q98. Voyages / Week-ends thématiques libertins</div>
         <div class="options">
           <label><input type="checkbox" name="q98" data-type="L" data-weight="2"> Projet très enthousiasmant</label>
@@ -1309,7 +1246,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="cadre">
         <div class="question-title">Q99. Communication quotidienne sur les fantasmes (Sexting)</div>
         <div class="options">
           <label><input type="checkbox" name="q99" data-type="L" data-weight="1"> Entretenir la flamme ainsi</label>
@@ -1317,7 +1254,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="cadre">
         <div class="question-title">Q100. Discrétion absolue (Mode Incognito strict dans la vie courante)</div>
         <div class="options">
           <label><input type="checkbox" name="q100" data-type="L" data-weight="1"> Impératif absolu</label>
@@ -1325,7 +1262,7 @@
         </div>
       </div>
 
-      <div class="question-card" data-gender="both">
+      <div class="question-card" data-gender="both" data-cat="cadre">
         <div class="question-title">Q101. Volonté de faire évoluer mes pratiques et de tester du neuf</div>
         <div class="options">
           <label><input type="checkbox" name="q101" data-type="L" data-weight="1"> Esprit très ouvert / Explorateur</label>
@@ -1333,6 +1270,7 @@
         </div>
       </div>
 
+      <!-- BOUTONS -->
       <div class="actions">
         <button type="button" onclick="calculateResults()">Voir mes résultats</button>
         <button type="button" onclick="resetForm()" class="btn-reset">Réinitialiser</button>
@@ -1340,49 +1278,58 @@
 
     </form>
 
-    <!-- Résultats -->
+    <!-- RÉSULTATS (structure vide, remplie par JS) -->
     <div id="results-container" style="display: none;">
       <h2>Tes Résultats</h2>
       <p id="profile-main-summary" class="profile-summary"></p>
 
       <div id="scores-breakdown">
-        <div class="score-line"><span>Dominance (D)</span><span id="val-D"></span>%</div>
+        <div class="score-line"><span>Dominance (D)</span><span><span id="val-D"></span>%</span></div>
         <div class="score-bar-bg"><div id="bar-D" class="score-bar-fill"></div></div>
 
-        <div class="score-line"><span>Soumission (R)</span><span id="val-R"></span>%</div>
+        <div class="score-line"><span>Soumission (R)</span><span><span id="val-R"></span>%</span></div>
         <div class="score-bar-bg"><div id="bar-R" class="score-bar-fill"></div></div>
 
-        <div class="score-line"><span>Switch / Flexibilité (L)</span><span id="val-L"></span>%</div>
+        <div class="score-line"><span>Switch / Flexibilité (L)</span><span><span id="val-L"></span>%</span></div>
         <div class="score-bar-bg"><div id="bar-L" class="score-bar-fill"></div></div>
 
-        <div class="score-line"><span>Vanilla / Limites (A)</span><span id="val-A"></span>%</div>
+        <div class="score-line"><span>Vanilla / Limites (A)</span><span><span id="val-A"></span>%</span></div>
         <div class="score-bar-bg"><div id="bar-A" class="score-bar-fill"></div></div>
       </div>
 
-      <div class="section-block">
-        <h3>Préférences physiques</h3>
-        <p id="physique-summary"></p>
-        <div id="physique-chips" class="chips"></div>
+      <!-- Analyse par catégorie -->
+      <div class="analysis-block">
+        <h3>📊 Profil par catégorie</h3>
+        <div id="category-breakdown"></div>
       </div>
 
-      <div class="section-block">
-        <h3>Pratiques qui te correspondent</h3>
-        <div id="pratiques-chips" class="chips"></div>
+      <!-- Analyse croisée -->
+      <div class="analysis-block">
+        <h3>🔍 Analyse croisée</h3>
+        <div id="cross-analysis"></div>
       </div>
 
-      <div class="section-block">
-        <h3>Tes limites déclarées</h3>
-        <div id="limites-chips" class="chips"></div>
+      <!-- Compatibilités -->
+      <div class="analysis-block">
+        <h3>💞 Compatibilités</h3>
+        <div id="compatibilities"></div>
       </div>
 
-      <div class="section-block">
-        <h3>À explorer</h3>
-        <div id="explore-chips" class="chips"></div>
+      <!-- Incohérences -->
+      <div class="analysis-block" id="incoherence-block" style="display:none;">
+        <h3>⚠ Points à clarifier</h3>
+        <div id="incoherences"></div>
+      </div>
+
+      <!-- Recommandations -->
+      <div class="analysis-block">
+        <h3>✨ Recommandations</h3>
+        <div id="recommendations"></div>
       </div>
 
       <div class="export-actions">
-        <button onclick="copyResults()">📋 Copier mes résultats</button>
-        <button onclick="downloadResults()">💾 Télécharger le bilan (.txt)</button>
+        <button onclick="copyResults()">📋 Copier mon bilan</button>
+        <button onclick="downloadResults()">💾 Télécharger (.txt)</button>
       </div>
     </div>
   </div>
@@ -1396,49 +1343,49 @@
     <div class="modal-actions" id="modal-actions"></div>
   </div>
 </div>
-
 <script>
 /* ============================================================
    ÉTAT GLOBAL
    ============================================================ */
-let userGender = null;          // 'H' ou 'F'
+let userGender = null;
 let lastComputedResults = null;
-
-const STORAGE_KEY = 'kink_quiz_state_v3';
+const STORAGE_KEY = 'kink_quiz_state_v4';
 
 /* ============================================================
-   SÉLECTION DU GENRE (écran d'accueil)
+   DÉFINITION DES CATÉGORIES (pour l'analyse)
+   ============================================================ */
+const CATEGORIES = {
+  pouvoir:    { label: 'Pouvoir & Contrôle',        emoji: '👑' },
+  anal:       { label: 'Anal & Anatomie',           emoji: '🍑' },
+  bdsm:       { label: 'BDSM & Impact',             emoji: '🪢' },
+  soft:       { label: 'Soft & Tendresse',          emoji: '🌹' },
+  exhibition: { label: 'Exhibition & Voyeurisme',   emoji: '👁️' },
+  pluralite:  { label: 'Pluralité & Échangisme',    emoji: '👥' },
+  securite:   { label: 'Sécurité & Consentement',   emoji: '🛡️' },
+  hard:       { label: 'Hard & Fétichisme',         emoji: '⛓️' },
+  physique:   { label: 'Préférences Physiques',     emoji: '💄' },
+  cadre:      { label: 'Cadre Relationnel',         emoji: '🏠' }
+};
+
+/* ============================================================
+   SÉLECTION DU GENRE
    ============================================================ */
 function selectGender(gender) {
   userGender = gender;
-
-  // Masquer l'écran d'accueil, afficher le quiz
   document.getElementById('intro-screen').style.display = 'none';
   document.getElementById('quiz-wrapper').style.display = 'block';
-
-  // Filtrer les questions visibles selon le genre
   applyGenderFilter();
-
-  // Indicateur de profil en haut
   document.getElementById('gender-indicator').innerText =
     gender === 'H' ? 'Profil : Homme' : 'Profil : Femme';
-
-  // Restaurer les réponses sauvegardées si elles existent
   restoreState();
-
-  // Mettre à jour la barre de progression
   updateProgress();
-
-  // Scroll en haut
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function applyGenderFilter() {
   document.querySelectorAll('[data-gender]').forEach(el => {
     const g = el.dataset.gender;
-    if (g === 'both') {
-      el.style.display = '';
-    } else if (g === userGender) {
+    if (g === 'both' || g === userGender) {
       el.style.display = '';
     } else {
       el.style.display = 'none';
@@ -1452,7 +1399,7 @@ function applyGenderFilter() {
 function getVisibleQuestionNames() {
   const names = new Set();
   document.querySelectorAll('.question-card').forEach(card => {
-    if (card.offsetParent === null) return; // caché
+    if (card.offsetParent === null) return;
     const input = card.querySelector('input[type="checkbox"]');
     if (input) names.add(input.name);
   });
@@ -1461,14 +1408,11 @@ function getVisibleQuestionNames() {
 
 function updateProgress() {
   if (!userGender) return;
-
   const visibleNames = getVisibleQuestionNames();
   const answered = new Set();
-
   document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
     if (visibleNames.has(cb.name)) answered.add(cb.name);
   });
-
   const total = visibleNames.size || 1;
   const pct = Math.min(100, Math.round((answered.size / total) * 100));
   document.getElementById('progress-bar').style.width = pct + '%';
@@ -1476,17 +1420,15 @@ function updateProgress() {
 
 document.addEventListener('change', (e) => {
   if (e.target.matches('input[type="checkbox"]')) {
-    // Style visuel de la case cochée
     const label = e.target.closest('label');
     if (label) label.classList.toggle('checked', e.target.checked);
-
     updateProgress();
     saveState();
   }
 });
 
 /* ============================================================
-   SAUVEGARDE / RESTAURATION
+   SAUVEGARDE
    ============================================================ */
 function saveState() {
   if (!userGender) return;
@@ -1494,20 +1436,16 @@ function saveState() {
   document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
     state.answers[cb.name + '::' + cb.value] = true;
   });
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (e) { /* quota ou mode privé */ }
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
 }
 
 function restoreState() {
   let raw;
   try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return; }
   if (!raw) return;
-
   let state;
   try { state = JSON.parse(raw); } catch (e) { return; }
   if (!state || state.gender !== userGender) return;
-
   document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
     const key = cb.name + '::' + cb.value;
     if (state.answers && state.answers[key]) {
@@ -1519,7 +1457,7 @@ function restoreState() {
 }
 
 /* ============================================================
-   CALCUL DES RÉSULTATS
+   CALCUL PRINCIPAL
    ============================================================ */
 function calculateResults() {
   if (!userGender) {
@@ -1530,115 +1468,148 @@ function calculateResults() {
   }
 
   const checkedBoxes = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
-    .filter(cb => cb.closest('.question-card') && cb.closest('.question-card').offsetParent !== null);
+    .filter(cb => {
+      const card = cb.closest('.question-card');
+      return card && card.offsetParent !== null;
+    });
 
-  if (checkedBoxes.length === 0) {
-    showModal('Aucune réponse', 'Merci de cocher au moins quelques réponses avant de valider.', [
+  if (checkedBoxes.length < 5) {
+    showModal('Trop peu de réponses',
+      'Merci de répondre à au moins 5 questions pour obtenir une analyse fiable.', [
       { label: 'OK', action: closeModal }
     ]);
     return;
   }
 
-  // --- Scores pondérés D/R/L/A ---
+  /* --- Collecte des données --- */
   const globalScores = { D: 0, R: 0, L: 0, A: 0 };
+  const catScores = {};
+  const catMax = {};
+  const pratiquesByCat = {};
+  const limitesByCat = {};
+  const exploreByCat = {};
   const physiqueLabels = [];
-  const pratiquesLabels = [];
-  const limitesLabels = [];
-  const exploreLabels = [];
 
+  // Initialiser les catégories
+  for (const key in CATEGORIES) {
+    catScores[key] = 0;
+    catMax[key] = 0;
+    pratiquesByCat[key] = [];
+    limitesByCat[key] = [];
+    exploreByCat[key] = [];
+  }
+
+  // Parcourir chaque case cochée
   checkedBoxes.forEach(cb => {
     const type = cb.dataset.type;
     const weight = parseInt(cb.dataset.weight || '1', 10);
+    const card = cb.closest('.question-card');
+    const cat = card ? card.dataset.cat : null;
     const labelText = cb.parentElement.innerText.trim();
+    const isExplore = cb.dataset.explore === '1' || cb.parentElement.classList.contains('explore');
 
     if (type === 'Physique') {
-      if (labelText && !labelText.toLowerCase().includes('peu importe')
-          && !labelText.toLowerCase().includes('aucune importance')) {
+      if (!labelText.toLowerCase().includes('peu importe') &&
+          !labelText.toLowerCase().includes('aucune importance') &&
+          !labelText.toLowerCase().includes('normal')) {
         physiqueLabels.push(labelText);
       }
+      if (cat) catScores[cat] = (catScores[cat] || 0) + 1;
     } else if (globalScores[type] !== undefined) {
       globalScores[type] += weight;
-
-      if (type === 'A') {
-        if (cb.parentElement.classList.contains('explore')) {
-          exploreLabels.push(labelText);
+      if (cat) {
+        catScores[cat] = (catScores[cat] || 0) + weight;
+        if (type === 'A') {
+          if (isExplore) exploreByCat[cat].push(labelText);
+          else limitesByCat[cat].push(labelText);
         } else {
-          limitesLabels.push(labelText);
+          pratiquesByCat[cat].push(labelText);
         }
-      } else {
-        pratiquesLabels.push(labelText);
       }
     }
   });
 
-  // --- Pourcentages normalisés ---
-  const total = globalScores.D + globalScores.R + globalScores.L + globalScores.A;
-  const pctD = total > 0 ? Math.round((globalScores.D / total) * 100) : 0;
-  const pctR = total > 0 ? Math.round((globalScores.R / total) * 100) : 0;
-  const pctL = total > 0 ? Math.round((globalScores.L / total) * 100) : 0;
-  const pctA = 100 - pctD - pctR - pctL; // évite les erreurs d'arrondi
+  // Calculer le max par catégorie (nombre de questions × poids moyen)
+  document.querySelectorAll('.question-card').forEach(card => {
+    if (card.offsetParent === null) return;
+    const cat = card.dataset.cat;
+    if (!cat) return;
+    const inputs = card.querySelectorAll('input[type="checkbox"]');
+    let maxWeight = 0;
+    inputs.forEach(inp => {
+      const w = parseInt(inp.dataset.weight || '1', 10);
+      if (w > maxWeight) maxWeight = w;
+    });
+    catMax[cat] = (catMax[cat] || 0) + maxWeight;
+  });
 
-  // --- Profil principal (avec gestion des égalités et du Switch) ---
+  /* --- Pourcentages globaux --- */
+  const totalRoles = globalScores.D + globalScores.R + globalScores.L + globalScores.A;
+  const pctD = totalRoles > 0 ? Math.round((globalScores.D / totalRoles) * 100) : 0;
+  const pctR = totalRoles > 0 ? Math.round((globalScores.R / totalRoles) * 100) : 0;
+  const pctL = totalRoles > 0 ? Math.round((globalScores.L / totalRoles) * 100) : 0;
+  const pctA = 100 - pctD - pctR - pctL;
+
+  /* --- Profil principal --- */
   const maxVal = Math.max(pctD, pctR, pctL, pctA);
   let mainProfile = 'Switch / Polyvalent';
   let mainDesc = '';
+  let domRole = null; // 'D', 'R', 'L', 'A'
 
   if (maxVal === pctD && pctD > pctL && pctD > pctA) {
-    mainProfile = 'Dominant(e)';
-    mainDesc = 'Tu aimes mener, imposer ton cadre et garder le contrôle.';
+    mainProfile = 'Dominant(e)'; domRole = 'D';
+    mainDesc = "Tu aimes mener, imposer ton cadre et garder le contrôle. Ton plaisir passe par la responsabilité et l'initiative.";
   } else if (maxVal === pctR && pctR > pctL && pctR > pctA) {
-    mainProfile = 'Soumis(e)';
-    mainDesc = 'Tu trouves ton plaisir dans l\'abandon du contrôle et la confiance en l\'autre.';
-  } else if (maxVal === pctL && pctL >= pctD && pctL >= pctR && pctL > pctA) {
-    mainProfile = 'Switch / Polyvalent';
-    mainDesc = 'Tu navigues entre domination et soumission selon le partenaire et l\'humeur.';
+    mainProfile = 'Soumis(e)'; domRole = 'R';
+    mainDesc = "Tu trouves ton plaisir dans l'abandon du contrôle et la confiance en l'autre. Tu t'épanouis dans un cadre structuré.";
+  } else if (maxVal === pctL && pctL > pctA) {
+    mainProfile = 'Switch / Polyvalent'; domRole = 'L';
+    mainDesc = "Tu navigues entre domination et soumission selon le partenaire et l'humeur. Ta flexibilité est une richesse.";
   } else if (maxVal === pctA) {
-    mainProfile = 'Vanilla / Sélectif(ve)';
-    mainDesc = 'Tu privilégies la simplicité, la réciprocité ou tu as des limites claires.';
+    mainProfile = 'Vanilla / Sélectif(ve)'; domRole = 'A';
+    mainDesc = "Tu privilégies la simplicité, la réciprocité, ou tu as des limites claires. Ce n'est pas un manque, c'est un choix.";
   } else {
-    // Égalité entre plusieurs tendances
-    mainProfile = 'Profil mixte';
-    mainDesc = 'Tes tendances sont équilibrées entre plusieurs pôles.';
+    mainProfile = 'Profil mixte'; domRole = 'L';
+    mainDesc = "Tes tendances sont équilibrées entre plusieurs pôles. Tu explores sans te fixer.";
   }
 
-  // --- Affichage ---
+  /* --- Affichage profil --- */
   document.getElementById('profile-main-summary').innerHTML =
-    `Profil dominant : <strong>${mainProfile}</strong><br><span style="font-weight:normal; font-size:0.9em; color: var(--text-muted);">${mainDesc}</span>`;
+    `<div style="font-size:1.3em; margin-bottom:6px;">${mainProfile}</div>
+     <div style="font-weight:normal; font-size:0.9em; color:var(--text-muted);">${mainDesc}</div>`;
 
   setBar('D', pctD);
   setBar('R', pctR);
   setBar('L', pctL);
   setBar('A', pctA);
 
-  // Physique
-  const physSummary = document.getElementById('physique-summary');
-  if (physiqueLabels.length === 0) {
-    physSummary.innerText = "Aucune préférence physique marquée (ou uniquement 'peu importe').";
-  } else {
-    physSummary.innerText = `${physiqueLabels.length} préférence(s) physique(s) retenue(s) :`;
-  }
-  renderChips('physique-chips', physiqueLabels, '');
+  /* --- Analyse par catégorie --- */
+  renderCategoryAnalysis(catScores, catMax);
 
-  // Pratiques
-  renderChips('pratiques-chips', pratiquesLabels, '');
-  // Limites
-  renderChips('limites-chips', limitesLabels, 'limit');
-  // À explorer
-  renderChips('explore-chips', exploreLabels, 'explore');
+  /* --- Analyse croisée --- */
+  renderCrossAnalysis(globalScores, catScores, catMax, domRole, physiqueLabels);
 
+  /* --- Compatibilités --- */
+  renderCompatibilities(globalScores, catScores, catMax, domRole, userGender);
+
+  /* --- Incohérences --- */
+  renderIncoherences(globalScores, catScores, catMax, domRole);
+
+  /* --- Recommandations --- */
+  renderRecommendations(catScores, catMax, pratiquesByCat, exploreByCat);
+
+  /* --- Affichage du bloc --- */
   document.getElementById('results-container').style.display = 'block';
   document.getElementById('results-container').scrollIntoView({ behavior: 'smooth' });
 
-  // Sauvegarde pour export
+  /* --- Sauvegarde pour export --- */
   lastComputedResults = {
     gender: userGender === 'H' ? 'Homme' : 'Femme',
-    mainProfile,
-    mainDesc,
+    mainProfile, mainDesc, domRole,
     pctD, pctR, pctL, pctA,
+    catScores, catMax,
     physiqueLabels,
-    pratiquesLabels,
-    limitesLabels,
-    exploreLabels,
+    pratiquesByCat, limitesByCat, exploreByCat,
     date: new Date().toLocaleDateString('fr-FR')
   };
 }
@@ -1648,24 +1619,348 @@ function setBar(key, value) {
   document.getElementById('bar-' + key).style.width = value + '%';
 }
 
-function renderChips(containerId, items, cssClass) {
-  const container = document.getElementById(containerId);
+/* ============================================================
+   ANALYSE PAR CATÉGORIE
+   ============================================================ */
+function renderCategoryAnalysis(catScores, catMax) {
+  const container = document.getElementById('category-breakdown');
   container.innerHTML = '';
-  if (!items || items.length === 0) {
-    const empty = document.createElement('span');
-    empty.className = 'chip limit';
-    empty.innerText = '—';
-    container.appendChild(empty);
+
+  const rows = [];
+  for (const key in CATEGORIES) {
+    if (!catMax[key] || catMax[key] === 0) continue;
+    const pct = Math.min(100, Math.round((catScores[key] / catMax[key]) * 100));
+    rows.push({ key, pct, ...CATEGORIES[key] });
+  }
+  rows.sort((a, b) => b.pct - a.pct);
+
+  rows.forEach(row => {
+    const level = row.pct >= 60 ? 'high' : (row.pct >= 30 ? 'mid' : 'low');
+    const div = document.createElement('div');
+    div.className = 'cat-row ' + level;
+    div.innerHTML = `
+      <span class="cat-name">${row.emoji} ${row.label}</span>
+      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:${row.pct}%"></div></div>
+      <span class="cat-val">${row.pct}%</span>
+    `;
+    container.appendChild(div);
+  });
+
+  // Interprétation textuelle
+  const top = rows.slice(0, 3).filter(r => r.pct >= 40);
+  const bottom = rows.filter(r => r.pct <= 15);
+
+  const summary = document.createElement('div');
+  summary.style.marginTop = '15px';
+  summary.style.fontSize = '0.93em';
+
+  if (top.length > 0) {
+    summary.innerHTML += `<p><strong>Tes points forts :</strong> ${top.map(r => r.label).join(', ')}.</p>`;
+  }
+  if (bottom.length > 0) {
+    summary.innerHTML += `<p><strong>Tes zones de moindre attrait :</strong> ${bottom.map(r => r.label).join(', ')}.</p>`;
+  }
+  container.appendChild(summary);
+}
+
+/* ============================================================
+   ANALYSE CROISÉE
+   ============================================================ */
+function renderCrossAnalysis(globalScores, catScores, catMax, domRole, physiqueLabels) {
+  const container = document.getElementById('cross-analysis');
+  container.innerHTML = '';
+
+  const pct = (cat) => catMax[cat] ? Math.round((catScores[cat] / catMax[cat]) * 100) : 0;
+
+  const paragraphes = [];
+
+  // 1. Cohérence D/s
+  const pouvoir = pct('pouvoir');
+  const bdsm = pct('bdsm');
+  const hard = pct('hard');
+
+  if (domRole === 'D') {
+    paragraphes.push(`Tu te positionnes comme <strong>Dominant(e)</strong>. Ton score Pouvoir (${pouvoir}%) et BDSM (${bdsm}%) confirment que tu aimes structurer le jeu. Tu n'es pas dans la confusion : tu sais ce que tu veux imposer.`);
+  } else if (domRole === 'R') {
+    paragraphes.push(`Tu te positionnes comme <strong>Soumis(e)</strong>. Ton score Pouvoir (${pouvoir}%) montre que tu recherches un cadre clair, pas l'anarchie. Tu t'épanouis dans la confiance, pas dans la passivité.`);
+  } else if (domRole === 'L') {
+    paragraphes.push(`Tu es <strong>Switch / Polyvalent(e)</strong>. C'est un profil qui demande de la communication : tu dois expliciter ton rôle à chaque session pour éviter les malentendus.`);
+  } else {
+    paragraphes.push(`Tu es plutôt <strong>Vanilla / Sélectif(ve)</strong>. Ce n'est pas un défaut : tu sais ce qui te plaît et tu ne te forces pas.`);
+  }
+
+  // 2. Sensualité vs intensité
+  const soft = pct('soft');
+  if (soft >= 50 && hard >= 40) {
+    paragraphes.push(`Tu combines <strong>tendresse (${soft}%)</strong> et <strong>intensité (${hard}%)</strong>. Tu aimes alterner entre douceur et jeux plus poussés — un profil riche qui supporte la variété.`);
+  } else if (soft >= 50) {
+    paragraphes.push(`Ton score <strong>Soft & Tendresse (${soft}%)</strong> est élevé. Tu recherches la connexion, la lenteur, la sensualité. Les pratiques très intenses te correspondent moins.`);
+  } else if (hard >= 50) {
+    paragraphes.push(`Ton score <strong>Hard & Fétichisme (${hard}%)</strong> est élevé. Tu assumes des pratiques intenses. Assure-toi d'avoir un partenaire formé et consentant.`);
+  }
+
+  // 3. Exhibition vs intimité
+  const exhibition = pct('exhibition');
+  const pluralite = pct('pluralite');
+  if (exhibition >= 40 || pluralite >= 40) {
+    paragraphes.push(`Tu montres un intérêt marqué pour <strong>l'exhibition (${exhibition}%)</strong> et/ou la <strong>pluralité (${pluralite}%)</strong>. Tu t'épanouis dans le regard ou le partage.`);
+  } else if (exhibition <= 15 && pluralite <= 15) {
+    paragraphes.push(`Tu préfères clairement <strong>l'intimité à deux</strong> (exhibition ${exhibition}%, pluralité ${pluralite}%). Le regard extérieur n'est pas ton moteur.`);
+  }
+
+  // 4. Sécurité
+  const securite = pct('securite');
+  if (securite >= 70) {
+    paragraphes.push(`Ton score <strong>Sécurité (${securite}%)</strong> est excellent. Tu es un profil responsable, conscient des risques. C'est un gage de qualité pour tes partenaires.`);
+  } else if (securite <= 30) {
+    paragraphes.push(`Attention : ton score <strong>Sécurité (${securite}%)</strong> est bas. Les pratiques BDSM sans cadre clair sont risquées. Reconsidère l'importance du safeword et de la négociation.`);
+  }
+
+  // 5. Cadre relationnel
+  const cadre = pct('cadre');
+  if (cadre >= 60) {
+    paragraphes.push(`Tu as une vision claire de ton <strong>cadre relationnel (${cadre}%)</strong>. Tu sais si tu veux de la monogamie, du polyamour, ou autre.`);
+  }
+
+  // 6. Physique
+  if (physiqueLabels.length >= 3) {
+    paragraphes.push(`Tu as exprimé <strong>${physiqueLabels.length} préférences physiques</strong> précises. Tu sais ce qui t'attire visuellement, ce qui est un bon point pour filtrer tes partenaires.`);
+  } else if (physiqueLabels.length === 0) {
+    paragraphes.push(`Tu n'as pas exprimé de préférence physique marquée. <strong>L'attitude et le feeling comptent plus que le physique</strong> pour toi — c'est un profil rare et précieux.`);
+  }
+
+  paragraphes.forEach(p => {
+    const el = document.createElement('p');
+    el.innerHTML = p;
+    container.appendChild(el);
+  });
+}
+
+/* ============================================================
+   COMPATIBILITÉS
+   ============================================================ */
+function renderCompatibilities(globalScores, catScores, catMax, domRole, gender) {
+  const container = document.getElementById('compatibilities');
+  container.innerHTML = '';
+
+  const pct = (cat) => catMax[cat] ? Math.round((catScores[cat] / catMax[cat]) * 100) : 0;
+  const compat = [];
+
+  // Type de partenaire idéal
+  if (domRole === 'D') {
+    compat.push({
+      titre: 'Partenaire idéal(e) : profil Soumis(e) ou Switch',
+      texte: `Tu t'épanouirais avec quelqu'un qui aime recevoir un cadre, qui communique ses limites, et qui apprécie ${pct('pouvoir') >= 50 ? 'les dynamiques de pouvoir structurées' : 'un cadre souple'}.`
+    });
+  } else if (domRole === 'R') {
+    compat.push({
+      titre: 'Partenaire idéal(e) : profil Dominant(e) ou Switch',
+      texte: `Tu t'épanouirais avec quelqu'un de fiable, constant, qui prend soin de toi après les sessions. Un partenaire qui confond domination et violence serait toxique pour toi.`
+    });
+  } else if (domRole === 'L') {
+    compat.push({
+      titre: 'Partenaire idéal(e) : profil Switch également',
+      texte: `Un(e) partenaire Switch te conviendrait parfaitement : vous pouvez alterner les rôles. Un(e) partenaire trop rigide dans un seul rôle pourrait te frustrer.`
+    });
+  } else {
+    compat.push({
+      titre: 'Partenaire idéal(e) : profil Vanilla ou Soft',
+      texte: `Tu t'épanouirais avec quelqu'un qui partage ton rythme et tes limites. Pas besoin de chercher l'intensité si elle ne te correspond pas.`
+    });
+  }
+
+  // Compatibilités thématiques
+  const bdsm = pct('bdsm');
+  const hard = pct('hard');
+  const exhibition = pct('exhibition');
+  const pluralite = pct('pluralite');
+  const securite = pct('securite');
+
+  if (bdsm >= 50) {
+    compat.push({
+      titre: 'Sur le BDSM',
+      texte: `Avec ${bdsm}% d'intérêt, cherche un(e) partenaire qui a de l'expérience ou qui est prêt(e) à se former. Les débutants mal encadrés peuvent te mettre en danger.`
+    });
+  }
+
+  if (hard >= 50) {
+    compat.push({
+      titre: 'Sur les pratiques Hard',
+      texte: `Ton intérêt pour le hard (${hard}%) demande un(e) partenaire formé(e), avec du matériel adapté et une communication sans faille. Ne t'engage pas avec quelqu'un qui ne prend pas ces pratiques au sérieux.`
+    });
+  }
+
+  if (exhibition >= 40 && pluralite >= 40) {
+    compat.push({
+      titre: 'Sur l\'ouverture au couple',
+      texte: `Tu sembles ouvert(e) à l'exhibition et/ou au partage. Attention : ces pratiques nécessitent une confiance absolue. Les couples qui se lancent trop vite se brisent souvent.`
+    });
+  } else if (pluralite <= 10 && exhibition <= 20) {
+    compat.push({
+      titre: 'Sur l\'exclusivité',
+      texte: `Tu es attaché(e) à l'intimité à deux. Cherche un(e) partenaire qui partage cette valeur — sinon les tensions seront inévitables.`
+    });
+  }
+
+  if (securite >= 70) {
+    compat.push({
+      titre: 'Sur la sécurité',
+      texte: `Ton exigence de sécurité (${securite}%) est un atout. Ne cède pas là-dessus, même face à un(e) partenaire séduisant(e). C'est non négociable.`
+    });
+  } else if (securite <= 30) {
+    compat.push({
+      titre: '⚠ Alerte sécurité',
+      texte: `Ton score sécurité est bas (${securite}%). Cherche un(e) partenaire plus expérimenté(e) qui pourra t'apprendre les bonnes pratiques. Ne joue pas avec ta santé.`
+    });
+  }
+
+  // Adaptations selon le genre
+  if (gender === 'H' && pluralite >= 50) {
+    compat.push({
+      titre: 'Note spécifique',
+      texte: `En tant qu'homme attiré par la pluralité, sois particulièrement attentif au consentement de chaque partenaire. Les attentes sociales sont asymétriques, et un malentendu peut être lourd de conséquences.`
+    });
+  } else if (gender === 'F' && hard >= 50) {
+    compat.push({
+      titre: 'Note spécifique',
+      texte: `En tant que femme attirée par les pratiques hard, tu as le droit d'exiger un cadre strict. Aucune pratique ne justifie que tu te sentes en insécurité. Le safeword prime toujours.`
+    });
+  }
+
+  compat.forEach(c => {
+    const box = document.createElement('div');
+    box.className = 'compat-box';
+    box.innerHTML = `<strong>${c.titre}</strong><br>${c.texte}`;
+    container.appendChild(box);
+  });
+}
+
+/* ============================================================
+   INCOHÉRENCES
+   ============================================================ */
+function renderIncoherences(globalScores, catScores, catMax, domRole) {
+  const container = document.getElementById('incoherences');
+  const block = document.getElementById('incoherence-block');
+  container.innerHTML = '';
+  const incoherences = [];
+
+  const pct = (cat) => catMax[cat] ? Math.round((catScores[cat] / catMax[cat]) * 100) : 0;
+
+  // 1. Score A élevé mais D ou R aussi élevé
+  const total = globalScores.D + globalScores.R + globalScores.L + globalScores.A;
+  const pctA = total > 0 ? (globalScores.A / total) * 100 : 0;
+  const pctD = total > 0 ? (globalScores.D / total) * 100 : 0;
+  const pctR = total > 0 ? (globalScores.R / total) * 100 : 0;
+
+  if (pctA > 30 && (pctD > 40 || pctR > 40)) {
+    incoherences.push(`Ton score Vanilla (${Math.round(pctA)}%) est élevé en même temps que ton score ${pctD > pctR ? 'Dominant' : 'Soumis'}. Cela peut signifier que tu as des limites fortes sur certaines pratiques mais pas sur les dynamiques de pouvoir. C'est cohérent, mais à clarifier avec tes partenaires.`);
+  }
+
+  // 2. BDSM élevé mais Sécurité basse
+  const bdsm = pct('bdsm');
+  const hard = pct('hard');
+  const securite = pct('securite');
+
+  if ((bdsm >= 50 || hard >= 50) && securite <= 30) {
+    incoherences.push(`Tu montres un intérêt pour le BDSM/Hard (${bdsm}% / ${hard}%) mais un score Sécurité bas (${securite}%). C'est un signal d'alerte : les pratiques intenses sans cadre de sécurité peuvent être dangereuses. Relis la section 7 du questionnaire.`);
+  }
+
+  // 3. Exhibition élevée mais Cadre bas
+  const exhibition = pct('exhibition');
+  const cadre = pct('cadre');
+  if (exhibition >= 50 && cadre <= 20) {
+    incoherences.push(`Tu es attiré(e) par l'exhibition (${exhibition}%) mais tu n'as pas coché grand-chose sur le cadre relationnel. Est-ce que tu as réfléchi aux implications (confiance, jalousie, anonymat) ?`);
+  }
+
+  // 4. Physique coché mais aucune pratique
+  const physiqueCount = catScores.physique || 0;
+  const totalPratiques = Object.keys(catScores)
+    .filter(k => k !== 'physique' && k !== 'cadre' && k !== 'securite')
+    .reduce((sum, k) => sum + catScores[k], 0);
+
+  if (physiqueCount > 3 && totalPratiques < 5) {
+    incoherences.push(`Tu as coché beaucoup de préférences physiques mais peu de pratiques. Es-tu plus dans la séduction que dans le jeu sexuel lui-même ? C'est une piste à explorer.`);
+  }
+
+  if (incoherences.length === 0) {
+    block.style.display = 'none';
     return;
   }
-  // Dédoublonnage
-  const unique = [...new Set(items)];
-  unique.forEach(txt => {
-    const chip = document.createElement('span');
-    chip.className = 'chip' + (cssClass ? ' ' + cssClass : '');
-    chip.innerText = txt;
-    container.appendChild(chip);
+
+  block.style.display = 'block';
+  incoherences.forEach(txt => {
+    const el = document.createElement('div');
+    el.className = 'incoherence';
+    el.innerHTML = '⚠ ' + txt;
+    container.appendChild(el);
   });
+}
+
+/* ============================================================
+   RECOMMANDATIONS
+   ============================================================ */
+function renderRecommendations(catScores, catMax, pratiquesByCat, exploreByCat) {
+  const container = document.getElementById('recommendations');
+  container.innerHTML = '';
+
+  const pct = (cat) => catMax[cat] ? Math.round((catScores[cat] / catMax[cat]) * 100) : 0;
+
+  // 1. Catégorie la plus forte → approfondir
+  let topCat = null, topPct = 0;
+  for (const key in catScores) {
+    if (key === 'cadre') continue;
+    const p = pct(key);
+    if (p > topPct) { topPct = p; topCat = key; }
+  }
+
+  if (topCat && topPct >= 40) {
+    const rec = document.createElement('p');
+    rec.innerHTML = `<strong>Approfondis ton point fort :</strong> ${CATEGORIES[topCat].label} (${topPct}%). C'est là que tu t'épanouis le plus. Cherche des ressources, des ateliers, ou une communauté sur ce thème.`;
+    container.appendChild(rec);
+  }
+
+  // 2. Explorer les pratiques marquées "à explorer"
+  const exploreList = [];
+  for (const cat in exploreByCat) {
+    exploreByCat[cat].forEach(item => exploreList.push(item));
+  }
+  if (exploreList.length > 0) {
+    const uniq = [...new Set(exploreList)].slice(0, 5);
+    const p = document.createElement('p');
+    p.innerHTML = `<strong>À tester en priorité :</strong> tu as marqué plusieurs pratiques comme "à explorer". Commence par celles qui te font le moins peur.`;
+    const ul = document.createElement('ul');
+    uniq.forEach(item => {
+      const li = document.createElement('li');
+      li.innerText = item;
+      ul.appendChild(li);
+    });
+    container.appendChild(p);
+    container.appendChild(ul);
+  }
+
+  // 3. Sécurité
+  const securite = pct('securite');
+  if (securite < 50) {
+    const p = document.createElement('p');
+    p.innerHTML = `<strong>Renforce ton cadre :</strong> ton score Sécurité est de ${securite}%. Avant d'explorer plus loin, assure-toi de maîtriser le safeword, la négociation, et le débriefing.`;
+    container.appendChild(p);
+  }
+
+  // 4. Communication
+  const cadre = pct('cadre');
+  if (cadre < 30) {
+    const p = document.createElement('p');
+    p.innerHTML = `<strong>Clarifie ton cadre relationnel :</strong> tu n'as pas beaucoup répondu sur ce point. Prends le temps de définir ce que tu cherches (couple stable, plan cul, polyamour...) avant de t'engager.`;
+    container.appendChild(p);
+  }
+
+  // 5. Conseil final personnalisé
+  const finalP = document.createElement('p');
+  finalP.style.marginTop = '12px';
+  finalP.style.fontStyle = 'italic';
+  finalP.style.color = 'var(--text-muted)';
+  finalP.innerText = "Rappel : un questionnaire n'est qu'une photographie à un instant T. Tes envies évolueront. Reviens le remplir dans 6 mois pour voir ta progression.";
+  container.appendChild(finalP);
 }
 
 /* ============================================================
@@ -1696,34 +1991,65 @@ function getExportText() {
   const r = lastComputedResults;
   const line = '─'.repeat(50);
 
-  let txt = `=== MON PROFIL D'ATTIRANCE & PRATIQUES ===\n`;
+  let txt = `=== BILAN D'ATTIRANCE & PRATIQUES ===\n`;
   txt += `Profil : ${r.gender}\n`;
   txt += `Date   : ${r.date}\n\n`;
-  txt += `Tendance principale : ${r.mainProfile}\n`;
+  txt += `TENDANCE PRINCIPALE : ${r.mainProfile}\n`;
   txt += `${r.mainDesc}\n\n`;
+
   txt += `${line}\n`;
+  txt += `SCORES GLOBAUX :\n`;
   txt += `• Dominance (D)  : ${r.pctD}%\n`;
   txt += `• Soumission (R) : ${r.pctR}%\n`;
   txt += `• Switch (L)     : ${r.pctL}%\n`;
   txt += `• Vanilla/Limite : ${r.pctA}%\n`;
   txt += `${line}\n\n`;
 
-  txt += `PRÉFÉRENCES PHYSIQUES (${r.physiqueLabels.length}) :\n`;
+  txt += `PROFIL PAR CATÉGORIE :\n`;
+  const cats = [];
+  for (const key in CATEGORIES) {
+    if (!r.catMax[key]) continue;
+    const pct = Math.round((r.catScores[key] / r.catMax[key]) * 100);
+    cats.push({ label: CATEGORIES[key].label, pct });
+  }
+  cats.sort((a, b) => b.pct - a.pct);
+  cats.forEach(c => {
+    txt += `• ${c.label.padEnd(30)} : ${c.pct}%\n`;
+  });
+
+  txt += `\n${line}\n`;
+  txt += `PRÉFÉRENCES PHYSIQUES :\n`;
   txt += r.physiqueLabels.length ? r.physiqueLabels.map(x => '  • ' + x).join('\n') : '  —';
   txt += `\n\n`;
 
-  txt += `PRATIQUES QUI TE CORRESPONDENT (${r.pratiquesLabels.length}) :\n`;
-  txt += r.pratiquesLabels.length ? [...new Set(r.pratiquesLabels)].map(x => '  • ' + x).join('\n') : '  —';
-  txt += `\n\n`;
+  txt += `PRATIQUES QUI TE CORRESPONDENT (par catégorie) :\n`;
+  for (const cat in r.pratiquesByCat) {
+    if (r.pratiquesByCat[cat].length === 0) continue;
+    txt += `\n[${CATEGORIES[cat].label}]\n`;
+    [...new Set(r.pratiquesByCat[cat])].forEach(x => txt += '  • ' + x + '\n');
+  }
 
-  txt += `TES LIMITES DÉCLARÉES (${r.limitesLabels.length}) :\n`;
-  txt += r.limitesLabels.length ? [...new Set(r.limitesLabels)].map(x => '  • ' + x).join('\n') : '  —';
-  txt += `\n\n`;
+  txt += `\nLIMITES DÉCLARÉES :\n`;
+  let hasLim = false;
+  for (const cat in r.limitesByCat) {
+    if (r.limitesByCat[cat].length === 0) continue;
+    hasLim = true;
+    txt += `\n[${CATEGORIES[cat].label}]\n`;
+    [...new Set(r.limitesByCat[cat])].forEach(x => txt += '  • ' + x + '\n');
+  }
+  if (!hasLim) txt += '  —\n';
 
-  txt += `À EXPLORER (${r.exploreLabels.length}) :\n`;
-  txt += r.exploreLabels.length ? [...new Set(r.exploreLabels)].map(x => '  • ' + x).join('\n') : '  —';
-  txt += `\n\n${'='.repeat(50)}\n`;
+  txt += `\nÀ EXPLORER :\n`;
+  let hasExp = false;
+  for (const cat in r.exploreByCat) {
+    if (r.exploreByCat[cat].length === 0) continue;
+    hasExp = true;
+    txt += `\n[${CATEGORIES[cat].label}]\n`;
+    [...new Set(r.exploreByCat[cat])].forEach(x => txt += '  • ' + x + '\n');
+  }
+  if (!hasExp) txt += '  —\n';
 
+  txt += `\n${'='.repeat(50)}\n`;
   return txt;
 }
 
@@ -1732,7 +2058,7 @@ function copyResults() {
   if (!text) return;
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      showModal('Copié !', 'Tes résultats sont dans le presse-papier.', [
+      showModal('Copié !', 'Ton bilan est dans le presse-papier.', [
         { label: 'OK', action: closeModal }
       ]);
     }).catch(() => fallbackCopy(text));
@@ -1748,7 +2074,7 @@ function fallbackCopy(text) {
   ta.select();
   try { document.execCommand('copy'); } catch (e) {}
   document.body.removeChild(ta);
-  showModal('Copié !', 'Tes résultats sont dans le presse-papier.', [
+  showModal('Copié !', 'Ton bilan est dans le presse-papier.', [
     { label: 'OK', action: closeModal }
   ]);
 }
@@ -1759,7 +2085,7 @@ function downloadResults() {
   const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `profil-attirance-${new Date().toISOString().slice(0,10)}.txt`;
+  a.download = `bilan-attirance-${new Date().toISOString().slice(0,10)}.txt`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1767,7 +2093,7 @@ function downloadResults() {
 }
 
 /* ============================================================
-   MODAL CUSTOM (remplace alert/confirm)
+   MODAL CUSTOM
    ============================================================ */
 function showModal(title, message, buttons) {
   document.getElementById('modal-title').innerText = title;
@@ -1788,27 +2114,9 @@ function closeModal() {
   document.getElementById('modal-overlay').classList.remove('active');
 }
 
-// Fermer le modal en cliquant en dehors
 document.getElementById('modal-overlay').addEventListener('click', (e) => {
   if (e.target.id === 'modal-overlay') closeModal();
 });
-
-/* ============================================================
-   INITIALISATION
-   ============================================================ */
-// Restaurer le genre si déjà choisi
-(function init() {
-  let raw;
-  try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return; }
-  if (!raw) return;
-  try {
-    const state = JSON.parse(raw);
-    if (state && state.gender) {
-      // On ne restaure pas directement pour forcer la confirmation du profil
-      // (l'utilisateur peut avoir changé). Mais on pourrait le faire.
-    }
-  } catch (e) {}
-})();
 </script>
 </body>
 </html>
