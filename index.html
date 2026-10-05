@@ -1,503 +1,456 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Questionnaire Kinks, Pratiques & Physiques</title>
-<style>
-  :root {
-    --bg-color: #0f172a;
-    --card-bg: #1e293b;
-    --accent: #f43f5e;
-    --accent-hover: #e11d48;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --border: #334155;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questionnaire : Profil & Préférences</title>
+  <style>
+    :root {
+      --bg: #121214;
+      --card-bg: #1e1e24;
+      --accent: #8b5cf6;
+      --accent-hover: #7c3aed;
+      --text: #e4e4e7;
+      --text-muted: #a1a1aa;
+      --border: #2d2d35;
+    }
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-primary);
-    margin: 0;
-    padding: 16px;
-    display: flex;
-    justify-content: center;
-  }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
 
-  .container {
-    max-width: 750px;
-    width: 100%;
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    border: 1px solid var(--border);
-  }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
 
-  h1 {
-    color: var(--accent);
-    font-size: 1.6rem;
-    margin-top: 0;
-    text-align: center;
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 12px;
-  }
+    .container {
+      max-width: 700px;
+      width: 100%;
+      margin: 20px 0;
+    }
 
-  p.intro {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    text-align: center;
-    margin-bottom: 24px;
-  }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-  .section-header {
-    font-size: 1.2rem;
-    color: #38bdf8;
-    margin-top: 30px;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-left: 4px solid #38bdf8;
-    padding-left: 10px;
-  }
+    h1 {
+      color: var(--accent);
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
 
-  .question-block {
-    margin-bottom: 20px;
-    background: rgba(255, 255, 255, 0.02);
-    padding: 16px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-  }
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
 
-  .question-title {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #f1f5f9;
-    margin-bottom: 12px;
-  }
+    .progress-bar {
+      height: 8px;
+      background-color: var(--border);
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
 
-  .options-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 8px;
-  }
+    .progress-fill {
+      height: 100%;
+      background-color: var(--accent);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
 
-  .checkbox-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 10px 12px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
 
-  .checkbox-card:hover {
-    background: rgba(244, 63, 94, 0.1);
-    border-color: var(--accent);
-  }
+    .section-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
 
-  .checkbox-card input[type="checkbox"] {
-    accent-color: var(--accent);
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
-    cursor: pointer;
-  }
+    .question-title {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
 
-  .checkbox-card span {
-    font-size: 0.88rem;
-  }
+    .scenario {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
 
-  .btn {
-    display: block;
-    width: 100%;
-    padding: 16px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-    margin-top: 30px;
-  }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-  .btn:hover {
-    background: var(--accent-hover);
-  }
+    .option-btn {
+      background-color: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 14px 16px;
+      border-radius: 8px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
 
-  .btn-reset {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
-    margin-top: 12px;
-  }
+    .option-btn:hover {
+      border-color: var(--accent);
+      background-color: rgba(139, 92, 246, 0.05);
+    }
 
-  #results {
-    display: none;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 2px dashed var(--border);
-  }
+    .option-btn.selected {
+      background-color: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
 
-  .profile-badge {
-    background: linear-gradient(135deg, #f43f5e, #8b5cf6);
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    margin-bottom: 24px;
-  }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
 
-  .profile-badge h2 {
-    margin: 0;
-    font-size: 1.5rem;
-  }
+    .btn {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
 
-  .profile-badge p {
-    margin: 8px 0 0 0;
-    font-size: 0.95rem;
-    opacity: 0.95;
-  }
+    .btn:hover {
+      background-color: var(--accent-hover);
+    }
 
-  .stat-bar {
-    margin-bottom: 12px;
-  }
+    .btn:disabled {
+      background-color: var(--border);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
 
-  .stat-header {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    margin-bottom: 4px;
-  }
+    .btn-secondary {
+      background-color: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
 
-  .bar-bg {
-    background: rgba(255, 255, 255, 0.1);
-    height: 10px;
-    border-radius: 5px;
-    overflow: hidden;
-  }
+    .btn-secondary:hover {
+      background-color: var(--border);
+      color: var(--text);
+    }
 
-  .bar-fill {
-    height: 100%;
-    background: var(--accent);
-    width: 0%;
-    transition: width 0.5s ease;
-  }
+    #results {
+      display: none;
+    }
 
-  .summary-box {
-    background: rgba(0, 0, 0, 0.25);
-    padding: 16px;
-    border-radius: 8px;
-    margin-top: 20px;
-    font-size: 0.9rem;
-  }
+    .score-card {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
 
-  .summary-box h3 {
-    margin-top: 0;
-    color: #38bdf8;
-    font-size: 1rem;
-  }
+    .score-item {
+      background-color: var(--bg);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
 
-  .summary-box ul {
-    margin: 8px 0;
-    padding-left: 20px;
-    color: var(--text-secondary);
-  }
-</style>
+    .score-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .preference-summary {
+      margin-top: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+
+    .pref-item {
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    .pref-item strong {
+      color: var(--accent);
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>Questionnaire Kinks & Profil physique</h1>
-  <p class="intro">Cochez **toutes les options** qui vous attirent. Vous pouvez sélectionner plusieurs choix par question (Donner, Recevoir, ou les deux).</p>
+  <div class="container">
+    <header>
+      <h1>Questionnaire d'Exploration</h1>
+      <p class="subtitle">Découvrez votre profil dynamique et vos préférences</p>
+    </header>
 
-  <form id="kinkForm">
-    
-    <div class="section-header">A. Kinks, Pratiques & Roles</div>
+    <div id="quiz">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+      </div>
 
-    <!-- Q1 -->
-    <div class="question-block">
-      <div class="question-title">1. Contrôle & Énergie Dominante / Soumise</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="top,dom" value="Donner : Prendre le contrôle, guider et dominer"><span>Donner : Prendre le contrôle et guider</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,sub" value="Recevoir : Lâcher prise, obéir et se soumettre"><span>Recevoir : Lâcher prise et se soumettre</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="switch" value="Switch : Alterner selon l'envie (Dom ou Sub)"><span>Switch : Alterner selon l'envie</span></label>
+      <div class="card">
+        <div class="section-title" id="section-name">Section 1</div>
+        <h2 class="question-title" id="question-text">Titre de la question</h2>
+        <p class="scenario" id="scenario-text">Mise en situation...</p>
+
+        <div class="options" id="options-container">
+          <!-- Les options seront générées ici par JS -->
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary" id="prev-btn" onclick="prevQuestion()" disabled>Précédent</button>
+        <button class="btn" id="next-btn" onclick="nextQuestion()" disabled>Suivant</button>
       </div>
     </div>
 
-    <!-- Q2 -->
-    <div class="question-block">
-      <div class="question-title">2. Bondage & Attaches (Cordes, Menottes)</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="top,bondage" value="Donner : Attacher / Ligoter le/la partenaire"><span>Donner : Attacher / Ligoter</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,bondage" value="Recevoir : Être attaché(e) / Immobilisé(e)"><span>Recevoir : Être attaché(e)</span></label>
+    <div id="results" class="card">
+      <h2>Vos Résultats</h2>
+      <p class="scenario" id="main-profile">Analyse de votre profil en cours...</p>
+
+      <h3>Répartition des Tendances (Kinks & BDSM)</h3>
+      <div class="score-card">
+        <div class="score-item">
+          <div>Dominant / Actif</div>
+          <div class="score-value" id="score-dom">0</div>
+        </div>
+        <div class="score-item">
+          <div>Soumis / Passif</div>
+          <div class="score-value" id="score-sub">0</div>
+        </div>
+        <div class="score-item">
+          <div>Switch</div>
+          <div class="score-value" id="score-switch">0</div>
+        </div>
+        <div class="score-item">
+          <div>Vanilla / Égalitaire</div>
+          <div class="score-value" id="score-vanilla">0</div>
+        </div>
+      </div>
+
+      <div class="preference-summary">
+        <h3>Résumé de vos Préférences Physiques</h3>
+        <div id="physical-summary">
+          <!-- Généré dynamiquement -->
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 25px;">
+        <button class="btn" onclick="restartQuiz()">Recommencer le questionnaire</button>
       </div>
     </div>
-
-    <!-- Q3 -->
-    <div class="question-block">
-      <div class="question-title">3. Impact Play (Fessées, Cravache, Martinet)</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="top,impact" value="Donner : Donner des fessées / Coups de cravache"><span>Donner : Frapper / Donner la fessée</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,impact" value="Recevoir : Recevoir des fessées / Impact"><span>Recevoir : Recevoir des fessées / Impact</span></label>
-      </div>
-    </div>
-
-    <!-- Q4 -->
-    <div class="question-block">
-      <div class="question-title">4. Domination & Dégradation verbale (Dirty Talk)</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="top,verbal" value="Donner : Donner des ordres, vulgarité, dégradation"><span>Donner : Ordres / Dégradation verbale</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,verbal" value="Recevoir : Écouter des ordres, être dégradé(e)"><span>Recevoir : Être commandé(e) / Vulgarité</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,praise" value="Recevoir : Compliments soutenus (Praise kink)"><span>Recevoir : Compliments (Praise kink)</span></label>
-      </div>
-    </div>
-
-    <!-- Q5 -->
-    <div class="question-block">
-      <div class="question-title">5. Jeux de Rôles (Roleplay / Scénarios)</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="top,roleplay" value="Donner : Imposer un rôle autoritaire (Prof, Patron, BDSM)"><span>Donner : Rôle d'autorité</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,roleplay" value="Recevoir : Jouer le rôle soumis (Élève, Secrétaire, Soumis)"><span>Recevoir : Rôle soumis</span></label>
-      </div>
-    </div>
-
-    <!-- Q6 -->
-    <div class="question-block">
-      <div class="question-title">6. Restauration de l'attention & Sensory Play (Yeux bandés, Glace, Cire)</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="top,sensory" value="Donner : Bander les yeux, faire couler de la cire, glaçons"><span>Donner : Bander les yeux / Appliquer glace ou cire</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,sensory" value="Recevoir : Avoir les yeux bandés, subir la cire/froid"><span>Recevoir : Yeux bandés / Cire / Glaçons</span></label>
-      </div>
-    </div>
-
-    <!-- Q7 -->
-    <div class="question-block">
-      <div class="question-title">7. Jeux de Souffle (Breathplay)</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="top,breath" value="Donner : Main sur la gorge, étouffement contrôlé"><span>Donner : Main sur la gorge / Étranglement léger</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,breath" value="Recevoir : Être pris(e) à la gorge, souffle coupé"><span>Recevoir : Avoir la main sur la gorge</span></label>
-      </div>
-    </div>
-
-    <!-- Q8 -->
-    <div class="question-block">
-      <div class="question-title">8. Contrôle de l'Orgasme (Edging / Denial)</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="top,denial" value="Donner : Refuser/Retarder l'orgasme de l'autre"><span>Donner : Contrôler et refuser l'orgasme</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,denial" value="Recevoir : Se faire refuser/imposer l'orgasme"><span>Recevoir : Être privé(e) d'orgasme</span></label>
-      </div>
-    </div>
-
-    <!-- Q9 -->
-    <div class="question-block">
-      <div class="question-title">9. Pegging & Pénétration Anale (Strap-On)</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="top,pegging" value="Donner : Pénétrer son partenaire avec un Strap-on"><span>Donner : Pénétrer avec un Strap-on</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,pegging" value="Recevoir : Être pénétré(e) par un Strap-on"><span>Recevoir : Être pénétré(e) par Strap-on</span></label>
-      </div>
-    </div>
-
-    <!-- Q10 -->
-    <div class="question-block">
-      <div class="question-title">10. Humiliation & Servitude</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="top,servitude" value="Donner : Traiter l'autre comme un objet/serviteur"><span>Donner : Utiliser l'autre comme serviteur</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="bottom,servitude" value="Recevoir : Servir de repose-pied, obéir au doigt et à l'œil"><span>Recevoir : Servir l'autre / Obéir totalement</span></label>
-      </div>
-    </div>
-
-    <!-- Q11 à Q20 : Kinks spécifiques sans forcément axe opposé -->
-    <div class="question-block">
-      <div class="question-title">11. Voyeurisme & Exhibitionnisme</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="voyeur" value="Regarder d'autres personnes (Voyeurisme)"><span>Regarder d'autres personnes</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="exhib" value="Se faire regarder / Faire l'amour en public (Exhibition)"><span>Se faire regarder / Lieu public</span></label>
-      </div>
-    </div>
-
-    <div class="question-block">
-      <div class="question-title">12. Fétichisme Matières & Lingerie</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="fetiche" value="Cuir, Latex, Vinyle, PVC"><span>Cuir, Latex, Vinyle</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="fetiche" value="Lingerie fine, Talons, Bas nylon"><span>Lingerie fine & Talons</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="fetiche" value="Pieds / Fétichisme des pieds"><span>Pieds (Foot fetish)</span></label>
-      </div>
-    </div>
-
-    <div class="question-block">
-      <div class="question-title">13. Cuckolding & Partage</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-cat="cuck" value="Cuckold / Hotwife : Voir son/sa partenaire avec quelqu'un d'autre"><span>Voir son/sa partenaire avec un(e) autre</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-cat="pluralite" value="Trio ou partouze"><span>Pratiques en groupe (Trio/Partouze)</span></label>
-      </div>
-    </div>
-
-    <div class="section-header">B. Préférences Physiques & Style</div>
-
-    <!-- Q21 -->
-    <div class="question-block">
-      <div class="question-title">14. Silhouette & Morphologie recherchée</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Mince / Élancé(e)"><span>Mince / Élancé(e)</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Athlétique / Fit / Musclé(e)"><span>Athlétique / Fit / Musclé(e)</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Curvy / En formes / Ronde / Massif"><span>Curvy / En formes / Massif</span></label>
-      </div>
-    </div>
-
-    <!-- Q22 -->
-    <div class="question-block">
-      <div class="question-title">15. Poitrine / Buste</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Petite poitrine / Buste menu"><span>Petite poitrine / Menue</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Poitrine moyenne / Proportionnée"><span>Moyenne / Équilibrée</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Gros seins / Poitrine très généreuse"><span>Gros seins / Très généreuse</span></label>
-      </div>
-    </div>
-
-    <!-- Q23 -->
-    <div class="question-block">
-      <div class="question-title">16. Fessiers & Hanches</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Gros cul / Hanches larges / Formes rebondies"><span>Gros cul / Hanches marquées</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Fessier ferme et sculpté"><span>Fessier ferme / Sculpté</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-phys="physique" value="Fessier menu / Silhouette étroite"><span>Fessier menu / Étroit</span></label>
-      </div>
-    </div>
-
-    <!-- Q24 -->
-    <div class="question-block">
-      <div class="question-title">17. Look & Style vestimentaire</div>
-      <div class="options-grid">
-        <label class="checkbox-card"><input type="checkbox" data-phys="style" value="Style Très Sexy / Moulant / Provocant"><span>Style Très Sexy / Provocant</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-phys="style" value="Style Casual / Chic / Naturel"><span>Style Casual / Chic</span></label>
-        <label class="checkbox-card"><input type="checkbox" data-phys="style" value="Style Alternative / Goth / Rock / Tatoué(e)"><span>Style Rock / Goth / Tatoué(e)</span></label>
-      </div>
-    </div>
-
-    <button type="button" class="btn" onclick="calculateProfile()">Générer l'Analyse du Profil</button>
-  </form>
-
-  <!-- RESULTATS -->
-  <div id="results">
-    <div class="profile-badge">
-      <h2 id="mainProfileTitle">Analyse du Profil...</h2>
-      <p id="mainProfileDesc">Chargement des tendances...</p>
-    </div>
-
-    <div class="section-header">Orientation BDSM / Rôles</div>
-    
-    <div class="stat-bar">
-      <div class="stat-header"><span>Côté Dominant / Top (Donner)</span><span id="score-top">0%</span></div>
-      <div class="bar-bg"><div class="bar-fill" id="fill-top"></div></div>
-    </div>
-    <div class="stat-bar">
-      <div class="stat-header"><span>Côté Soumis / Bottom (Recevoir)</span><span id="score-bottom">0%</span></div>
-      <div class="bar-bg"><div class="bar-fill" id="fill-bottom"></div></div>
-    </div>
-
-    <div class="summary-box">
-      <h3>Kinks & Pratiques validées :</h3>
-      <ul id="kinkList"></ul>
-    </div>
-
-    <div class="summary-box">
-      <h3>Goûts & Attirances Physiques :</h3>
-      <ul id="physList"></ul>
-    </div>
-
-    <button type="button" class="btn btn-reset" onclick="resetForm()">Réinitialiser le questionnaire</button>
   </div>
-</div>
 
-<script>
-  function calculateProfile() {
-    let topScore = 0;
-    let bottomScore = 0;
+  <script>
+    const questions = [
+      // SECTION 1
+      { id: 1, section: "Section 1 : Kinks & BDSM", title: "1. Le jeu de l'autorité", scenario: "Tu es dans une chambre avec ton/ta partenaire. L'un de vous deux doit mener la danse pendant toute la soirée, l'autre suit les directives.", options: [{ label: "A. J'aime donner les ordres et guider (Domination)", type: "dom" }, { label: "B. J'aime recevoir les ordres et me laisser guider (Soumission)", type: "sub" }, { label: "C. J'aime les deux selon mon humeur ou mon partenaire (Switch)", type: "switch" }, { label: "D. Aucun : je préfère une relation égalitaire sans jeu de pouvoir", type: "vanilla" }] },
+      { id: 2, section: "Section 1 : Kinks & BDSM", title: "2. Les liens et attaches", scenario: "Vous décidez de jouer avec la restriction des mouvements. Des cordes, des menottes ou des foulards sont posés sur la table.", options: [{ label: "A. J'aime donner des attaches légères et jouer avec le contrôle", type: "dom" }, { label: "B. J'aime recevoir des attaches légères et me laisser immobiliser", type: "sub" }, { label: "C. J'aime les deux : tantôt attacher, tantôt être attaché(e)", type: "switch" }, { label: "D. Aucun : j'ai besoin de garder ma liberté de mouvement", type: "vanilla" }] },
+      { id: 3, section: "Section 1 : Kinks & BDSM", title: "3. Le ligotage avancé", scenario: "Ton/ta partenaire te propose une séance de Shibari avec suspension ou immobilisation totale.", options: [{ label: "A. J'aime donner : je veux apprendre à ligoter, suspendre, maîtriser les nœuds", type: "dom" }, { label: "B. J'aime recevoir : je veux être suspendu(e), immobilisé(e), porté(e) par les cordes", type: "sub" }, { label: "C. J'aime les deux : je veux alterner les rôles", type: "switch" }, { label: "D. Aucun : le ligotage élaboré ne m'intéresse pas", type: "vanilla" }] },
+      { id: 4, section: "Section 1 : Kinks & BDSM", title: "4. Le bandeau et les sens", scenario: "Une soirée où l'un de vous a les yeux bandés et doit deviner ce que l'autre lui fait.", options: [{ label: "A. J'aime donner : bander les yeux de mon/ma partenaire et le/la surprendre", type: "dom" }, { label: "B. J'aime recevoir : avoir les yeux bandés et être surpris(e)", type: "sub" }, { label: "C. J'aime les deux : alterner les rôles", type: "switch" }, { label: "D. Aucun : je préfère voir et être vu(e)", type: "vanilla" }] },
+      { id: 5, section: "Section 1 : Kinks & BDSM", title: "5. La fessée", scenario: "Vous jouez à un jeu où l'un de vous doit recevoir une fessée pour chaque 'faute' commise.", options: [{ label: "A. J'aime donner la fessée, à main nue ou avec un accessoire", type: "dom" }, { label: "B. J'aime recevoir la fessée, légère ou appuyée", type: "sub" }, { label: "C. J'aime les deux : donner et recevoir", type: "switch" }, { label: "D. Aucun : je ne veux ni donner ni recevoir de coups", type: "vanilla" }] },
+      { id: 6, section: "Section 1 : Kinks & BDSM", title: "6. Les instruments d'impact", scenario: "Sur la table : cravache, martinet, paddle, flogger. Ton/ta partenaire te demande de choisir.", options: [{ label: "A. J'aime donner avec des instruments", type: "dom" }, { label: "B. J'aime recevoir avec des instruments", type: "sub" }, { label: "C. J'aime les deux : j'aime les sensations dans les deux sens", type: "switch" }, { label: "D. Aucun : les instruments me font peur ou ne m'attirent pas", type: "vanilla" }] },
+      { id: 7, section: "Section 1 : Kinks & BDSM", title: "7. Les sensations extrêmes", scenario: "Une soirée 'sensation play' : cire chaude, glaçons, pinces, épingles.", options: [{ label: "A. J'aime donner : appliquer la cire, les pinces, les glaçons sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : ressentir la cire, les pinces, les glaçons sur ma peau", type: "sub" }, { label: "C. J'aime les deux : explorer toutes les sensations", type: "switch" }, { label: "D. Aucun : je préfère les sensations douces et classiques", type: "vanilla" }] },
+      { id: 8, section: "Section 1 : Kinks & BDSM", title: "8. Le jeu de rôle classique", scenario: "Vous vous rencontrez dans un bar pour la première fois, alors que vous êtes en couple depuis des années.", options: [{ label: "A. J'aime donner le rôle : je propose le scénario, je mène le jeu", type: "dom" }, { label: "B. J'aime recevoir le rôle : je suis le scénario proposé par l'autre", type: "sub" }, { label: "C. J'aime les deux : co-créer le scénario ensemble", type: "switch" }, { label: "D. Aucun : les déguisements et comédies me coupent dans mon désir", type: "vanilla" }] },
+      { id: 9, section: "Section 1 : Kinks & BDSM", title: "9. Le jeu de pouvoir structuré", scenario: "Un scénario Patron/Secrétaire ou Prof/Élève avec des règles précises.", options: [{ label: "A. J'aime donner : jouer le rôle de l'autorité", type: "dom" }, { label: "B. J'aime recevoir : jouer le rôle du subordonné", type: "sub" }, { label: "C. J'aime les deux : selon le scénario", type: "switch" }, { label: "D. Aucun : les jeux de pouvoir structurés ne m'intéressent pas", type: "vanilla" }] },
+      { id: 10, section: "Section 1 : Kinks & BDSM", title: "10. Les mots doux", scenario: "Pendant l'acte, ton/ta partenaire te murmure des compliments à l'oreille.", options: [{ label: "A. J'aime donner des compliments et valoriser mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir des compliments et être valorisé(e)", type: "sub" }, { label: "C. J'aime les deux : donner et recevoir des mots doux", type: "switch" }, { label: "D. Aucun : les mots n'ont pas d'importance pour moi", type: "vanilla" }] },
+      { id: 11, section: "Section 1 : Kinks & BDSM", title: "11. La domination verbale", scenario: "Ton/ta partenaire te donne des ordres fermes et utilise un langage cru.", options: [{ label: "A. J'aime donner : dominer verbalement, donner des ordres, utiliser un langage cru", type: "dom" }, { label: "B. J'aime recevoir : être dominé(e) verbalement, recevoir des ordres", type: "sub" }, { label: "C. J'aime les deux : alterner selon l'ambiance", type: "switch" }, { label: "D. Aucun : je préfère le silence ou les sons naturels", type: "vanilla" }] },
+      { id: 12, section: "Section 1 : Kinks & BDSM", title: "12. Les lieux insolites", scenario: "Vous êtes en voiture, dans la nature, ou dans un lieu semi-public. L'excitation monte.", options: [{ label: "A. J'aime donner : initier le jeu dans un lieu semi-public", type: "dom" }, { label: "B. J'aime recevoir : être entraîné(e) dans un lieu semi-public", type: "sub" }, { label: "C. J'aime les deux : j'adore le frisson du lieu insolite", type: "switch" }, { label: "D. Aucun : strictement en intérieur, portes fermées à clé", type: "vanilla" }] },
+      { id: 13, section: "Section 1 : Kinks & BDSM", title: "13. Être regardé", scenario: "Vous êtes dans un club libertin. D'autres personnes vous regardent.", options: [{ label: "A. J'aime donner : exhiber mon/ma partenaire devant d'autres", type: "dom" }, { label: "B. J'aime recevoir : être exhibé(e) et regardé(e)", type: "sub" }, { label: "C. J'aime les deux : regarder et être regardé(e)", type: "switch" }, { label: "D. Aucun : je ne veux pas être vu(e) ni voir d'autres", type: "vanilla" }] },
+      { id: 14, section: "Section 1 : Kinks & BDSM", title: "14. Les jouets classiques", scenario: "Vous ouvrez la boîte à jouets : vibromasseur, plug, anneau.", options: [{ label: "A. J'aime donner : utiliser les jouets sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : que mon/ma partenaire utilise les jouets sur moi", type: "sub" }, { label: "C. J'aime les deux : on partage les jouets", type: "switch" }, { label: "D. Aucun : je préfère le contact peau contre peau", type: "vanilla" }] },
+      { id: 15, section: "Section 1 : Kinks & BDSM", title: "15. Les accessoires BDSM", scenario: "Sur le lit : baillon, pinces à tétons, cagoule, harnais.", options: [{ label: "A. J'aime donner : mettre les accessoires à mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : porter les accessoires", type: "sub" }, { label: "C. J'aime les deux : on échange les rôles", type: "switch" }, { label: "D. Aucun : les accessoires BDSM ne m'attirent pas", type: "vanilla" }] },
+      { id: 16, section: "Section 1 : Kinks & BDSM", title: "16. L'électrostimulation", scenario: "Une soirée 'advanced kink' avec électrostimulation ou sondes.", options: [{ label: "A. J'aime donner : utiliser l'électrostimulation sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir l'électrostimulation", type: "sub" }, { label: "C. J'aime les deux : explorer les deux côtés", type: "switch" }, { label: "D. Aucun : trop extrême pour moi", type: "vanilla" }] },
+      { id: 17, section: "Section 1 : Kinks & BDSM", title: "17. La lingerie fine", scenario: "Ton/ta partenaire porte une lingerie en dentelle, des bas, un porte-jarretelles.", options: [{ label: "A. J'aime donner : offrir et voir mon/ma partenaire porter de la lingerie fine", type: "dom" }, { label: "B. J'aime recevoir : porter de la lingerie fine pour mon/ma partenaire", type: "sub" }, { label: "C. J'aime les deux : on aime tous les deux la lingerie", type: "switch" }, { label: "D. Aucun : la lingerie fine ne m'intéresse pas", type: "vanilla" }] },
+      { id: 18, section: "Section 1 : Kinks & BDSM", title: "18. Le cuir et le latex", scenario: "Une soirée où ton/ta partenaire porte une tenue en cuir ou en latex.", options: [{ label: "A. J'aime donner : voir mon/ma partenaire en cuir/latex", type: "dom" }, { label: "B. J'aime recevoir : porter du cuir/latex pour mon/ma partenaire", type: "sub" }, { label: "C. J'aime les deux : on aime les deux porter ces matières", type: "switch" }, { label: "D. Aucun : les matières fétichistes ne m'attirent pas", type: "vanilla" }] },
+      { id: 19, section: "Section 1 : Kinks & BDSM", title: "19. Le fétichisme ciblé", scenario: "Ton/ta partenaire a un fétichisme pour les pieds, les collants ou les sous-vêtements.", options: [{ label: "A. J'aime donner : satisfaire le fétichisme de mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : que mon/ma partenaire satisfasse mon fétichisme", type: "sub" }, { label: "C. J'aime les deux : on partage nos fétichismes", type: "switch" }, { label: "D. Aucun : je n'ai pas de fétichisme textile particulier", type: "vanilla" }] },
+      { id: 20, section: "Section 1 : Kinks & BDSM", title: "20. Le jeu avec le souffle", scenario: "Ton/ta partenaire pose sa main sur ta gorge sans pression, ou bloque légèrement ton nez.", options: [{ label: "A. J'aime donner : contrôler le souffle de mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : que mon/ma partenaire contrôle mon souffle", type: "sub" }, { label: "C. J'aime les deux : explorer les deux côtés", type: "switch" }, { label: "D. Aucun : ne jamais toucher au souffle ni au cou (Zone rouge)", type: "vanilla" }] },
+      { id: 21, section: "Section 1 : Kinks & BDSM", title: "21. Les fluides corporels", scenario: "Ton/ta partenaire éjacule sur ton corps ou ton visage.", options: [{ label: "A. J'aime donner : éjaculer sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir l'éjaculation sur mon corps", type: "sub" }, { label: "C. J'aime les deux : on aime les deux", type: "switch" }, { label: "D. Aucun : hygiène irréprochable exigée, aucun fluide hors zone", type: "vanilla" }] },
+      { id: 22, section: "Section 1 : Kinks & BDSM", title: "22. Le waterplay", scenario: "Ton/ta partenaire te propose une douche dorée (urolagnie).", options: [{ label: "A. J'aime donner : uriner sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir l'urine de mon/ma partenaire", type: "sub" }, { label: "C. J'aime les deux : on explore les deux", type: "switch" }, { label: "D. Aucun : pas pour moi", type: "vanilla" }] },
+      { id: 23, section: "Section 1 : Kinks & BDSM", title: "23. Les crachats", scenario: "Pendant l'acte, ton/ta partenaire te crache dessus ou dans la bouche.", options: [{ label: "A. J'aime donner : cracher sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir les crachats de mon/ma partenaire", type: "sub" }, { label: "C. J'aime les deux : on aime les deux", type: "switch" }, { label: "D. Aucun : pas de salive hors baiser", type: "vanilla" }] },
+      { id: 24, section: "Section 1 : Kinks & BDSM", title: "24. Le contrôle de l'orgasme", scenario: "Ton/ta partenaire te demande de retenir ton orgasme le plus longtemps possible.", options: [{ label: "A. J'aime donner : contrôler l'orgasme de mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : être contrôlé(e) et retardé(e)", type: "sub" }, { label: "C. J'aime les deux : on alterne le contrôle", type: "switch" }, { label: "D. Aucun : je préfère l'orgasme direct et fluide", type: "vanilla" }] },
+      { id: 25, section: "Section 1 : Kinks & BDSM", title: "25. La chasteté", scenario: "Ton/ta partenaire te demande de ne pas éjaculer pendant plusieurs jours.", options: [{ label: "A. J'aime donner : imposer la chasteté à mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : être en chasteté pour mon/ma partenaire", type: "sub" }, { label: "C. J'aime les deux : on joue avec le contrôle sur plusieurs jours", type: "switch" }, { label: "D. Aucun : je ne veux pas de restriction sur mon orgasme", type: "vanilla" }] },
+      { id: 26, section: "Section 1 : Kinks & BDSM", title: "26. Les orgasmes forcés", scenario: "Ton/ta partenaire te force à avoir plusieurs orgasmes d'affilée.", options: [{ label: "A. J'aime donner : imposer des orgasmes multiples à mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : être forcé(e) à avoir des orgasmes", type: "sub" }, { label: "C. J'aime les deux : on alterne", type: "switch" }, { label: "D. Aucun : je préfère un orgasme naturel", type: "vanilla" }] },
+      { id: 27, section: "Section 1 : Kinks & BDSM", title: "27. Le marquage doux", scenario: "Ton/ta partenaire te mordille le cou et te laisse des suçons.", options: [{ label: "A. J'aime donner : marquer mon/ma partenaire (morsures, suçons)", type: "dom" }, { label: "B. J'aime recevoir : être marqué(e) par mon/ma partenaire", type: "sub" }, { label: "C. J'aime les deux : on aime les marques temporaires", type: "switch" }, { label: "D. Aucun : je ne veux pas de marques", type: "vanilla" }] },
+      { id: 28, section: "Section 1 : Kinks & BDSM", title: "28. La servitude douce", scenario: "Ton/ta partenaire te demande de faire le ménage en tenue légère.", options: [{ label: "A. J'aime donner : demander des tâches domestiques à mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : servir mon/ma partenaire en tenue légère", type: "sub" }, { label: "C. J'aime les deux : on alterne les rôles", type: "switch" }, { label: "D. Aucun : pas de servitude", type: "vanilla" }] },
+      { id: 29, section: "Section 1 : Kinks & BDSM", title: "29. Le marquage durable", scenario: "Ton/ta partenaire te griffe ou te laisse des bleus assumés.", options: [{ label: "A. J'aime donner : laisser des marques durables sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir des marques durables", type: "sub" }, { label: "C. J'aime les deux : on aime les marques visibles", type: "switch" }, { label: "D. Aucun : respect absolu, aucune marque", type: "vanilla" }] },
+      { id: 30, section: "Section 1 : Kinks & BDSM", title: "30. Les jeux anaux débutants", scenario: "Ton/ta partenaire utilise un doigt ou un petit plug.", options: [{ label: "A. J'aime donner : utiliser des doigts ou plugs sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir des doigts ou plugs", type: "sub" }, { label: "C. J'aime les deux : on explore les deux", type: "switch" }, { label: "D. Aucun : pénétration vaginale/buccale uniquement", type: "vanilla" }] },
+      { id: 31, section: "Section 1 : Kinks & BDSM", title: "31. Le pegging", scenario: "Une femme pénètre un homme avec un strap-on.", options: [{ label: "A. J'aime donner : pénétrer mon/ma partenaire avec un strap-on", type: "dom" }, { label: "B. J'aime recevoir : être pénétré(e) avec un strap-on", type: "sub" }, { label: "C. J'aime les deux : on alterne", type: "switch" }, { label: "D. Aucun : le pegging ne m'intéresse pas", type: "vanilla" }] },
+      { id: 32, section: "Section 1 : Kinks & BDSM", title: "32. La dilatation avancée", scenario: "Une pratique de fisting ou de gros diamètres.", options: [{ label: "A. J'aime donner : pratiquer la dilatation sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir la dilatation", type: "sub" }, { label: "C. J'aime les deux : on explore les deux", type: "switch" }, { label: "D. Aucun : trop avancé pour moi", type: "vanilla" }] },
+      { id: 33, section: "Section 1 : Kinks & BDSM", title: "33. Le cuckolding", scenario: "Ton/ta partenaire regarde ou sait que tu couches avec quelqu'un d'autre.", options: [{ label: "A. J'aime donner : être le/la partenaire qui couche avec d'autres", type: "dom" }, { label: "B. J'aime recevoir : être le/la partenaire qui regarde ou sait", type: "sub" }, { label: "C. J'aime les deux : on alterne selon les envies", type: "switch" }, { label: "D. Aucun : monogamie stricte et exclusive", type: "vanilla" }] },
+      { id: 34, section: "Section 1 : Kinks & BDSM", title: "34. Le trio", scenario: "Un couple invite une troisième personne pour un trio.", options: [{ label: "A. J'aime donner : être l'invité(e) du couple", type: "dom" }, { label: "B. J'aime recevoir : partager mon/ma partenaire avec un(e) invité(e)", type: "sub" }, { label: "C. J'aime les deux : on aime les trios dans toutes les configurations", type: "switch" }, { label: "D. Aucun : pas de partage", type: "vanilla" }] },
+      { id: 35, section: "Section 1 : Kinks & BDSM", title: "35. Le polyamour", scenario: "Ton/ta partenaire a une autre relation amoureuse ou sexuelle assumée.", options: [{ label: "A. J'aime donner : avoir plusieurs relations", type: "dom" }, { label: "B. J'aime recevoir : accepter que mon/ma partenaire ait d'autres relations", type: "sub" }, { label: "C. J'aime les deux : relation ouverte et transparente", type: "switch" }, { label: "D. Aucun : monogamie stricte", type: "vanilla" }] },
+      { id: 36, section: "Section 1 : Kinks & BDSM", title: "36. La cire chaude", scenario: "Ton/ta partenaire fait couler de la cire de bougie sur ta peau.", options: [{ label: "A. J'aime donner : faire couler la cire sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir la cire chaude", type: "sub" }, { label: "C. J'aime les deux : on alterne", type: "switch" }, { label: "D. Aucun : pas de jeux de température", type: "vanilla" }] },
+      { id: 37, section: "Section 1 : Kinks & BDSM", title: "37. L'alternance thermique", scenario: "Ton/ta partenaire alterne glaçon et cire chaude sur ta peau.", options: [{ label: "A. J'aime donner : alterner les sensations sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : ressentir l'alternance", type: "sub" }, { label: "C. J'aime les deux : on explore les deux", type: "switch" }, { label: "D. Aucun : température ambiante uniquement", type: "vanilla" }] },
+      { id: 38, section: "Section 1 : Kinks & BDSM", title: "38. Le CNC léger", scenario: "Un scénario de prise de force simulée, avec un mot-clé de sécurité.", options: [{ label: "A. J'aime donner : jouer le rôle de l'agresseur simulé", type: "dom" }, { label: "B. J'aime recevoir : jouer le rôle de la victime simulée", type: "sub" }, { label: "C. J'aime les deux : on alterne les rôles", type: "switch" }, { label: "D. Aucun : consentement explicite et continu à chaque étape", type: "vanilla" }] },
+      { id: 39, section: "Section 1 : Kinks & BDSM", title: "39. La somnophilie", scenario: "Ton/ta partenaire te réveille en douceur par des caresses ou du sexe.", options: [{ label: "A. J'aime donner : réveiller mon/ma partenaire par des caresses", type: "dom" }, { label: "B. J'aime recevoir : être réveillé(e) par des caresses", type: "sub" }, { label: "C. J'aime les deux : on aime les deux", type: "switch" }, { label: "D. Aucun : je veux être réveillé(e) et consentir en étant éveillé(e)", type: "vanilla" }] },
+      { id: 40, section: "Section 1 : Kinks & BDSM", title: "40. Les protocoles BDSM", scenario: "Un contrat écrit avec des règles de domination et de soumission.", options: [{ label: "A. J'aime donner : établir les règles et le protocole", type: "dom" }, { label: "B. J'aime recevoir : suivre les règles et le protocole", type: "sub" }, { label: "C. J'aime les deux : on co-construit le contrat", type: "switch" }, { label: "D. Aucun : spontanéité totale, pas de règles", type: "vanilla" }] },
 
-    const checkedBoxes = document.querySelectorAll('#kinkForm input[type="checkbox"]:checked');
+      // SECTION 2
+      { id: 41, section: "Section 2 : Préférences Physiques", title: "41. Morphologie & Silhouette", scenario: "Tu croises quelqu'un dans un bar. Son physique attire ton regard.", options: [{ label: "A. Mince / Élancé(e) / Athlétique", type: "pref" }, { label: "B. Fit / Musclé(e) / Découpé(e)", type: "pref" }, { label: "C. Curvy / En formes / Pulpeuse ou Enrobé / Massif", type: "pref" }, { label: "D. Peu importe la morphologie, c'est le charisme qui compte", type: "pref" }] },
+      { id: 42, section: "Section 2 : Préférences Physiques", title: "42. Poitrine / Buste", scenario: "Tu es attiré(e) par une personne et tu remarques son buste.", options: [{ label: "A. Petite poitrine / Buste menu & fin", type: "pref" }, { label: "B. Poitrine moyenne / Proportions équilibrées", type: "pref" }, { label: "C. Généreuse / Gros seins / Pectoraux très développés", type: "pref" }, { label: "D. Pas de préférence spécifique", type: "pref" }] },
+      { id: 43, section: "Section 2 : Préférences Physiques", title: "43. Fessiers & Hanches", scenario: "Tu danses avec quelqu'un et tu poses tes mains sur ses hanches.", options: [{ label: "A. Fessier rebondi / Hanches marquées / 'Gros cul'", type: "pref" }, { label: "B. Fessier ferme, sculpté et sportif", type: "pref" }, { label: "C. Silhouette fine et étroite", type: "pref" }, { label: "D. Pas d'importance particulière", type: "pref" }] },
+      { id: 44, section: "Section 2 : Préférences Physiques", title: "44. Style vestimentaire", scenario: "Tu vois quelqu'un dans la rue et son style t'attire immédiatement.", options: [{ label: "A. Ultra sexy, moulant, décolletés, mettant les formes en valeur", type: "pref" }, { label: "B. Casual / Chic / Élégant (soigné sans être provocant)", type: "pref" }, { label: "C. Streetwear / Sportswear / Décontracté", type: "pref" }, { label: "D. Alternative / Gothique / Rock / Tatoué(e)", type: "pref" }] },
+      { id: 45, section: "Section 2 : Préférences Physiques", title: "45. Pilosité & Entretien", scenario: "Tu découvres le corps de ton/ta partenaire pour la première fois.", options: [{ label: "A. Intégralement rasé(e) / Épilé(e)", type: "pref" }, { label: "B. Entretien naturel (taille propre, pilosité légère)", type: "pref" }, { label: "C. Pilosité naturelle assumée / Barbe fournie", type: "pref" }, { label: "D. Pas de critère bloquant", type: "pref" }] },
+      { id: 46, section: "Section 2 : Préférences Physiques", title: "46. Taille & Proportion", scenario: "Tu rencontres quelqu'un et tu remarques sa taille par rapport à la tienne.", options: [{ label: "A. Plus grand(e) que moi", type: "pref" }, { label: "B. Plus petit(e) que moi", type: "pref" }, { label: "C. Ma taille approximativement", type: "pref" }, { label: "D. La taille n'a aucune importance", type: "pref" }] },
+      { id: 47, section: "Section 2 : Préférences Physiques", title: "47. Yeux & Regard", scenario: "Tu plonges ton regard dans celui de quelqu'un.", options: [{ label: "A. Yeux clairs (bleus, verts, gris)", type: "pref" }, { label: "B. Yeux foncés (noirs, marron profond)", type: "pref" }, { label: "C. Yeux vifs et expressifs, peu importe la couleur", type: "pref" }, { label: "D. Le regard et l'intensité comptent plus que la couleur", type: "pref" }] },
+      { id: 48, section: "Section 2 : Préférences Physiques", title: "48. Cheveux", scenario: "Tu passes ta main dans les cheveux de quelqu'un.", options: [{ label: "A. Longs et soyeux", type: "pref" }, { label: "B. Courts et coiffés", type: "pref" }, { label: "C. Bouclés / Ondulés / Crépus", type: "pref" }, { label: "D. Peu importe, tant que la personne assume", type: "pref" }] },
+      { id: 49, section: "Section 2 : Préférences Physiques", title: "49. Voix & Élocution", scenario: "Tu entends quelqu'un parler pour la première fois.", options: [{ label: "A. Voix grave et profonde", type: "pref" }, { label: "B. Voix douce et posée", type: "pref" }, { label: "C. Voix assurée et charismatique", type: "pref" }, { label: "D. La voix n'est pas un critère déterminant", type: "pref" }] },
+      { id: 50, section: "Section 2 : Préférences Physiques", title: "50. Âge & Maturité", scenario: "Tu rencontres quelqu'un et tu apprends son âge.", options: [{ label: "A. Plus jeune que moi", type: "pref" }, { label: "B. Mon âge approximativement", type: "pref" }, { label: "C. Plus âgé(e) que moi", type: "pref" }, { label: "D. L'âge n'a pas d'importance, c'est la maturité qui compte", type: "pref" }] }
+    ];
 
-    if (checkedBoxes.length === 0) {
-      alert("Veuillez cocher au moins une option.");
-      return;
+    let currentQuestionIndex = 0;
+    const answers = {};
+
+    function renderQuestion() {
+      const q = questions[currentQuestionIndex];
+      document.getElementById('section-name').innerText = q.section;
+      document.getElementById('question-text').innerText = q.title;
+      document.getElementById('scenario-text').innerText = q.scenario;
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      q.options.forEach((option, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        if (answers[q.id] && answers[q.id].optionIndex === idx) {
+          btn.classList.add('selected');
+        }
+        btn.innerText = option.label;
+        btn.onclick = () => selectOption(idx, option.type, option.label);
+        container.appendChild(btn);
+      });
+
+      // Update Navigation
+      document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+      document.getElementById('next-btn').disabled = !answers[q.id];
+      document.getElementById('next-btn').innerText = (currentQuestionIndex === questions.length - 1) ? "Terminer" : "Suivant";
+
+      // Progress bar
+      const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
+      document.getElementById('progress').style.width = progressPercent + '%';
     }
 
-    const kinkChoices = [];
-    const physChoices = [];
+    function selectOption(optionIndex, type, label) {
+      const q = questions[currentQuestionIndex];
+      answers[q.id] = { optionIndex, type, label, title: q.title };
 
-    checkedBoxes.forEach(cb => {
-      const cats = cb.getAttribute('data-cat');
-      const phys = cb.getAttribute('data-phys');
+      // UI Update
+      const btns = document.querySelectorAll('.option-btn');
+      btns.forEach((btn, idx) => {
+        if (idx === optionIndex) btn.classList.add('selected');
+        else btn.classList.remove('selected');
+      });
 
-      if (cats) {
-        const catArray = cats.split(',');
-        if (catArray.includes('top')) topScore++;
-        if (catArray.includes('bottom')) bottomScore++;
-        kinkChoices.push(cb.value);
-      }
-
-      if (phys) {
-        physChoices.push(cb.value);
-      }
-    });
-
-    const totalBDSM = topScore + bottomScore;
-    const topPct = totalBDSM > 0 ? Math.round((topScore / totalBDSM) * 100) : 0;
-    const bottomPct = totalBDSM > 0 ? Math.round((bottomScore / totalBDSM) * 100) : 0;
-
-    document.getElementById('score-top').innerText = topPct + "%";
-    document.getElementById('fill-top').style.width = topPct + "%";
-    document.getElementById('fill-top').style.backgroundColor = "#f43f5e";
-
-    document.getElementById('score-bottom').innerText = bottomPct + "%";
-    document.getElementById('fill-bottom').style.width = bottomPct + "%";
-    document.getElementById('fill-bottom').style.backgroundColor = "#8b5cf6";
-
-    // Titre profil
-    let title = "Profil Équilibré / Switch";
-    let desc = "Vous appréciez autant donner que recevoir selon les moments et le/la partenaire.";
-
-    if (topPct > 65) {
-      title = "Profil Dominant / Top";
-      desc = "Vous prenez plaisir à guider, imposer les règles et donner les sensations.";
-    } else if (bottomPct > 65) {
-      title = "Profil Soumis / Bottom";
-      desc = "Vous recherchez le lâcher-prise, la remise du contrôle et le plaisir de recevoir.";
+      document.getElementById('next-btn').disabled = false;
     }
 
-    document.getElementById('mainProfileTitle').innerText = title;
-    document.getElementById('mainProfileDesc').innerText = desc;
+    function nextQuestion() {
+      if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
 
-    // Listes
-    const kList = document.getElementById('kinkList');
-    kList.innerHTML = kinkChoices.length ? "" : "<li>Aucun kink spécifique coché</li>";
-    kinkChoices.forEach(k => {
-      const li = document.createElement('li');
-      li.innerText = k;
-      kList.appendChild(li);
-    });
+    function prevQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+      }
+    }
 
-    const pList = document.getElementById('physList');
-    pList.innerHTML = physChoices.length ? "" : "<li>Aucun critère physique coché</li>";
-    physChoices.forEach(p => {
-      const li = document.createElement('li');
-      li.innerText = p;
-      pList.appendChild(li);
-    });
+    function showResults() {
+      document.getElementById('quiz').style.display = 'none';
+      document.getElementById('results').style.display = 'block';
 
-    document.getElementById('results').style.display = 'block';
-    document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-  }
+      let domScore = 0;
+      let subScore = 0;
+      let switchScore = 0;
+      let vanillaScore = 0;
 
-  function resetForm() {
-    document.getElementById('kinkForm').reset();
-    document.getElementById('results').style.display = 'none';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-</script>
+      const physicalSummary = [];
+
+      // Calculate Scores
+      Object.keys(answers).forEach(qId => {
+        const ans = answers[qId];
+        if (ans.type === 'dom') domScore += 2;
+        else if (ans.type === 'sub') subScore += 2;
+        else if (ans.type === 'switch') { domScore += 1; subScore += 1; switchScore += 1; }
+        else if (ans.type === 'vanilla') vanillaScore += 1;
+        else if (ans.type === 'pref') {
+          physicalSummary.push({ question: ans.title, answer: ans.label });
+        }
+      });
+
+      document.getElementById('score-dom').innerText = domScore;
+      document.getElementById('score-sub').innerText = subScore;
+      document.getElementById('score-switch').innerText = switchScore;
+      document.getElementById('score-vanilla').innerText = vanillaScore;
+
+      // Determine main profile
+      const scores = [
+        { type: "Dominant / Actif", value: domScore },
+        { type: "Soumis / Passif", value: subScore },
+        { type: "Switch / Versatile", value: switchScore * 2 },
+        { type: "Vanilla / Égalitaire", value: vanillaScore * 2 }
+      ];
+      scores.sort((a, b) => b.value - a.value);
+
+      document.getElementById('main-profile').innerText = `Ton profil dominant est : ${scores[0].type}`;
+
+      // Render physical summary
+      const prefContainer = document.getElementById('physical-summary');
+      prefContainer.innerHTML = '';
+      physicalSummary.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'pref-item';
+        div.innerHTML = `<strong>${item.question} :</strong> ${item.answer}`;
+        prefContainer.appendChild(div);
+      });
+    }
+
+    function restartQuiz() {
+      currentQuestionIndex = 0;
+      for (let member in answers) delete answers[member];
+      document.getElementById('results').style.display = 'none';
+      document.getElementById('quiz').style.display = 'block';
+      renderQuestion();
+    }
+
+    // Init
+    renderQuestion();
+  </script>
 </body>
 </html>
