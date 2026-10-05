@@ -3,205 +3,180 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Questionnaire : Profil & Préférences</title>
+  <title>Questionnaire d'Orientation Kink & Attirances</title>
   <style>
     :root {
-      --bg: #121214;
+      --bg-color: #121214;
       --card-bg: #1e1e24;
-      --accent: #8b5cf6;
-      --accent-hover: #7c3aed;
-      --text: #e4e4e7;
-      --text-muted: #a1a1aa;
-      --border: #2d2d35;
+      --accent: #ff3b5c;
+      --accent-hover: #e02e4c;
+      --text-main: #f1f1f5;
+      --text-muted: #a0a0b0;
+      --border-color: #2e2e38;
+      --bar-bg: #2a2a36;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      background-color: var(--bg-color);
+      color: var(--text-main);
       padding: 20px;
-      display: flex;
-      justify-content: center;
+      line-height: 1.6;
     }
 
     .container {
-      max-width: 700px;
-      width: 100%;
-      margin: 20px 0;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
     header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
+      padding: 20px 0;
+      border-bottom: 2px solid var(--border-color);
     }
 
-    h1 {
+    header h1 {
       color: var(--accent);
-      font-size: 2rem;
+      font-size: 2.2rem;
       margin-bottom: 10px;
     }
 
-    p.subtitle {
+    header p {
       color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    .progress-bar {
-      height: 8px;
-      background-color: var(--border);
-      border-radius: 4px;
-      margin: 20px 0;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background-color: var(--accent);
-      width: 0%;
-      transition: width 0.3s ease;
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      font-size: 1.1rem;
     }
 
     .section-title {
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
       color: var(--accent);
-      margin-bottom: 8px;
+      font-size: 1.4rem;
+      margin: 30px 0 15px 0;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .question-card {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
     }
 
     .question-title {
-      font-size: 1.2rem;
-      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
     }
 
-    .scenario {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-      font-style: italic;
-    }
-
-    .options {
-      display: flex;
-      flex-direction: column;
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
       gap: 10px;
     }
 
-    .option-btn {
-      background-color: transparent;
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 14px 16px;
-      border-radius: 8px;
-      text-align: left;
+    .option-label {
+      display: flex;
+      align-items: flex-start;
+      background-color: rgba(255, 255, 255, 0.03);
+      padding: 12px 15px;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 0.95rem;
+      border: 1px solid transparent;
       transition: all 0.2s ease;
     }
 
-    .option-btn:hover {
-      border-color: var(--accent);
-      background-color: rgba(139, 92, 246, 0.05);
+    .option-label:hover {
+      background-color: rgba(255, 59, 92, 0.1);
+      border-color: rgba(255, 59, 92, 0.3);
     }
 
-    .option-btn.selected {
-      background-color: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
+    .option-label input[type="checkbox"] {
+      margin-top: 4px;
+      margin-right: 12px;
+      accent-color: var(--accent);
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
     }
 
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-
-    .btn {
+    .btn-submit {
+      display: block;
+      width: 100%;
       background-color: var(--accent);
       color: white;
       border: none;
-      padding: 12px 24px;
-      border-radius: 6px;
+      padding: 18px;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      font-weight: bold;
       cursor: pointer;
-      font-weight: 600;
-      transition: background 0.2s;
+      margin: 40px 0;
+      transition: background 0.2s ease;
     }
 
-    .btn:hover {
+    .btn-submit:hover {
       background-color: var(--accent-hover);
     }
 
-    .btn:disabled {
-      background-color: var(--border);
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-
-    .btn-secondary {
-      background-color: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-    }
-
-    .btn-secondary:hover {
-      background-color: var(--border);
-      color: var(--text);
-    }
-
+    /* Section Résultats */
     #results {
       display: none;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px solid var(--accent);
+      margin-top: 40px;
     }
 
-    .score-card {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      margin: 20px 0;
-    }
-
-    .score-item {
-      background-color: var(--bg);
-      padding: 15px;
-      border-radius: 8px;
+    #results h2 {
       text-align: center;
-      border: 1px solid var(--border);
-    }
-
-    .score-value {
-      font-size: 1.5rem;
-      font-weight: bold;
       color: var(--accent);
+      margin-bottom: 25px;
     }
 
-    .preference-summary {
-      margin-top: 20px;
-      border-top: 1px solid var(--border);
-      padding-top: 20px;
+    .bar-container {
+      margin-bottom: 20px;
     }
 
-    .pref-item {
-      margin-bottom: 8px;
-      font-size: 0.9rem;
+    .bar-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-weight: 600;
     }
 
-    .pref-item strong {
-      color: var(--accent);
+    .bar-bg {
+      background-color: var(--bar-bg);
+      height: 22px;
+      border-radius: 11px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff3b5c, #ff7b00);
+      width: 0%;
+      transition: width 1s ease-out;
+    }
+
+    .summary-box {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.04);
+      border-left: 4px solid var(--accent);
+      border-radius: 4px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 10px; }
+      .question-card { padding: 15px; }
     }
   </style>
 </head>
@@ -209,248 +184,482 @@
 
   <div class="container">
     <header>
-      <h1>Questionnaire d'Exploration</h1>
-      <p class="subtitle">Découvrez votre profil dynamique et vos préférences</p>
+      <h1>Orientation Kink & Attirances</h1>
+      <p>90 situations immersives — Choix multiples autorisés par question</p>
     </header>
 
-    <div id="quiz">
-      <div class="progress-bar">
-        <div class="progress-fill" id="progress"></div>
-      </div>
+    <form id="kinkForm">
+      <div id="questionsContainer"></div>
+      <button type="submit" class="btn-submit">Calculer mes résultats</button>
+    </form>
 
-      <div class="card">
-        <div class="section-title" id="section-name">Section 1</div>
-        <h2 class="question-title" id="question-text">Titre de la question</h2>
-        <p class="scenario" id="scenario-text">Mise en situation...</p>
+    <div id="results">
+      <h2>Vos Dominantes de Personnalité</h2>
+      
+      <h3 style="margin-bottom: 15px; color: var(--text-muted);">Profil Global</h3>
+      <div id="globalBars"></div>
 
-        <div class="options" id="options-container">
-          <!-- Les options seront générées ici par JS -->
-        </div>
-      </div>
+      <h3 style="margin: 30px 0 15px 0; color: var(--text-muted);">Détail par Catégories</h3>
+      <div id="categoryBars"></div>
 
-      <div class="nav-buttons">
-        <button class="btn btn-secondary" id="prev-btn" onclick="prevQuestion()" disabled>Précédent</button>
-        <button class="btn" id="next-btn" onclick="nextQuestion()" disabled>Suivant</button>
-      </div>
-    </div>
-
-    <div id="results" class="card">
-      <h2>Vos Résultats</h2>
-      <p class="scenario" id="main-profile">Analyse de votre profil en cours...</p>
-
-      <h3>Répartition des Tendances (Kinks & BDSM)</h3>
-      <div class="score-card">
-        <div class="score-item">
-          <div>Dominant / Actif</div>
-          <div class="score-value" id="score-dom">0</div>
-        </div>
-        <div class="score-item">
-          <div>Soumis / Passif</div>
-          <div class="score-value" id="score-sub">0</div>
-        </div>
-        <div class="score-item">
-          <div>Switch</div>
-          <div class="score-value" id="score-switch">0</div>
-        </div>
-        <div class="score-item">
-          <div>Vanilla / Égalitaire</div>
-          <div class="score-value" id="score-vanilla">0</div>
-        </div>
-      </div>
-
-      <div class="preference-summary">
-        <h3>Résumé de vos Préférences Physiques</h3>
-        <div id="physical-summary">
-          <!-- Généré dynamiquement -->
-        </div>
-      </div>
-
-      <div style="text-align: center; margin-top: 25px;">
-        <button class="btn" onclick="restartQuiz()">Recommencer le questionnaire</button>
+      <div class="summary-box">
+        <h3>Synthèse de votre profil</h3>
+        <p id="summaryText" style="margin-top: 10px;"></p>
       </div>
     </div>
   </div>
 
   <script>
-    const questions = [
-      // SECTION 1
-      { id: 1, section: "Section 1 : Kinks & BDSM", title: "1. Le jeu de l'autorité", scenario: "Tu es dans une chambre avec ton/ta partenaire. L'un de vous deux doit mener la danse pendant toute la soirée, l'autre suit les directives.", options: [{ label: "A. J'aime donner les ordres et guider (Domination)", type: "dom" }, { label: "B. J'aime recevoir les ordres et me laisser guider (Soumission)", type: "sub" }, { label: "C. J'aime les deux selon mon humeur ou mon partenaire (Switch)", type: "switch" }, { label: "D. Aucun : je préfère une relation égalitaire sans jeu de pouvoir", type: "vanilla" }] },
-      { id: 2, section: "Section 1 : Kinks & BDSM", title: "2. Les liens et attaches", scenario: "Vous décidez de jouer avec la restriction des mouvements. Des cordes, des menottes ou des foulards sont posés sur la table.", options: [{ label: "A. J'aime donner des attaches légères et jouer avec le contrôle", type: "dom" }, { label: "B. J'aime recevoir des attaches légères et me laisser immobiliser", type: "sub" }, { label: "C. J'aime les deux : tantôt attacher, tantôt être attaché(e)", type: "switch" }, { label: "D. Aucun : j'ai besoin de garder ma liberté de mouvement", type: "vanilla" }] },
-      { id: 3, section: "Section 1 : Kinks & BDSM", title: "3. Le ligotage avancé", scenario: "Ton/ta partenaire te propose une séance de Shibari avec suspension ou immobilisation totale.", options: [{ label: "A. J'aime donner : je veux apprendre à ligoter, suspendre, maîtriser les nœuds", type: "dom" }, { label: "B. J'aime recevoir : je veux être suspendu(e), immobilisé(e), porté(e) par les cordes", type: "sub" }, { label: "C. J'aime les deux : je veux alterner les rôles", type: "switch" }, { label: "D. Aucun : le ligotage élaboré ne m'intéresse pas", type: "vanilla" }] },
-      { id: 4, section: "Section 1 : Kinks & BDSM", title: "4. Le bandeau et les sens", scenario: "Une soirée où l'un de vous a les yeux bandés et doit deviner ce que l'autre lui fait.", options: [{ label: "A. J'aime donner : bander les yeux de mon/ma partenaire et le/la surprendre", type: "dom" }, { label: "B. J'aime recevoir : avoir les yeux bandés et être surpris(e)", type: "sub" }, { label: "C. J'aime les deux : alterner les rôles", type: "switch" }, { label: "D. Aucun : je préfère voir et être vu(e)", type: "vanilla" }] },
-      { id: 5, section: "Section 1 : Kinks & BDSM", title: "5. La fessée", scenario: "Vous jouez à un jeu où l'un de vous doit recevoir une fessée pour chaque 'faute' commise.", options: [{ label: "A. J'aime donner la fessée, à main nue ou avec un accessoire", type: "dom" }, { label: "B. J'aime recevoir la fessée, légère ou appuyée", type: "sub" }, { label: "C. J'aime les deux : donner et recevoir", type: "switch" }, { label: "D. Aucun : je ne veux ni donner ni recevoir de coups", type: "vanilla" }] },
-      { id: 6, section: "Section 1 : Kinks & BDSM", title: "6. Les instruments d'impact", scenario: "Sur la table : cravache, martinet, paddle, flogger. Ton/ta partenaire te demande de choisir.", options: [{ label: "A. J'aime donner avec des instruments", type: "dom" }, { label: "B. J'aime recevoir avec des instruments", type: "sub" }, { label: "C. J'aime les deux : j'aime les sensations dans les deux sens", type: "switch" }, { label: "D. Aucun : les instruments me font peur ou ne m'attirent pas", type: "vanilla" }] },
-      { id: 7, section: "Section 1 : Kinks & BDSM", title: "7. Les sensations extrêmes", scenario: "Une soirée 'sensation play' : cire chaude, glaçons, pinces, épingles.", options: [{ label: "A. J'aime donner : appliquer la cire, les pinces, les glaçons sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : ressentir la cire, les pinces, les glaçons sur ma peau", type: "sub" }, { label: "C. J'aime les deux : explorer toutes les sensations", type: "switch" }, { label: "D. Aucun : je préfère les sensations douces et classiques", type: "vanilla" }] },
-      { id: 8, section: "Section 1 : Kinks & BDSM", title: "8. Le jeu de rôle classique", scenario: "Vous vous rencontrez dans un bar pour la première fois, alors que vous êtes en couple depuis des années.", options: [{ label: "A. J'aime donner le rôle : je propose le scénario, je mène le jeu", type: "dom" }, { label: "B. J'aime recevoir le rôle : je suis le scénario proposé par l'autre", type: "sub" }, { label: "C. J'aime les deux : co-créer le scénario ensemble", type: "switch" }, { label: "D. Aucun : les déguisements et comédies me coupent dans mon désir", type: "vanilla" }] },
-      { id: 9, section: "Section 1 : Kinks & BDSM", title: "9. Le jeu de pouvoir structuré", scenario: "Un scénario Patron/Secrétaire ou Prof/Élève avec des règles précises.", options: [{ label: "A. J'aime donner : jouer le rôle de l'autorité", type: "dom" }, { label: "B. J'aime recevoir : jouer le rôle du subordonné", type: "sub" }, { label: "C. J'aime les deux : selon le scénario", type: "switch" }, { label: "D. Aucun : les jeux de pouvoir structurés ne m'intéressent pas", type: "vanilla" }] },
-      { id: 10, section: "Section 1 : Kinks & BDSM", title: "10. Les mots doux", scenario: "Pendant l'acte, ton/ta partenaire te murmure des compliments à l'oreille.", options: [{ label: "A. J'aime donner des compliments et valoriser mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir des compliments et être valorisé(e)", type: "sub" }, { label: "C. J'aime les deux : donner et recevoir des mots doux", type: "switch" }, { label: "D. Aucun : les mots n'ont pas d'importance pour moi", type: "vanilla" }] },
-      { id: 11, section: "Section 1 : Kinks & BDSM", title: "11. La domination verbale", scenario: "Ton/ta partenaire te donne des ordres fermes et utilise un langage cru.", options: [{ label: "A. J'aime donner : dominer verbalement, donner des ordres, utiliser un langage cru", type: "dom" }, { label: "B. J'aime recevoir : être dominé(e) verbalement, recevoir des ordres", type: "sub" }, { label: "C. J'aime les deux : alterner selon l'ambiance", type: "switch" }, { label: "D. Aucun : je préfère le silence ou les sons naturels", type: "vanilla" }] },
-      { id: 12, section: "Section 1 : Kinks & BDSM", title: "12. Les lieux insolites", scenario: "Vous êtes en voiture, dans la nature, ou dans un lieu semi-public. L'excitation monte.", options: [{ label: "A. J'aime donner : initier le jeu dans un lieu semi-public", type: "dom" }, { label: "B. J'aime recevoir : être entraîné(e) dans un lieu semi-public", type: "sub" }, { label: "C. J'aime les deux : j'adore le frisson du lieu insolite", type: "switch" }, { label: "D. Aucun : strictement en intérieur, portes fermées à clé", type: "vanilla" }] },
-      { id: 13, section: "Section 1 : Kinks & BDSM", title: "13. Être regardé", scenario: "Vous êtes dans un club libertin. D'autres personnes vous regardent.", options: [{ label: "A. J'aime donner : exhiber mon/ma partenaire devant d'autres", type: "dom" }, { label: "B. J'aime recevoir : être exhibé(e) et regardé(e)", type: "sub" }, { label: "C. J'aime les deux : regarder et être regardé(e)", type: "switch" }, { label: "D. Aucun : je ne veux pas être vu(e) ni voir d'autres", type: "vanilla" }] },
-      { id: 14, section: "Section 1 : Kinks & BDSM", title: "14. Les jouets classiques", scenario: "Vous ouvrez la boîte à jouets : vibromasseur, plug, anneau.", options: [{ label: "A. J'aime donner : utiliser les jouets sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : que mon/ma partenaire utilise les jouets sur moi", type: "sub" }, { label: "C. J'aime les deux : on partage les jouets", type: "switch" }, { label: "D. Aucun : je préfère le contact peau contre peau", type: "vanilla" }] },
-      { id: 15, section: "Section 1 : Kinks & BDSM", title: "15. Les accessoires BDSM", scenario: "Sur le lit : baillon, pinces à tétons, cagoule, harnais.", options: [{ label: "A. J'aime donner : mettre les accessoires à mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : porter les accessoires", type: "sub" }, { label: "C. J'aime les deux : on échange les rôles", type: "switch" }, { label: "D. Aucun : les accessoires BDSM ne m'attirent pas", type: "vanilla" }] },
-      { id: 16, section: "Section 1 : Kinks & BDSM", title: "16. L'électrostimulation", scenario: "Une soirée 'advanced kink' avec électrostimulation ou sondes.", options: [{ label: "A. J'aime donner : utiliser l'électrostimulation sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir l'électrostimulation", type: "sub" }, { label: "C. J'aime les deux : explorer les deux côtés", type: "switch" }, { label: "D. Aucun : trop extrême pour moi", type: "vanilla" }] },
-      { id: 17, section: "Section 1 : Kinks & BDSM", title: "17. La lingerie fine", scenario: "Ton/ta partenaire porte une lingerie en dentelle, des bas, un porte-jarretelles.", options: [{ label: "A. J'aime donner : offrir et voir mon/ma partenaire porter de la lingerie fine", type: "dom" }, { label: "B. J'aime recevoir : porter de la lingerie fine pour mon/ma partenaire", type: "sub" }, { label: "C. J'aime les deux : on aime tous les deux la lingerie", type: "switch" }, { label: "D. Aucun : la lingerie fine ne m'intéresse pas", type: "vanilla" }] },
-      { id: 18, section: "Section 1 : Kinks & BDSM", title: "18. Le cuir et le latex", scenario: "Une soirée où ton/ta partenaire porte une tenue en cuir ou en latex.", options: [{ label: "A. J'aime donner : voir mon/ma partenaire en cuir/latex", type: "dom" }, { label: "B. J'aime recevoir : porter du cuir/latex pour mon/ma partenaire", type: "sub" }, { label: "C. J'aime les deux : on aime les deux porter ces matières", type: "switch" }, { label: "D. Aucun : les matières fétichistes ne m'attirent pas", type: "vanilla" }] },
-      { id: 19, section: "Section 1 : Kinks & BDSM", title: "19. Le fétichisme ciblé", scenario: "Ton/ta partenaire a un fétichisme pour les pieds, les collants ou les sous-vêtements.", options: [{ label: "A. J'aime donner : satisfaire le fétichisme de mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : que mon/ma partenaire satisfasse mon fétichisme", type: "sub" }, { label: "C. J'aime les deux : on partage nos fétichismes", type: "switch" }, { label: "D. Aucun : je n'ai pas de fétichisme textile particulier", type: "vanilla" }] },
-      { id: 20, section: "Section 1 : Kinks & BDSM", title: "20. Le jeu avec le souffle", scenario: "Ton/ta partenaire pose sa main sur ta gorge sans pression, ou bloque légèrement ton nez.", options: [{ label: "A. J'aime donner : contrôler le souffle de mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : que mon/ma partenaire contrôle mon souffle", type: "sub" }, { label: "C. J'aime les deux : explorer les deux côtés", type: "switch" }, { label: "D. Aucun : ne jamais toucher au souffle ni au cou (Zone rouge)", type: "vanilla" }] },
-      { id: 21, section: "Section 1 : Kinks & BDSM", title: "21. Les fluides corporels", scenario: "Ton/ta partenaire éjacule sur ton corps ou ton visage.", options: [{ label: "A. J'aime donner : éjaculer sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir l'éjaculation sur mon corps", type: "sub" }, { label: "C. J'aime les deux : on aime les deux", type: "switch" }, { label: "D. Aucun : hygiène irréprochable exigée, aucun fluide hors zone", type: "vanilla" }] },
-      { id: 22, section: "Section 1 : Kinks & BDSM", title: "22. Le waterplay", scenario: "Ton/ta partenaire te propose une douche dorée (urolagnie).", options: [{ label: "A. J'aime donner : uriner sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir l'urine de mon/ma partenaire", type: "sub" }, { label: "C. J'aime les deux : on explore les deux", type: "switch" }, { label: "D. Aucun : pas pour moi", type: "vanilla" }] },
-      { id: 23, section: "Section 1 : Kinks & BDSM", title: "23. Les crachats", scenario: "Pendant l'acte, ton/ta partenaire te crache dessus ou dans la bouche.", options: [{ label: "A. J'aime donner : cracher sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir les crachats de mon/ma partenaire", type: "sub" }, { label: "C. J'aime les deux : on aime les deux", type: "switch" }, { label: "D. Aucun : pas de salive hors baiser", type: "vanilla" }] },
-      { id: 24, section: "Section 1 : Kinks & BDSM", title: "24. Le contrôle de l'orgasme", scenario: "Ton/ta partenaire te demande de retenir ton orgasme le plus longtemps possible.", options: [{ label: "A. J'aime donner : contrôler l'orgasme de mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : être contrôlé(e) et retardé(e)", type: "sub" }, { label: "C. J'aime les deux : on alterne le contrôle", type: "switch" }, { label: "D. Aucun : je préfère l'orgasme direct et fluide", type: "vanilla" }] },
-      { id: 25, section: "Section 1 : Kinks & BDSM", title: "25. La chasteté", scenario: "Ton/ta partenaire te demande de ne pas éjaculer pendant plusieurs jours.", options: [{ label: "A. J'aime donner : imposer la chasteté à mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : être en chasteté pour mon/ma partenaire", type: "sub" }, { label: "C. J'aime les deux : on joue avec le contrôle sur plusieurs jours", type: "switch" }, { label: "D. Aucun : je ne veux pas de restriction sur mon orgasme", type: "vanilla" }] },
-      { id: 26, section: "Section 1 : Kinks & BDSM", title: "26. Les orgasmes forcés", scenario: "Ton/ta partenaire te force à avoir plusieurs orgasmes d'affilée.", options: [{ label: "A. J'aime donner : imposer des orgasmes multiples à mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : être forcé(e) à avoir des orgasmes", type: "sub" }, { label: "C. J'aime les deux : on alterne", type: "switch" }, { label: "D. Aucun : je préfère un orgasme naturel", type: "vanilla" }] },
-      { id: 27, section: "Section 1 : Kinks & BDSM", title: "27. Le marquage doux", scenario: "Ton/ta partenaire te mordille le cou et te laisse des suçons.", options: [{ label: "A. J'aime donner : marquer mon/ma partenaire (morsures, suçons)", type: "dom" }, { label: "B. J'aime recevoir : être marqué(e) par mon/ma partenaire", type: "sub" }, { label: "C. J'aime les deux : on aime les marques temporaires", type: "switch" }, { label: "D. Aucun : je ne veux pas de marques", type: "vanilla" }] },
-      { id: 28, section: "Section 1 : Kinks & BDSM", title: "28. La servitude douce", scenario: "Ton/ta partenaire te demande de faire le ménage en tenue légère.", options: [{ label: "A. J'aime donner : demander des tâches domestiques à mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : servir mon/ma partenaire en tenue légère", type: "sub" }, { label: "C. J'aime les deux : on alterne les rôles", type: "switch" }, { label: "D. Aucun : pas de servitude", type: "vanilla" }] },
-      { id: 29, section: "Section 1 : Kinks & BDSM", title: "29. Le marquage durable", scenario: "Ton/ta partenaire te griffe ou te laisse des bleus assumés.", options: [{ label: "A. J'aime donner : laisser des marques durables sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir des marques durables", type: "sub" }, { label: "C. J'aime les deux : on aime les marques visibles", type: "switch" }, { label: "D. Aucun : respect absolu, aucune marque", type: "vanilla" }] },
-      { id: 30, section: "Section 1 : Kinks & BDSM", title: "30. Les jeux anaux débutants", scenario: "Ton/ta partenaire utilise un doigt ou un petit plug.", options: [{ label: "A. J'aime donner : utiliser des doigts ou plugs sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir des doigts ou plugs", type: "sub" }, { label: "C. J'aime les deux : on explore les deux", type: "switch" }, { label: "D. Aucun : pénétration vaginale/buccale uniquement", type: "vanilla" }] },
-      { id: 31, section: "Section 1 : Kinks & BDSM", title: "31. Le pegging", scenario: "Une femme pénètre un homme avec un strap-on.", options: [{ label: "A. J'aime donner : pénétrer mon/ma partenaire avec un strap-on", type: "dom" }, { label: "B. J'aime recevoir : être pénétré(e) avec un strap-on", type: "sub" }, { label: "C. J'aime les deux : on alterne", type: "switch" }, { label: "D. Aucun : le pegging ne m'intéresse pas", type: "vanilla" }] },
-      { id: 32, section: "Section 1 : Kinks & BDSM", title: "32. La dilatation avancée", scenario: "Une pratique de fisting ou de gros diamètres.", options: [{ label: "A. J'aime donner : pratiquer la dilatation sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir la dilatation", type: "sub" }, { label: "C. J'aime les deux : on explore les deux", type: "switch" }, { label: "D. Aucun : trop avancé pour moi", type: "vanilla" }] },
-      { id: 33, section: "Section 1 : Kinks & BDSM", title: "33. Le cuckolding", scenario: "Ton/ta partenaire regarde ou sait que tu couches avec quelqu'un d'autre.", options: [{ label: "A. J'aime donner : être le/la partenaire qui couche avec d'autres", type: "dom" }, { label: "B. J'aime recevoir : être le/la partenaire qui regarde ou sait", type: "sub" }, { label: "C. J'aime les deux : on alterne selon les envies", type: "switch" }, { label: "D. Aucun : monogamie stricte et exclusive", type: "vanilla" }] },
-      { id: 34, section: "Section 1 : Kinks & BDSM", title: "34. Le trio", scenario: "Un couple invite une troisième personne pour un trio.", options: [{ label: "A. J'aime donner : être l'invité(e) du couple", type: "dom" }, { label: "B. J'aime recevoir : partager mon/ma partenaire avec un(e) invité(e)", type: "sub" }, { label: "C. J'aime les deux : on aime les trios dans toutes les configurations", type: "switch" }, { label: "D. Aucun : pas de partage", type: "vanilla" }] },
-      { id: 35, section: "Section 1 : Kinks & BDSM", title: "35. Le polyamour", scenario: "Ton/ta partenaire a une autre relation amoureuse ou sexuelle assumée.", options: [{ label: "A. J'aime donner : avoir plusieurs relations", type: "dom" }, { label: "B. J'aime recevoir : accepter que mon/ma partenaire ait d'autres relations", type: "sub" }, { label: "C. J'aime les deux : relation ouverte et transparente", type: "switch" }, { label: "D. Aucun : monogamie stricte", type: "vanilla" }] },
-      { id: 36, section: "Section 1 : Kinks & BDSM", title: "36. La cire chaude", scenario: "Ton/ta partenaire fait couler de la cire de bougie sur ta peau.", options: [{ label: "A. J'aime donner : faire couler la cire sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : recevoir la cire chaude", type: "sub" }, { label: "C. J'aime les deux : on alterne", type: "switch" }, { label: "D. Aucun : pas de jeux de température", type: "vanilla" }] },
-      { id: 37, section: "Section 1 : Kinks & BDSM", title: "37. L'alternance thermique", scenario: "Ton/ta partenaire alterne glaçon et cire chaude sur ta peau.", options: [{ label: "A. J'aime donner : alterner les sensations sur mon/ma partenaire", type: "dom" }, { label: "B. J'aime recevoir : ressentir l'alternance", type: "sub" }, { label: "C. J'aime les deux : on explore les deux", type: "switch" }, { label: "D. Aucun : température ambiante uniquement", type: "vanilla" }] },
-      { id: 38, section: "Section 1 : Kinks & BDSM", title: "38. Le CNC léger", scenario: "Un scénario de prise de force simulée, avec un mot-clé de sécurité.", options: [{ label: "A. J'aime donner : jouer le rôle de l'agresseur simulé", type: "dom" }, { label: "B. J'aime recevoir : jouer le rôle de la victime simulée", type: "sub" }, { label: "C. J'aime les deux : on alterne les rôles", type: "switch" }, { label: "D. Aucun : consentement explicite et continu à chaque étape", type: "vanilla" }] },
-      { id: 39, section: "Section 1 : Kinks & BDSM", title: "39. La somnophilie", scenario: "Ton/ta partenaire te réveille en douceur par des caresses ou du sexe.", options: [{ label: "A. J'aime donner : réveiller mon/ma partenaire par des caresses", type: "dom" }, { label: "B. J'aime recevoir : être réveillé(e) par des caresses", type: "sub" }, { label: "C. J'aime les deux : on aime les deux", type: "switch" }, { label: "D. Aucun : je veux être réveillé(e) et consentir en étant éveillé(e)", type: "vanilla" }] },
-      { id: 40, section: "Section 1 : Kinks & BDSM", title: "40. Les protocoles BDSM", scenario: "Un contrat écrit avec des règles de domination et de soumission.", options: [{ label: "A. J'aime donner : établir les règles et le protocole", type: "dom" }, { label: "B. J'aime recevoir : suivre les règles et le protocole", type: "sub" }, { label: "C. J'aime les deux : on co-construit le contrat", type: "switch" }, { label: "D. Aucun : spontanéité totale, pas de règles", type: "vanilla" }] },
-
-      // SECTION 2
-      { id: 41, section: "Section 2 : Préférences Physiques", title: "41. Morphologie & Silhouette", scenario: "Tu croises quelqu'un dans un bar. Son physique attire ton regard.", options: [{ label: "A. Mince / Élancé(e) / Athlétique", type: "pref" }, { label: "B. Fit / Musclé(e) / Découpé(e)", type: "pref" }, { label: "C. Curvy / En formes / Pulpeuse ou Enrobé / Massif", type: "pref" }, { label: "D. Peu importe la morphologie, c'est le charisme qui compte", type: "pref" }] },
-      { id: 42, section: "Section 2 : Préférences Physiques", title: "42. Poitrine / Buste", scenario: "Tu es attiré(e) par une personne et tu remarques son buste.", options: [{ label: "A. Petite poitrine / Buste menu & fin", type: "pref" }, { label: "B. Poitrine moyenne / Proportions équilibrées", type: "pref" }, { label: "C. Généreuse / Gros seins / Pectoraux très développés", type: "pref" }, { label: "D. Pas de préférence spécifique", type: "pref" }] },
-      { id: 43, section: "Section 2 : Préférences Physiques", title: "43. Fessiers & Hanches", scenario: "Tu danses avec quelqu'un et tu poses tes mains sur ses hanches.", options: [{ label: "A. Fessier rebondi / Hanches marquées / 'Gros cul'", type: "pref" }, { label: "B. Fessier ferme, sculpté et sportif", type: "pref" }, { label: "C. Silhouette fine et étroite", type: "pref" }, { label: "D. Pas d'importance particulière", type: "pref" }] },
-      { id: 44, section: "Section 2 : Préférences Physiques", title: "44. Style vestimentaire", scenario: "Tu vois quelqu'un dans la rue et son style t'attire immédiatement.", options: [{ label: "A. Ultra sexy, moulant, décolletés, mettant les formes en valeur", type: "pref" }, { label: "B. Casual / Chic / Élégant (soigné sans être provocant)", type: "pref" }, { label: "C. Streetwear / Sportswear / Décontracté", type: "pref" }, { label: "D. Alternative / Gothique / Rock / Tatoué(e)", type: "pref" }] },
-      { id: 45, section: "Section 2 : Préférences Physiques", title: "45. Pilosité & Entretien", scenario: "Tu découvres le corps de ton/ta partenaire pour la première fois.", options: [{ label: "A. Intégralement rasé(e) / Épilé(e)", type: "pref" }, { label: "B. Entretien naturel (taille propre, pilosité légère)", type: "pref" }, { label: "C. Pilosité naturelle assumée / Barbe fournie", type: "pref" }, { label: "D. Pas de critère bloquant", type: "pref" }] },
-      { id: 46, section: "Section 2 : Préférences Physiques", title: "46. Taille & Proportion", scenario: "Tu rencontres quelqu'un et tu remarques sa taille par rapport à la tienne.", options: [{ label: "A. Plus grand(e) que moi", type: "pref" }, { label: "B. Plus petit(e) que moi", type: "pref" }, { label: "C. Ma taille approximativement", type: "pref" }, { label: "D. La taille n'a aucune importance", type: "pref" }] },
-      { id: 47, section: "Section 2 : Préférences Physiques", title: "47. Yeux & Regard", scenario: "Tu plonges ton regard dans celui de quelqu'un.", options: [{ label: "A. Yeux clairs (bleus, verts, gris)", type: "pref" }, { label: "B. Yeux foncés (noirs, marron profond)", type: "pref" }, { label: "C. Yeux vifs et expressifs, peu importe la couleur", type: "pref" }, { label: "D. Le regard et l'intensité comptent plus que la couleur", type: "pref" }] },
-      { id: 48, section: "Section 2 : Préférences Physiques", title: "48. Cheveux", scenario: "Tu passes ta main dans les cheveux de quelqu'un.", options: [{ label: "A. Longs et soyeux", type: "pref" }, { label: "B. Courts et coiffés", type: "pref" }, { label: "C. Bouclés / Ondulés / Crépus", type: "pref" }, { label: "D. Peu importe, tant que la personne assume", type: "pref" }] },
-      { id: 49, section: "Section 2 : Préférences Physiques", title: "49. Voix & Élocution", scenario: "Tu entends quelqu'un parler pour la première fois.", options: [{ label: "A. Voix grave et profonde", type: "pref" }, { label: "B. Voix douce et posée", type: "pref" }, { label: "C. Voix assurée et charismatique", type: "pref" }, { label: "D. La voix n'est pas un critère déterminant", type: "pref" }] },
-      { id: 50, section: "Section 2 : Préférences Physiques", title: "50. Âge & Maturité", scenario: "Tu rencontres quelqu'un et tu apprends son âge.", options: [{ label: "A. Plus jeune que moi", type: "pref" }, { label: "B. Mon âge approximativement", type: "pref" }, { label: "C. Plus âgé(e) que moi", type: "pref" }, { label: "D. L'âge n'a pas d'importance, c'est la maturité qui compte", type: "pref" }] }
-    ];
-
-    let currentQuestionIndex = 0;
-    const answers = {};
-
-    function renderQuestion() {
-      const q = questions[currentQuestionIndex];
-      document.getElementById('section-name').innerText = q.section;
-      document.getElementById('question-text').innerText = q.title;
-      document.getElementById('scenario-text').innerText = q.scenario;
-
-      const container = document.getElementById('options-container');
-      container.innerHTML = '';
-
-      q.options.forEach((option, idx) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        if (answers[q.id] && answers[q.id].optionIndex === idx) {
-          btn.classList.add('selected');
-        }
-        btn.innerText = option.label;
-        btn.onclick = () => selectOption(idx, option.type, option.label);
-        container.appendChild(btn);
-      });
-
-      // Update Navigation
-      document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
-      document.getElementById('next-btn').disabled = !answers[q.id];
-      document.getElementById('next-btn').innerText = (currentQuestionIndex === questions.length - 1) ? "Terminer" : "Suivant";
-
-      // Progress bar
-      const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
-      document.getElementById('progress').style.width = progressPercent + '%';
-    }
-
-    function selectOption(optionIndex, type, label) {
-      const q = questions[currentQuestionIndex];
-      answers[q.id] = { optionIndex, type, label, title: q.title };
-
-      // UI Update
-      const btns = document.querySelectorAll('.option-btn');
-      btns.forEach((btn, idx) => {
-        if (idx === optionIndex) btn.classList.add('selected');
-        else btn.classList.remove('selected');
-      });
-
-      document.getElementById('next-btn').disabled = false;
-    }
-
-    function nextQuestion() {
-      if (currentQuestionIndex < questions.length - 1) {
-        currentQuestionIndex++;
-        renderQuestion();
-      } else {
-        showResults();
-      }
-    }
-
-    function prevQuestion() {
-      if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        renderQuestion();
-      }
-    }
-
-    function showResults() {
-      document.getElementById('quiz').style.display = 'none';
-      document.getElementById('results').style.display = 'block';
-
-      let domScore = 0;
-      let subScore = 0;
-      let switchScore = 0;
-      let vanillaScore = 0;
-
-      const physicalSummary = [];
-
-      // Calculate Scores
-      Object.keys(answers).forEach(qId => {
-        const ans = answers[qId];
-        if (ans.type === 'dom') domScore += 2;
-        else if (ans.type === 'sub') subScore += 2;
-        else if (ans.type === 'switch') { domScore += 1; subScore += 1; switchScore += 1; }
-        else if (ans.type === 'vanilla') vanillaScore += 1;
-        else if (ans.type === 'pref') {
-          physicalSummary.push({ question: ans.title, answer: ans.label });
-        }
-      });
-
-      document.getElementById('score-dom').innerText = domScore;
-      document.getElementById('score-sub').innerText = subScore;
-      document.getElementById('score-switch').innerText = switchScore;
-      document.getElementById('score-vanilla').innerText = vanillaScore;
-
-      // Determine main profile
-      const scores = [
-        { type: "Dominant / Actif", value: domScore },
-        { type: "Soumis / Passif", value: subScore },
-        { type: "Switch / Versatile", value: switchScore * 2 },
-        { type: "Vanilla / Égalitaire", value: vanillaScore * 2 }
-      ];
-      scores.sort((a, b) => b.value - a.value);
-
-      document.getElementById('main-profile').innerText = `Ton profil dominant est : ${scores[0].type}`;
-
-      // Render physical summary
-      const prefContainer = document.getElementById('physical-summary');
-      prefContainer.innerHTML = '';
-      physicalSummary.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'pref-item';
-        div.innerHTML = `<strong>${item.question} :</strong> ${item.answer}`;
-        prefContainer.appendChild(div);
-      });
-    }
-
-    function restartQuiz() {
-      currentQuestionIndex = 0;
-      for (let member in answers) delete answers[member];
-      document.getElementById('results').style.display = 'none';
-      document.getElementById('quiz').style.display = 'block';
-      renderQuestion();
-    }
-
-    // Init
-    renderQuestion();
-  </script>
-</body>
-</html>
+    const quizData = [
+      {
+        section: "1. DYNAMIQUES DE POUVOIR & CONTRÔLE",
+        questions: [
+          { q: "Q1. Le jeu de l'autorité — Vous êtes avec un partenaire. L'ambiance est tendue, sexy. Qui mène la danse ?", options: [
+            { text: "A. Je prends les rênes, je donne les ordres, je guide chaque geste.", type: "D", cat: "Pouvoir" },
+            { text: "B. Je me laisse guider, j'obéis, j'abandonne le contrôle.", type: "R", cat: "Pouvoir" },
+            { text: "C. J'aime alterner : parfois je domine, parfois je me soumets.", type: "L", cat: "Pouvoir" },
+            { text: "D. On est égal à égal, pas de jeu de pouvoir.", type: "A", cat: "Pouvoir" }
+          ]},
+          { q: "Q2. Le protocole quotidien — Vous êtes en couple D/s. Le quotidien est rythmé par des règles.", options: [
+            { text: "A. J'impose les règles, je vérifie qu'elles sont respectées, je sanctionne.", type: "D", cat: "Pouvoir" },
+            { text: "B. Je vis selon les règles, j'attends les consignes, je rends des comptes.", type: "R", cat: "Pouvoir" },
+            { text: "C. On alterne selon les jours ou les humeurs.", type: "L", cat: "Pouvoir" },
+            { text: "D. Très peu pour moi, je préfère la spontanéité totale.", type: "A", cat: "Pouvoir" }
+          ]},
+          { q: "Q3. La servitude volontaire — Un partenaire vous propose de devenir son service personnel.", options: [
+            { text: "A. J'aime avoir quelqu'un à mon service, voir sa dévotion.", type: "D", cat: "Pouvoir" },
+            { text: "B. J'aime servir, me rendre utile, me sentir à disposition.", type: "R", cat: "Pouvoir" },
+            { text: "C. J'aime donner ET recevoir selon les moments.", type: "L", cat: "Pouvoir" },
+            { text: "D. Ça me met mal à l'aise, je préfère l'égalité.", type: "A", cat: "Pouvoir" }
+          ]},
+          { q: "Q4. Le contrat écrit — Et si on formalisait notre dynamique par un contrat écrit ?", options: [
+            { text: "A. J'aime rédiger, imposer un cadre clair, contractualiser.", type: "D", cat: "Pouvoir" },
+            { text: "B. J'aime signer, m'engager, avoir un cadre rassurant.", type: "R", cat: "Pouvoir" },
+            { text: "C. On peut le faire à deux, en négociant ensemble.", type: "L", cat: "Pouvoir" },
+            { text: "D. Un contrat tue la spontanéité, je préfère la confiance.", type: "A", cat: "Pouvoir" }
+          ]},
+          { q: "Q5. La punition — Votre partenaire a 'désobéi' (dans le jeu). Comment réagissez-vous ?", options: [
+            { text: "A. Je punis : fessée, privation, humiliation contrôlée.", type: "D", cat: "Pouvoir" },
+            { text: "B. J'attends la punition, j'aime être corrigé(e).", type: "R", cat: "Pouvoir" },
+            { text: "C. Parfois je punis, parfois je suis puni(e).", type: "L", cat: "Pouvoir" },
+            { text: "D. Pas de punition, on discute ou on passe à autre chose.", type: "A", cat: "Pouvoir" }
+          ]},
+          { q: "Q6. Le collier — Un collier de soumission est posé sur la table. Que ressentez-vous ?", options: [
+            { text: "A. J'aime l'idée de le mettre à quelqu'un, de le marquer.", type: "D", cat: "Pouvoir" },
+            { text: "B. J'aime le porter, me sentir appartenir à quelqu'un.", type: "R", cat: "Pouvoir" },
+            { text: "C. J'aime les deux : porter et offrir.", type: "L", cat: "Pouvoir" },
+            { text: "D. Aucun attrait pour ce symbole.", type: "A", cat: "Pouvoir" }
+          ]},
+          { q: "Q7. Le 'brat' — Votre partenaire adore vous provoquer, feindre le refus.", options: [
+            { text: "A. J'adore recadrer, reprendre le contrôle, dompter.", type: "D", cat: "Pouvoir" },
+            { text: "B. J'adore être le/la brat, provoquer pour me faire recadrer.", type: "R", cat: "Pouvoir" },
+            { text: "C. J'aime alterner entre les deux rôles.", type: "L", cat: "Pouvoir" },
+            { text: "D. Ça m'épuise, je préfère quelqu'un de docile ou d'égal.", type: "A", cat: "Pouvoir" }
+          ]},
+          { q: "Q8. La fessée — Vous êtes face à un partenaire qui vous propose une séance de fessée.", options: [
+            { text: "A. J'aime donner la fessée, sentir la peau rougir.", type: "D", cat: "Pouvoir" },
+            { text: "B. J'aime recevoir, sentir la chaleur, la douleur contrôlée.", type: "R", cat: "Pouvoir" },
+            { text: "C. J'aime donner et recevoir.", type: "L", cat: "Pouvoir" },
+            { text: "D. Pas pour moi, aucune douleur.", type: "A", cat: "Pouvoir" }
+          ]}
+        ]
+      },
+      {
+        section: "2. RESTRICTION, BONDAGE & IMMOBILISATION",
+        questions: [
+          { q: "Q9. Les cordes — Un partenaire expérimenté vous propose une séance de shibari.", options: [
+            { text: "A. J'aime nouer, créer des motifs, immobiliser l'autre.", type: "D", cat: "Bondage" },
+            { text: "B. J'aime être noué(e), suspendu(e), ne plus pouvoir bouger.", type: "R", cat: "Bondage" },
+            { text: "C. J'aime les deux : nouer et être noué(e).", type: "L", cat: "Bondage" },
+            { text: "D. Pas pour moi, j'ai besoin de liberté de mouvement.", type: "A", cat: "Bondage" }
+          ]},
+          { q: "Q10. Les menottes — Une paire de menottes souples traîne sur le lit.", options: [
+            { text: "A. J'aime menotter l'autre, le/la regarder se débattre.", type: "D", cat: "Bondage" },
+            { text: "B. J'aime être menotté(e), me sentir vulnérable.", type: "R", cat: "Bondage" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Bondage" },
+            { text: "D. Non merci, je préfère les mains libres.", type: "A", cat: "Bondage" }
+          ]},
+          { q: "Q11. La privation sensorielle — Yeux bandés, casque antibruit, gants.", options: [
+            { text: "A. J'aime priver l'autre, le/la voir désorienté(e).", type: "D", cat: "Bondage" },
+            { text: "B. J'aime être privé(e) de mes sens, ne plus savoir ce qui vient.", type: "R", cat: "Bondage" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Bondage" },
+            { text: "D. Ça m'angoisse, j'ai besoin de voir et d'entendre.", type: "A", cat: "Bondage" }
+          ]},
+          { q: "Q12. La cage de chasteté — Un dispositif de chasteté verrouillé est proposé.", options: [
+            { text: "A. J'aime imposer la chasteté, garder la clé et contrôler le plaisir.", type: "D", cat: "Bondage" },
+            { text: "B. J'aime porter la cage, abandonner la clé et supplier.", type: "R", cat: "Bondage" },
+            { text: "C. J'aime les deux rôles.", type: "L", cat: "Bondage" },
+            { text: "D. Aucun attrait pour le contrôle du plaisir par cage.", type: "A", cat: "Bondage" }
+          ]},
+          { q: "Q13. Le bondage élaboré — Cordes, sangles, suspension totale.", options: [
+            { text: "A. J'aime concevoir et exécuter un bondage complexe.", type: "D", cat: "Bondage" },
+            { text: "B. J'aime être totalement immobilisé(e), suspendu(e).", type: "R", cat: "Bondage" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Bondage" },
+            { text: "D. Trop risqué ou trop intense pour moi.", type: "A", cat: "Bondage" }
+          ]},
+          { q: "Q14. Le bâillon — Un bâillon est posé devant vous.", options: [
+            { text: "A. J'aime bâillonner, réduire l'autre au silence.", type: "D", cat: "Bondage" },
+            { text: "B. J'aime être bâillonné(e), ne plus pouvoir parler.", type: "R", cat: "Bondage" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Bondage" },
+            { text: "D. Pas pour moi, j'aime parler ou entendre librement.", type: "A", cat: "Bondage" }
+          ]},
+          { q: "Q15. Le sarcophage / Vacuum Bed — Un sac sous vide en latex enveloppe le corps.", options: [
+            { text: "A. J'aime enfermer l'autre sous vide et observer sa soumission.", type: "D", cat: "Bondage" },
+            { text: "B. J'aime me sentir compressé(e), incapable du moindre geste.", type: "R", cat: "Bondage" },
+            { text: "C. J'aime les deux sensations.", type: "L", cat: "Bondage" },
+            { text: "D. Claustrophobie totale, limite absolue.", type: "A", cat: "Bondage" }
+          ]}
+        ]
+      },
+      {
+        section: "3. IMPACT & SENSATIONS PHYSIQUES",
+        questions: [
+          { q: "Q16. La cravache — Une cravache est posée sur la table.", options: [
+            { text: "A. J'aime manier la cravache, laisser des marques.", type: "D", cat: "Impact" },
+            { text: "B. J'aime recevoir des coups de cravache, sentir la morsure.", type: "R", cat: "Impact" },
+            { text: "C. J'aime donner et recevoir.", type: "L", cat: "Impact" },
+            { text: "D. Trop violent pour moi.", type: "A", cat: "Impact" }
+          ]},
+          { q: "Q17. La cire chaude — Une bougie BDSM est allumée.", options: [
+            { text: "A. J'aime faire couler la cire, voir l'autre frissonner.", type: "D", cat: "Impact" },
+            { text: "B. J'aime recevoir la cire chaude sur ma peau.", type: "R", cat: "Impact" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Impact" },
+            { text: "D. Pas pour moi, trop de risque de brûlure.", type: "A", cat: "Impact" }
+          ]},
+          { q: "Q18. Les pinces — Des pinces à tétons ou à peau sont proposées.", options: [
+            { text: "A. J'aime poser les pinces, ajuster la pression.", type: "D", cat: "Impact" },
+            { text: "B. J'aime recevoir les pinces, sentir la morsure.", type: "R", cat: "Impact" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Impact" },
+            { text: "D. Aucun attrait pour la douleur localisée.", type: "A", cat: "Impact" }
+          ]},
+          { q: "Q19. L'électrostimulation — Un module d'électrostimulation est disponible.", options: [
+            { text: "A. J'aime contrôler les décharges, jouer avec les nerfs.", type: "D", cat: "Impact" },
+            { text: "B. J'aime recevoir les décharges, sentir l'électricité.", type: "R", cat: "Impact" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Impact" },
+            { text: "D. Ça me terrifie ou ne m'attire pas.", type: "A", cat: "Impact" }
+          ]},
+          { q: "Q20. Le marquage — Mordre, sucer, griffer jusqu'à laisser des traces.", options: [
+            { text: "A. J'aime marquer, laisser une trace de mon passage.", type: "D", cat: "Impact" },
+            { text: "B. J'aime être marqué(e), porter les traces.", type: "R", cat: "Impact" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Impact" },
+            { text: "D. Pas de marque, je veux rester impeccable.", type: "A", cat: "Impact" }
+          ]},
+          { q: "Q21. Needle play — Piqûres, aiguilles, sensations d'insertion cutanée.", options: [
+            { text: "A. J'aime manipuler les aiguilles et franchir la peau.", type: "D", cat: "Impact" },
+            { text: "B. J'aime être percé(e), sentir la pénétration du métal.", type: "R", cat: "Impact" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Impact" },
+            { text: "D. Jamais, c'est une limite absolue.", type: "A", cat: "Impact" }
+          ]},
+          { q: "Q22. Temperature Play — Alterner glaçons fondants et huiles très chaudes.", options: [
+            { text: "A. J'aime appliquer le chaud et le froid pour faire frissonner.", type: "D", cat: "Impact" },
+            { text: "B. J'aime subir les chocs thermiques sur ma peau.", type: "R", cat: "Impact" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Impact" },
+            { text: "D. Inconfortable, sans intérêt pour moi.", type: "A", cat: "Impact" }
+          ]},
+          { q: "Q23. Caning / Martinet — Un bambou ou martinet dur pour frapper fort.", options: [
+            { text: "A. J'aime frapper avec précision pour laisser des marbrures.", type: "D", cat: "Impact" },
+            { text: "B. J'aime la douleur cinglante et l'endorphine qui suit.", type: "R", cat: "Impact" },
+            { text: "C. J'aime donner et recevoir.", type: "L", cat: "Impact" },
+            { text: "D. Trop douloureux ou punitif.", type: "A", cat: "Impact" }
+          ]}
+        ]
+      },
+      {
+        section: "4. JEUX DE RÔLE & PSYCHOLOGIE (MIND GAMES)",
+        questions: [
+          { q: "Q24. Le scénario classique — Jouer aux inconnus dans un bar.", options: [
+            { text: "A. J'aime initier le scénario, jouer le séducteur/dominant.", type: "D", cat: "Mind" },
+            { text: "B. J'aime jouer l'inconnu(e) séduit(e), suivre le jeu.", type: "R", cat: "Mind" },
+            { text: "C. J'aime les deux rôles.", type: "L", cat: "Mind" },
+            { text: "D. Les comédies me coupent dans mon désir.", type: "A", cat: "Mind" }
+          ]},
+          { q: "Q25. Jeu de pouvoir structuré — Patron/Secrétaire, Prof/Élève.", options: [
+            { text: "A. J'aime jouer le rôle de l'autorité.", type: "D", cat: "Mind" },
+            { text: "B. J'aime jouer le rôle du subordonné.", type: "R", cat: "Mind" },
+            { text: "C. J'aime alterner.", type: "L", cat: "Mind" },
+            { text: "D. Pas de roleplay pour moi.", type: "A", cat: "Mind" }
+          ]},
+          { q: "Q26. Ageplay / Petplay — Jouer un rôle régressif ou animal (puppy, kitten).", options: [
+            { text: "A. J'aime prendre soin, dresser, jouer le master/protecteur.", type: "D", cat: "Mind" },
+            { text: "B. J'aime être dressé(e), choyé(e) ou en état régressif.", type: "R", cat: "Mind" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Mind" },
+            { text: "D. Ça ne m'attire pas du tout.", type: "A", cat: "Mind" }
+          ]},
+          { q: "Q27. Teasing & Frustration — Messages suggestifs toute la journée et attente.", options: [
+            { text: "A. J'aime teaser, allumer à distance, frustrer sciemment.", type: "D", cat: "Mind" },
+            { text: "B. J'aime être teasé(e), attendre, être au bord de la folie.", type: "R", cat: "Mind" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Mind" },
+            { text: "D. Je préfère la simplicité, sans jeu de patience.", type: "A", cat: "Mind" }
+          ]},
+          { q: "Q28. Hypnose érotique & Mind Control — Transe et conditionnement.", options: [
+            { text: "A. J'aime guider, conditionner, induire la transe.", type: "D", cat: "Mind" },
+            { text: "B. J'aime être guidé(e), perdre le contrôle mental.", type: "R", cat: "Mind" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Mind" },
+            { text: "D. Je n'y crois pas ou ça m'angoisse.", type: "A", cat: "Mind" }
+          ]},
+          { q: "Q29. Dégradation verbale / Dirty Talk — Mots crus, ordres, insultes rabaissantes.", options: [
+            { text: "A. J'aime dominer verbalement, utiliser des mots humiliants.", type: "D", cat: "Mind" },
+            { text: "B. J'aime être insulté(e), rabaissé(e) de manière crue.", type: "R", cat: "Mind" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Mind" },
+            { text: "D. Je préfère les mots doux ou le silence.", type: "A", cat: "Mind" }
+          ]},
+          { q: "Q30. Gender Play / Sissification — Adopter les codes du genre opposé.", options: [
+            { text: "A. J'aime transformer mon partenaire et diriger le look.", type: "D", cat: "Mind" },
+            { text: "B. J'aime être transformé(e), habillé(e) à l'opposé.", type: "R", cat: "Mind" },
+            { text: "C. J'aime explorer les deux côtés.", type: "L", cat: "Mind" },
+            { text: "D. Hors de question, aucun intérêt.", type: "A", cat: "Mind" }
+          ]},
+          { q: "Q31. Bi Play / Encouragement Bisexuel — Pousser à essayer avec le même sexe.", options: [
+            { text: "A. J'aime ordonner ou inciter mon partenaire à essayer.", type: "D", cat: "Mind" },
+            { text: "B. J'aime recevoir cet ordre pour franchir le pas.", type: "R", cat: "Mind" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Mind" },
+            { text: "D. Aucun intérêt pour ce scénario.", type: "A", cat: "Mind" }
+          ]}
+        ]
+      },
+      {
+        section: "5. EXHIBITION, VOYEURISME & LIEUX OBSCURS",
+        questions: [
+          { q: "Q32. Lieu semi-public — Voiture, nature, risque d'être vu.", options: [
+            { text: "A. J'aime initier, provoquer, prendre le risque.", type: "D", cat: "Exhibition" },
+            { text: "B. J'aime suivre, me laisser entraîner, avoir peur mais céder.", type: "R", cat: "Exhibition" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Exhibition" },
+            { text: "D. Strictement en intérieur, portes fermées.", type: "A", cat: "Exhibition" }
+          ]},
+          { q: "Q33. Club libertin — Ambiance collective et regards.", options: [
+            { text: "A. J'aime être vu(e), me donner en spectacle.", type: "D", cat: "Exhibition" },
+            { text: "B. J'aime regarder, observer, me masturber en regardant.", type: "R", cat: "Exhibition" },
+            { text: "C. J'aime les deux : regarder et être regardé(e).", type: "L", cat: "Exhibition" },
+            { text: "D. Je ne suis pas à l'aise dans ce contexte.", type: "A", cat: "Exhibition" }
+          ]},
+          { q: "Q34. Glory Hole traditionnel — Cloison percée et anonymat.", options: [
+            { text: "A. J'aime passer mon sexe et attendre qu'on s'en occupe.", type: "D", cat: "Exhibition" },
+            { text: "B. J'aime m'occuper de ce qui apparaît sans savoir qui c'est.", type: "R", cat: "Exhibition" },
+            { text: "C. J'aime les deux côtés.", type: "L", cat: "Exhibition" },
+            { text: "D. L'anonymat ne m'attire pas.", type: "A", cat: "Exhibition" }
+          ]},
+          { q: "Q35. Reverse Glory Hole — Offrir bouche, fesses ou mains à travers la paroi.", options: [
+            { text: "A. J'aime profiter de l'ouverture proposée par l'inconnu(e).", type: "D", cat: "Exhibition" },
+            { text: "B. J'aime m'exposer à travers la paroi et subir le plaisir.", type: "R", cat: "Exhibition" },
+            { text: "C. J'aime les deux positions.", type: "L", cat: "Exhibition" },
+            { text: "D. Trop d'inconnu ou d'inconfort.", type: "A", cat: "Exhibition" }
+          ]},
+          { q: "Q36. Darkroom / Pièce noire — Obscurité totale et frôlements anonymes.", options: [
+            { text: "A. J'aime errer dans le noir et toucher/pénétrer les corps.", type: "D", cat: "Exhibition" },
+            { text: "B. J'aime attendre dans l'ombre et me faire caresser/prendre.", type: "R", cat: "Exhibition" },
+            { text: "C. J'aime les deux dynamiques.", type: "L", cat: "Exhibition" },
+            { text: "D. Le noir complet me fait peur ou me rebute.", type: "A", cat: "Exhibition" }
+          ]},
+          { q: "Q37. Dogging / Cruising — Rencontres rapides en extérieur.", options: [
+            { text: "A. J'aime chasser, proposer et prendre l'initiative.", type: "D", cat: "Exhibition" },
+            { text: "B. J'aime être approché(e), séduit(e) sur place sans parler.", type: "R", cat: "Exhibition" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Exhibition" },
+            { text: "D. Trop risqué ou pas mon truc.", type: "A", cat: "Exhibition" }
+          ]},
+          { q: "Q38. Webcam / Show privé — Diffusion en direct.", options: [
+            { text: "A. J'aime me montrer, performer, exciter le spectateur.", type: "D", cat: "Exhibition" },
+            { text: "B. J'aime regarder, donner des consignes à l'écran.", type: "R", cat: "Exhibition" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Exhibition" },
+            { text: "D. Je ne veux pas être exposé(e) en ligne.", type: "A", cat: "Exhibition" }
+          ]},
+          { q: "Q39. Voyeurisme accepté — Observer un couple consentant.", options: [
+            { text: "A. J'aime être le voyeur, observer en silence.", type: "D", cat: "Exhibition" },
+            { text: "B. J'aime être au sein du couple, savoir qu'on nous observe.", type: "R", cat: "Exhibition" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Exhibition" },
+            { text: "D. Je ne suis pas à l'aise avec cette idée.", type: "A", cat: "Exhibition" }
+          ]},
+          { q: "Q40. Labyrinthe / Backroom — Évoluer dans un dédale avec matériel scénique.", options: [
+            { text: "A. J'aime attacher/utiliser quelqu'un aux yeux de tous.", type: "D", cat: "Exhibition" },
+            { text: "B. J'aime être attaché(e)/disponible au milieu du passage.", type: "R", cat: "Exhibition" },
+            { text: "C. J'aime les deux situations.", type: "L", cat: "Exhibition" },
+            { text: "D. Inconfortable pour moi.", type: "A", cat: "Exhibition" }
+          ]}
+        ]
+      },
+      {
+        section: "6. FLUIDES, HUMEURS & SENSORIALITÉ",
+        questions: [
+          { q: "Q41. Creampie — Éjaculation interne.", options: [
+            { text: "A. J'aime éjaculer à l'intérieur, remplir.", type: "D", cat: "Fluides" },
+            { text: "B. J'aime recevoir l'éjaculation à l'intérieur.", type: "R", cat: "Fluides" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Fluides" },
+            { text: "D. Pas sans protection ou pas du tout.", type: "A", cat: "Fluides" }
+          ]},
+          { q: "Q42. Faciale / Cumshot — Éjaculation sur le visage ou le corps.", options: [
+            { text: "A. J'aime viser et éjaculer sur la peau ou le visage.", type: "D", cat: "Fluides" },
+            { text: "B. J'aime recevoir le liquide chaud sur mon visage/corps.", type: "R", cat: "Fluides" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Fluides" },
+            { text: "D. Question d'hygiène ou de rejet du geste.", type: "A", cat: "Fluides" }
+          ]},
+          { q: "Q43. Golden Shower / Urophilie — Jeux érotiques avec l'urine.", options: [
+            { text: "A. J'aime uriner sur mon partenaire.", type: "D", cat: "Fluides" },
+            { text: "B. J'aime recevoir l'urine de mon partenaire.", type: "R", cat: "Fluides" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Fluides" },
+            { text: "D. Limite absolue, rejet total.", type: "A", cat: "Fluides" }
+          ]},
+          { q: "Q44. Spit Play — Cracher ou recevoir de la salive.", options: [
+            { text: "A. J'aime cracher sur le corps ou dans la bouche.", type: "D", cat: "Fluides" },
+            { text: "B. J'aime recevoir la salive comme marque d'appropriation.", type: "R", cat: "Fluides" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Fluides" },
+            { text: "D. Ça me dégoûte.", type: "A", cat: "Fluides" }
+          ]},
+          { q: "Q45. Bukkake — Éjaculations multiples ciblées.", options: [
+            { text: "A. J'aime être l'un des participants qui arrosent.", type: "D", cat: "Fluides" },
+            { text: "B. J'aime être la personne recouverte par les éjaculations.", type: "R", cat: "Fluides" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Fluides" },
+            { text: "D. Aucun attrait.", type: "A", cat: "Fluides" }
+          ]},
+          { q: "Q46. Snowballing — Partager le fluide buccalement après l'acte.", options: [
+            { text: "A. J'aime transmettre le fluide directement par baiser.", type: "D", cat: "Fluides" },
+            { text: "B. J'aime recevoir le fluide ramené par la bouche de l'autre.", type: "R", cat: "Fluides" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Fluides" },
+            { text: "D. Pas pour moi.", type: "A", cat: "Fluides" }
+          ]},
+          { q: "Q47. Smell play / Sueur — Excitation liée aux odeurs corporelles fortes.", options: [
+            { text: "A. J'aime faire sentir mes odeurs corporelles concentrées.", type: "D", cat: "Fluides" },
+            { text: "B. J'aime plonger mon visage dans la sueur/aisselles.", type: "R", cat: "Fluides" },
+            { text: "C. Je me plaît dans les deux rôles.", type: "L", cat: "Fluides" },
+            { text: "D. Je préfère les corps douchés et parfumés.", type: "A", cat: "Fluides" }
+          ]},
+          { q: "Q48. Food Play — Manger directement sur la peau.", options: [
+            { text: "A. J'aime étaler, lécher la nourriture sur l'autre.", type: "D", cat: "Fluides" },
+            { text: "B. J'aime servir de plateau ou être nourri(e) directement.", type: "R", cat: "Fluides" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Fluides" },
+            { text: "D. Ça colle, c'est désagréable.", type: "A", cat: "Fluides" }
+          ]}
+        ]
+      },
+      {
+        section: "7. PÉNÉTRATION, DILATATION & ANATOMIE",
+        questions: [
+          { q: "Q49. Pegging — Pénétration d'un homme par une femme avec un strap-on.", options: [
+            { text: "A. J'aime porter le strap-on et pénétrer mon partenaire.", type: "D", cat: "Penetration" },
+            { text: "B. J'aime recevoir le strap-on de ma partenaire.", type: "R", cat: "Penetration" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Penetration" },
+            { text: "D. Pas attirant pour moi.", type: "A", cat: "Penetration" }
+          ]},
+          { q: "Q50. Fisting — Pénétration progressive de la main entière.", options: [
+            { text: "A. J'aime introduire ma main et sentir les tissus se détendre.", type: "D", cat: "Penetration" },
+            { text: "B. J'aime accueillir la main complète et ressentir la plénitude.", type: "R", cat: "Penetration" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Penetration" },
+            { text: "D. Trop extrême ou douloureux.", type: "A", cat: "Penetration" }
+          ]},
+          { q: "Q51. Gaping — Dilatation laissant un orifice béant exposé.", options: [
+            { text: "A. J'aime dilater et observer l'ouverture béante créée.", type: "D", cat: "Penetration" },
+            { text: "B. J'aime subir la dilatation et exposer mon orifice béant.", type: "R", cat: "Penetration" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Penetration" },
+            { text: "D. Aucun intérêt esthétique ou physique.", type: "A", cat: "Penetration" }
+          ]},
+          { q: "Q52. Double Pénétration (DP) — Deux pénétrations simultanées.", options: [
+            { text: "A. J'aime être l'un des deux pénétrants.", type: "D", cat: "Penetration" },
+            { text: "B. J'aime être comblé(e) par deux pénétrations.", type: "R", cat: "Penetration" },
+            { text: "C. J'aime les deux rôles.", type: "L", cat: "Penetration" },
+            { text: "D. Trop intense ou pas attirant.", type: "A", cat: "Penetration" }
+          ]},
+          { q: "Q53. Rimming (Anulingus) — Stimulation orale de la zone anale.", options: [
+            { text: "A. J'aime pratiquer le rimming sur mon partenaire.", type: "D", cat: "Penetration" },
+            { text: "B. J'aime recevoir la langue sur mon anus.", type: "R", cat: "Penetration" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Penetration" },
+            { text: "D. Blocage d'hygiène.", type: "A", cat: "Penetration" }
+          ]},
+          { q: "Q54. Lavement / Enema — Utilisation de liquides comme rituel.", options: [
+            { text: "A. J'aime administrer le lavement et contrôler le liquide.", type: "D", cat: "Penetration" },
+            { text: "B. J'aime recevoir le lavement et retenir sous consigne.", type: "R", cat: "Penetration" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Penetration" },
+            { text: "D. Purement médical ou hygiénique, pas érotique.", type: "A", cat: "Penetration" }
+          ]},
+          { q: "Q55. Sounding — Sondage urétral au moyen de tiges lisses.", options: [
+            { text: "A. J'aime insérer méticuleusement les sondes.", type: "D", cat: "Penetration" },
+            { text: "B. J'aime ressentir le métal glisser dans mon canal.", type: "R", cat: "Penetration" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Penetration" },
+            { text: "D. Angoisse ou douleur, limite nette.", type: "A", cat: "Penetration" }
+          ]},
+          { q: "Q56. Jouets XL / Size Play — Jouets surdimensionnés.", options: [
+            { text: "A. J'aime utiliser des jouets de taille démesurée.", type: "D", cat: "Penetration" },
+            { text: "B. J'aime essayer de dompter des jouets colossaux.", type: "R", cat: "Penetration" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Penetration" },
+            { text: "D. Incompatible avec mon anatomie ou mes envies.", type: "A", cat: "Penetration" }
+          ]},
+          { q: "Q57. Deepthroat / Facefuck — Pénétration buccale profonde.", options: [
+            { text: "A. J'aime tenir la tête et imposer le rythme au fond.", type: "D", cat: "Penetration" },
+            { text: "B. J'aime me faire prendre la gorge et étouffer un peu.", type: "R", cat: "Penetration" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Penetration" },
+            { text: "D. Réflexe nauséeux trop fort, pas de plaisir.", type: "A", cat: "Penetration" }
+          ]}
+        ]
+      },
+      {
+        section: "8. PARTAGE, ÉCHANGISME & PLURALITÉ",
+        questions: [
+          { q: "Q58. Triolisme (MFF ou MMF) — Partager une nuit à trois.", options: [
+            { text: "A. J'aime mener le trio, diriger l'attention.", type: "D", cat: "Pluralite" },
+            { text: "B. J'aime être l'invité(e) choyé(e) ou au centre.", type: "R", cat: "Pluralite" },
+            { text: "C. J'aime les deux configurations.", type: "L", cat: "Pluralite" },
+            { text: "D. Exclusivité à deux uniquement.", type: "A", cat: "Pluralite" }
+          ]},
+          { q: "Q59. Candaulisme — Exhiber son/sa partenaire à un tiers.", options: [
+            { text: "A. J'aime offrir mon/ma partenaire aux regards/mains.", type: "D", cat: "Pluralite" },
+            { text: "B. J'aime être exposé(e) et partagé(e) sous son regard.", type: "R", cat: "Pluralite" },
+            { text: "C. J'aime les deux rôles.", type: "L", cat: "Pluralite" },
+            { text: "D. La jalousie m'en empêche.", type: "A", cat: "Pluralite" }
+          ]},
+          { q: "Q60. Cuckolding / Hotwifing — Soumission sexuelle au Bull.", options: [
+            { text: "A. J'aime jouer le rôle du Bull ou de la Hotwife.", type: "D", cat: "Pluralite" },
+            { text: "B. J'aime jouer le rôle du Cuckold (soumis/spectateur).", type: "R", cat: "Pluralite" },
+            { text: "C. J'aime alterner.", type: "L", cat: "Pluralite" },
+            { text: "D. Aucun intérêt.", type: "A", cat: "Pluralite" }
+          ]},
+          { q: "Q61. Gangbang — Une personne au centre de plusieurs partenaires.", options: [
+            { text: "A. J'aime faire partie du groupe d'assaillants.", type: "D", cat: "Pluralite" },
+            { text: "B. J'aime être la personne au centre submergée.", type: "R", cat: "Pluralite" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Pluralite" },
+            { text: "D. Trop chaotique ou impersonnel.", type: "A", cat: "Pluralite" }
+          ]},
+          { q: "Q62. Full Swap — Échange complet de partenaires.", options: [
+            { text: "A. J'aime initier l'échange et prendre l'autre.", type: "D", cat: "Pluralite" },
+            { text: "B. J'aime me faire emmener par le nouveau partenaire.", type: "R", cat: "Pluralite" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Pluralite" },
+            { text: "D. Monogamie stricte.", type: "A", cat: "Pluralite" }
+          ]},
+          { q: "Q63. Polyamour — Relations amoureuses et sexuelles multiples.", options: [
+            { text: "A. J'aime former mon cercle de partenaires.", type: "D", cat: "Pluralite" },
+            { text: "B. J'aime intégrer un cercle et partager l'amour.", type: "R", cat: "Pluralite" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Pluralite" },
+            { text: "D. Impossibilité affective.", type: "A", cat: "Pluralite" }
+          ]},
+          { q: "Q64. Orgie libre / Partouze — Mélange sans règles rigides.", options: [
+            { text: "A. J'aime papillonner, passer d'un corps à l'autre.", type: "D", cat: "Pluralite" },
+            { text: "B. J'aime m'allonger au milieu et laisser faire.", type: "R", cat: "Pluralite" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Pluralite" },
+            { text: "D. Trop d'inconnus.", type: "A", cat: "Pluralite" }
+          ]},
+          { q: "Q65. Vixen / Stag — Chasser d'autres hommes pour le couple.", options: [
+            { text: "A. J'aime encourager/chasser en toute liberté.", type: "D", cat: "Pluralite" },
+            { text: "B. J'aime servir de déclencheur et écouter les récits.", type: "R", cat: "Pluralite" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Pluralite" },
+            { text: "D. Sans avis / Rejet.", type: "A", cat: "Pluralite" }
+          ]},
+          { q: "Q66. MMF Bisexuel — Trio avec interactions directes entre hommes.", options: [
+            { text: "A. J'aime interagir activement avec l'homme et la femme.", type: "D", cat: "Pluralite" },
+            { text: "B. J'aime recevoir l'attention combinée des deux hommes.", type: "R", cat: "Pluralite" },
+            { text: "C. J'aime toutes les positions du trio.", type: "L", cat: "Pluralite" },
+            { text: "D. Blocage sur la bisexualité ou le trio.", type: "A", cat: "Pluralite" }
+          ]}
+        ]
+      },
+      {
+        section: "9. FÉTICHISME MATÉRIEL, MATIÈRES & VÊTEMENTS",
+        questions: [
+          { q: "Q67. Latex, Rubber & Vinyle — Matières moulantes et hermétiques.", options: [
+            { text: "A. J'aime vêtir l'autre de latex et astiquer la matière.", type: "D", cat: "Fetichisme" },
+            { text: "B. J'aime me glisser dans une seconde peau en latex.", type: "R", cat: "Fetichisme" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Fetichisme" },
+            { text: "D. Inconfortable, chaud, pas mon truc.", type: "A", cat: "Fetichisme" }
+          ]},
+          { q: "Q68. Leather Culture — Cuir lourd, métal et sangles.", options: [
+            { text: "A. J'aime porter ou imposer des tenues en cuir lourd.", type: "D", cat: "Fetichisme" },
+            { text: "B. J'aime sentir l'odeur du cuir contre moi.", type: "R", cat: "Fetichisme" },
+            { text: "C. J'aime les deux.", type: "L", cat: "Fetichisme" },
+            { text: "D. Pas d'attirance particulière.", type: "A", cat: "Fetichisme" }
+          ]},
+          { q: "Q69. Pod
