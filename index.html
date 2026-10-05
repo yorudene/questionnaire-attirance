@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionnaire d'Attirances & Profil</title>
+<style>
+  :root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --accent: #f43f5e;
+    --accent-hover: #e11d48;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --border: #334155;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .container {
+    max-width: 680px;
+    width: 100%;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    border: 1px solid var(--border);
+  }
+
+  h1 {
+    color: var(--accent);
+    font-size: 1.5rem;
+    margin-top: 0;
+    text-align: center;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 12px;
+  }
+
+  p.intro {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .question-block {
+    margin-bottom: 24px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .question-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #38bdf8;
+    margin-bottom: 12px;
+  }
+
+  .options-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .radio-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .radio-card:hover {
+    background: rgba(244, 63, 94, 0.1);
+    border-color: var(--accent);
+  }
+
+  .radio-card input[type="radio"] {
+    accent-color: var(--accent);
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .radio-card span {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 20px;
+  }
+
+  .btn:hover {
+    background: var(--accent-hover);
+  }
+
+  .btn-reset {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    margin-top: 10px;
+  }
+
+  #results {
+    display: none;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 2px dashed var(--border);
+  }
+
+  .profile-badge {
+    background: linear-gradient(135deg, #f43f5e, #8b5cf6);
+    padding: 16px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .profile-badge h2 {
+    margin: 0;
+    font-size: 1.3rem;
+  }
+
+  .profile-badge p {
+    margin: 6px 0 0 0;
+    font-size: 0.85rem;
+    opacity: 0.9;
+  }
+
+  .stat-bar {
+    margin-bottom: 10px;
+  }
+
+  .stat-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+  }
+
+  .bar-bg {
+    background: rgba(255, 255, 255, 0.1);
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.5s ease;
+  }
+
+  .summary-box {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 16px;
+    font-size: 0.85rem;
+  }
+
+  .summary-box ul {
+    margin: 6px 0 0 0;
+    padding-left: 18px;
+    color: var(--text-secondary);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Questionnaire de Profil</h1>
+  <p class="intro">Répondez aux questions ci-dessous pour obtenir une évaluation de votre profil dominant.</p>
+
+  <form id="qcmForm">
+    
+    <!-- QUESTION 1 -->
+    <div class="question-block">
+      <div class="question-title">1. Votre soirée idéale commence plutôt par :</div>
+      <div class="options-group">
+        <label class="radio-card">
+          <input type="radio" name="q1" data-cat="romantique" value="Un dîner en tête-à-tête dans un endroit calme" required>
+          <span>Un dîner en tête-à-tête dans un endroit calme</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="q1" data-cat="sensuel" value="Un verre intimiste axé sur le regard et les massages">
+          <span>Un verre intimiste axé sur le regard et les massages</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="q1" data-cat="festif" value="Un apéro dynamique dans un lieu animé ou un club">
+          <span>Un apéro dynamique dans un lieu animé ou un club</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="q1" data-cat="kink" value="Une discussion directe sur les limites et les fantasmes">
+          <span>Une discussion directe sur les limites et les fantasmes</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTION 2 -->
+    <div class="question-block">
+      <div class="question-title">2. Face à l'idée d'intégrer d'autres personnes :</div>
+      <div class="options-group">
+        <label class="radio-card">
+          <input type="radio" name="q2" data-cat="romantique" value="Pas question, la complicité se vit exclusivement à deux" required>
+          <span>Pas question, la complicité se vit exclusivement à deux</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="q2" data-cat="echangisme" value="Très curieux(se) du voyeurisme ou des rencontres en trio">
+          <span>Très curieux(se) du voyeurisme ou des rencontres en trio</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="q2" data-cat="echangisme,festif" value="Ouvert(e) à l'échange de partenaires (soft ou full)">
+          <span>Ouvert(e) à l'échange de partenaires (soft ou full)</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="q2" data-cat="sensuel" value="Seulement si cela reste très doux et sans pression">
+          <span>Seulement si cela reste très doux et sans pression</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTION 3 -->
+    <div class="question-block">
+      <div class="question-title">3. Côté pratiques et jeux sexuels, vous êtes plutôt :</div>
+      <div class="options-group">
+        <label class="radio-card">
+          <input type="radio" name="q3" data-cat="sensuel" value="Lenteur, caresses, huiles et éveil des sens" required>
+          <span>Lenteur, caresses, huiles et éveil des sens</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="q3" data-cat="kink" value="Bondage, accessoires (toys) et jeux de rôles">
+          <span>Bondage, accessoires (toys) et jeux de rôles</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="q3" data-cat="kink" value="Domination / Soumission ou scénarios travaillés">
+          <span>Domination / Soumission ou scénarios travaillés</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="q3" data-cat="romantique" value="Spontanéité, passion et connexion visuelle">
+          <span>Spontanéité, passion et connexion visuelle</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTION 4 -->
+    <div class="question-block">
+      <div class="question-title">4. Quel cadre vous met le plus en confiance ?</div>
+      <div class="options-group">
+        <label class="radio-card">
+          <input type="radio" name="q4" data-cat="romantique,sensuel" value="À la maison, dans un cocon totalement privé" required>
+          <span>À la maison, dans un cocon totalement privé</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="q4" data-cat="festif" value="En club spécialisé ou sauna avec du monde autour">
+          <span>En club spécialisé ou sauna avec du monde autour</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="q4" data-cat="echangisme,kink" value="En play-party privée avec des initiés">
+          <span>En play-party privée avec des initiés</span>
+        </label>
+      </div>
+    </div>
+
+    <button type="button" class="btn" onclick="calculateProfile()">Valider et voir mon Profil</button>
+  </form>
+
+  <!-- RESULTATS -->
+  <div id="results">
+    <div class="profile-badge">
+      <h2 id="mainProfileTitle">Profil...</h2>
+      <p id="mainProfileDesc">Analyse de vos réponses...</p>
+    </div>
+
+    <div class="question-title">Détail de votre orientation</div>
+    
+    <div class="stat-bar">
+      <div class="stat-header"><span>Sensuel & Tactile</span><span id="score-sensuel">0%</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="fill-sensuel"></div></div>
+    </div>
+    <div class="stat-bar">
+      <div class="stat-header"><span>Échangisme & Pluralité</span><span id="score-echangisme">0%</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="fill-echangisme"></div></div>
+    </div>
+    <div class="stat-bar">
+      <div class="stat-header"><span>Kink & BDSM</span><span id="score-kink">0%</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="fill-kink"></div></div>
+    </div>
+    <div class="stat-bar">
+      <div class="stat-header"><span>Romantique & Exclusif</span><span id="score-romantique">0%</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="fill-romantique"></div></div>
+    </div>
+    <div class="stat-bar">
+      <div class="stat-header"><span>Festif & Clubbing</span><span id="score-festif">0%</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="fill-festif"></div></div>
+    </div>
+
+    <div class="summary-box">
+      <strong>Récapitulatif de vos choix :</strong>
+      <ul id="selectedList"></ul>
+    </div>
+
+    <button type="button" class="btn btn-reset" onclick="resetForm()">Recommencer le test</button>
+  </div>
+</div>
+
+<script>
+  function calculateProfile() {
+    const categories = {
+      sensuel: { name: "Profil Sensuel & Doux", score: 0, color: "#ec4899", desc: "Vous privilégiez la douceur, le toucher, l'éveil des sens et la montée progressive de la complicité." },
+      echangisme: { name: "Profil Échangiste & Curieux", score: 0, color: "#8b5cf6", desc: "Vous êtes attiré(e) par la découverte à plusieurs, le voyeurisme, l'exhibition ou l'échange de partenaires." },
+      kink: { name: "Profil Kink & Intensité", score: 0, color: "#f43f5e", desc: "Vous aimez pimenter l'intimité avec du BDSM, des accessoires, du bondage ou des jeux de pouvoir." },
+      romantique: { name: "Profil Romantique & Fusionnel", score: 0, color: "#3b82f6", desc: "Pour vous, le plaisir passe avant tout par la relation privilégiée à deux, la confiance et le sentiment d'exclusivité." },
+      festif: { name: "Profil Festif & Social", score: 0, color: "#10b981", desc: "Vous appréciez l'ambiance des soirées, la séduction décomplexée, le flirt et l'énergie des lieux spécialisés." }
+    };
+
+    const form = document.getElementById('qcmForm');
+    const checkedRadios = form.querySelectorAll('input[type="radio"]:checked');
+
+    // Vérifier que toutes les questions ont une réponse
+    if (checkedRadios.length < 4) {
+      alert("Merci de répondre à toutes les questions avant de valider.");
+      return;
+    }
+
+    const selectedValues = [];
+
+    checkedRadios.forEach(radio => {
+      selectedValues.push(radio.value);
+      const cats = radio.getAttribute('data-cat').split(',');
+      cats.forEach(c => {
+        if (categories[c]) {
+          categories[c].score += 1;
+        }
+      });
+    });
+
+    let totalPoints = 0;
+    Object.keys(categories).forEach(k => totalPoints += categories[k].score);
+
+    let dominantKey = "sensuel";
+    let maxScore = -1;
+
+    Object.keys(categories).forEach(k => {
+      const pct = totalPoints > 0 ? Math.round((categories[k].score / totalPoints) * 100) : 0;
+      document.getElementById(`score-${k}`).innerText = pct + "%";
+      const fillBar = document.getElementById(`fill-${k}`);
+      fillBar.style.width = pct + "%";
+      fillBar.style.backgroundColor = categories[k].color;
+
+      if (categories[k].score > maxScore) {
+        maxScore = categories[k].score;
+        dominantKey = k;
+      }
+    });
+
+    document.getElementById('mainProfileTitle').innerText = categories[dominantKey].name;
+    document.getElementById('mainProfileDesc').innerText = categories[dominantKey].desc;
+
+    const listEl = document.getElementById('selectedList');
+    listEl.innerHTML = "";
+    selectedValues.forEach(val => {
+      const li = document.createElement('li');
+      li.innerText = val;
+      listEl.appendChild(li);
+    });
+
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function resetForm() {
+    document.getElementById('qcmForm').reset();
+    document.getElementById('results').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
