@@ -1,1324 +1,1814 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questionnaire d'Attirance & Pratiques</title>
-    <style>
-        :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --accent-color: #e50914;
-            --text-color: #e0e0e0;
-            --text-muted: #a0a0a0;
-            --border-color: #333;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionnaire d'Attirance & Pratiques</title>
+<style>
+  :root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --accent-color: #e50914;
+    --accent-soft: rgba(229, 9, 20, 0.12);
+    --text-color: #e0e0e0;
+    --text-muted: #a0a0a0;
+    --border-color: #333;
+    --success: #2ecc71;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+  }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
+  * { box-sizing: border-box; }
 
-        .progress-bar-container {
-            position: sticky;
-            top: 0;
-            width: 100%;
-            height: 8px;
-            background-color: #222;
-            z-index: 1000;
-        }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+  }
 
-        .progress-bar {
-            height: 100%;
-            background-color: var(--accent-color);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
+  .progress-bar-container {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 8px;
+    background-color: #222;
+    z-index: 1000;
+  }
 
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
+  .progress-bar {
+    height: 100%;
+    background-color: var(--accent-color);
+    width: 0%;
+    transition: width 0.3s ease;
+  }
 
-        h1, h2, h3 {
-            color: #fff;
-            text-align: center;
-        }
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+  }
 
-        .category-title {
-            margin-top: 40px;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 5px;
-            color: var(--accent-color);
-        }
+  h1, h2, h3 { color: #fff; text-align: center; }
 
-        .question-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px 20px;
-            margin-bottom: 15px;
-        }
+  h1 { font-size: 1.6rem; margin-bottom: 5px; }
 
-        .question-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+  .subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+  }
 
-        .options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-        }
+  .category-title {
+    margin-top: 40px;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 5px;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+  }
 
-        label {
-            display: flex;
-            align-items: center;
-            background: #2a2a2a;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: background 0.2s;
-        }
+  .question-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    transition: border-color 0.2s;
+  }
 
-        label:hover {
-            background: #3a3a3a;
-        }
+  .question-card:hover { border-color: #444; }
 
-        input[type="checkbox"], input[type="radio"] {
-            margin-right: 10px;
-            accent-color: var(--accent-color);
-        }
+  .question-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 0.98rem;
+  }
 
-        .actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 30px 0;
-        }
+  .options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
 
-        button {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 5px;
-            font-size: 1em;
-            cursor: pointer;
-            font-weight: bold;
-            transition: opacity 0.2s;
-        }
+  label {
+    display: flex;
+    align-items: center;
+    background: #2a2a2a;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background 0.2s, border-color 0.2s;
+    border: 1px solid transparent;
+    user-select: none;
+  }
 
-        button:hover {
-            opacity: 0.9;
-        }
+  label:hover { background: #3a3a3a; }
 
-        button.btn-reset {
-            background-color: #444;
-        }
+  label.checked {
+    background: var(--accent-soft);
+    border-color: rgba(229, 9, 20, 0.4);
+  }
 
-        #results-container {
-            background-color: var(--card-bg);
-            border: 2px solid var(--accent-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 40px;
-        }
+  label.limit { color: var(--text-muted); font-style: italic; }
+  label.explore { color: var(--warning); }
 
-        .score-bar-bg {
-            background: #333;
-            border-radius: 5px;
-            height: 20px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
+  input[type="checkbox"], input[type="radio"] {
+    margin-right: 10px;
+    accent-color: var(--accent-color);
+    flex-shrink: 0;
+  }
 
-        .score-bar-fill {
-            height: 100%;
-            background: var(--accent-color);
-            text-align: right;
-            padding-right: 5px;
-            font-size: 0.8em;
-            line-height: 20px;
-            color: white;
-            font-weight: bold;
-        }
+  .actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin: 30px 0;
+    flex-wrap: wrap;
+  }
 
-        .export-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
+  button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    transition: opacity 0.2s, transform 0.1s;
+  }
 
-        .gender-specific {
-            display: none;
-        }
-    </style>
+  button:hover { opacity: 0.9; }
+  button:active { transform: scale(0.98); }
+
+  button.btn-reset { background-color: #444; }
+
+  #results-container {
+    background-color: var(--card-bg);
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 40px;
+  }
+
+  #results-container h2 { margin-top: 0; }
+
+  .profile-summary {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.15em;
+    margin: 15px 0 25px;
+    padding: 12px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 4px solid var(--accent-color);
+  }
+
+  .score-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+  }
+
+  .score-bar-bg {
+    background: #333;
+    border-radius: 5px;
+    height: 20px;
+    overflow: hidden;
+    margin-bottom: 15px;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    background: var(--accent-color);
+    transition: width 0.6s ease;
+    min-width: 0;
+  }
+
+  .section-block {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .section-block h3 {
+    text-align: left;
+    font-size: 1rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .chip {
+    background: #2a2a2a;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    border: 1px solid #3a3a3a;
+  }
+
+  .chip.limit { color: var(--text-muted); }
+  .chip.explore { color: var(--warning); border-color: rgba(243,156,18,0.4); }
+
+  .export-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 25px;
+    flex-wrap: wrap;
+  }
+
+  /* Écran d'accueil (choix du genre) */
+  #intro-screen {
+    display: block;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  #intro-screen h2 {
+    color: var(--accent-color);
+    margin-bottom: 10px;
+  }
+
+  #intro-screen p {
+    color: var(--text-muted);
+    max-width: 500px;
+    margin: 0 auto 30px;
+  }
+
+  .gender-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .gender-btn {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    color: var(--text-color);
+    padding: 25px 40px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 160px;
+  }
+
+  .gender-btn:hover {
+    border-color: var(--accent-color);
+    background: var(--accent-soft);
+  }
+
+  .gender-btn .icon { font-size: 2rem; display: block; margin-bottom: 8px; }
+
+  /* Masquage initial */
+  #quiz-wrapper { display: none; }
+
+  /* Modal custom */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: var(--card-bg);
+    border: 1px solid var(--accent-color);
+    border-radius: 10px;
+    padding: 25px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .modal h3 { margin-top: 0; color: var(--accent-color); }
+  .modal p { color: var(--text-color); margin-bottom: 20px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .modal-actions button { min-width: 100px; }
+
+  .warning-box {
+    background: rgba(231, 76, 60, 0.12);
+    border-left: 4px solid var(--danger);
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin: 10px 0 15px;
+    font-size: 0.85em;
+    color: #ffb3b3;
+  }
+
+  @media (max-width: 600px) {
+    .options { grid-template-columns: 1fr; }
+    .gender-btn { padding: 20px 30px; font-size: 1rem; }
+    h1 { font-size: 1.3rem; }
+  }
+</style>
 </head>
 <body>
 
-    <div class="progress-bar-container">
-        <div id="progress-bar" class="progress-bar"></div>
+<div class="progress-bar-container">
+  <div id="progress-bar" class="progress-bar"></div>
+</div>
+
+<div class="container">
+
+  <!-- ===== ÉCRAN D'ACCUEIL : CHOIX DU GENRE ===== -->
+  <div id="intro-screen">
+    <h1>Questionnaire d'Attirance & Pratiques</h1>
+    <p class="subtitle">Explore tes désirs, tes limites et tes préférences.</p>
+
+    <h2>Avant de commencer</h2>
+    <p>
+      Pour adapter les questions anatomiques et les préférences physiques,
+      indique ton profil. Cette information reste sur ton appareil.
+    </p>
+
+    <div class="gender-buttons">
+      <button class="gender-btn" onclick="selectGender('H')">
+        <span class="icon">♂</span>
+        Homme
+      </button>
+      <button class="gender-btn" onclick="selectGender('F')">
+        <span class="icon">♀</span>
+        Femme
+      </button>
     </div>
+  </div>
 
-    <div class="container">
-        <h1>Questionnaire d'Attirance & Pratiques</h1>
-        <p style="text-align: center; color: var(--text-muted);">Explore tes désirs, tes limites et tes préférences en 100 questions.</p>
+  <!-- ===== QUESTIONNAIRE ===== -->
+  <div id="quiz-wrapper">
+    <h1>Questionnaire d'Attirance & Pratiques</h1>
+    <p class="subtitle" id="gender-indicator"></p>
 
-        <!-- Profil -->
-        <div class="question-card" id="gender-card">
-            <div class="question-title">1. Ton profil (pour adapter les questions anatomiques)</div>
-            <div class="options">
-                <label><input type="radio" name="user_gender" value="H" onclick="setGender('H')"> Je suis un Homme</label>
-                <label><input type="radio" name="user_gender" value="F" onclick="setGender('F')"> Je suis une Femme</label>
-            </div>
+    <form id="quiz-form">
+
+      <!-- 1. DYNAMIQUES & RÔLES -->
+      <h2 class="category-title" data-gender="both">1. Dynamiques & Rôles</h2>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q2. Donner des ordres et imposer tes règles pendant l'acte</div>
+        <div class="options">
+          <label><input type="checkbox" name="q2" data-type="D" data-weight="2"> Excité(e) de le faire</label>
+          <label><input type="checkbox" name="q2" data-type="R" data-weight="2"> Excité(e) de le subir</label>
+          <label><input type="checkbox" name="q2" data-type="L" data-weight="2"> J'aime les deux côtés</label>
+          <label class="limit"><input type="checkbox" name="q2" data-type="A" data-weight="1"> Aucun intérêt / Limite</label>
         </div>
-
-        <form id="quiz-form">
-            
-            <!-- 1. DYNAMIQUES & RÔLES -->
-            <h2 class="category-title">1. Dynamiques & Rôles</h2>
-            
-            <div class="question-card">
-                <div class="question-title">Q1. Donner des ordres et imposer tes règles pendant l'acte</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q1" data-type="D"> Excité(e) de le faire</label>
-                    <label><input type="checkbox" name="q1" data-type="R"> Excité(e) de le subir</label>
-                    <label><input type="checkbox" name="q1" data-type="L"> J'aime les deux côtés</label>
-                    <label><input type="checkbox" name="q1" data-type="A"> Aucun intérêt / Limite</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q2. Soumission totale temporaire (obéissance aveugle)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q2" data-type="D"> Diriger le jeu</label>
-                    <label><input type="checkbox" name="q2" data-type="R"> M'abandonner totalement</label>
-                    <label><input type="checkbox" name="q2" data-type="L"> Selon l'humeur (Switch)</label>
-                    <label><input type="checkbox" name="q2" data-type="A"> Pas pour moi</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q3. Protocole et formules de politesse (ex: "S me demander la permission")</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q3" data-type="D"> L'exiger</label>
-                    <label><input type="checkbox" name="q3" data-type="R"> L'appliquer</label>
-                    <label><input type="checkbox" name="q3" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q3" data-type="A"> Trop rigide / Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q4. Adoration du corps du partenaire (culte des pieds, du sexe...)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q4" data-type="D"> Se faire adorer</label>
-                    <label><input type="checkbox" name="q4" data-type="R"> Adorer le partenaire</label>
-                    <label><input type="checkbox" name="q4" data-type="L"> Alterner</label>
-                    <label><input type="checkbox" name="q4" data-type="A"> Sans opinion / Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q5. Contrôle des orgasmes (Orgasm Control / Denial)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q5" data-type="D"> Décider quand il/elle jouit</label>
-                    <label><input type="checkbox" name="q5" data-type="R"> Laisser le contrôle de mon orgasme</label>
-                    <label><input type="checkbox" name="q5" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q5" data-type="A"> Pas attiré(e)</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q6. Châtiments et punitions scénarisées</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q6" data-type="D"> Infliger la punition</label>
-                    <label><input type="checkbox" name="q6" data-type="R"> Être puni(e)</label>
-                    <label><input type="checkbox" name="q6" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q6" data-type="A"> Hors de question</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q7. Jeux de rôles avec asymétrie de pouvoir (Prof/Élève, Patron/Employé)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q7" data-type="D"> Jouer l'autorité</label>
-                    <label><input type="checkbox" name="q7" data-type="R"> Jouer le/la dominé(e)</label>
-                    <label><input type="checkbox" name="q7" data-type="L"> Selon le scénario</label>
-                    <label><input type="checkbox" name="q7" data-type="A"> Trop factice</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q8. Dégradation consensuelle / Humiliation douce</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q8" data-type="D"> Être humiliant(e)</label>
-                    <label><input type="checkbox" name="q8" data-type="R"> Être humilié(e)</label>
-                    <label><input type="checkbox" name="q8" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q8" data-type="A"> Limite absolue</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q9. Contrôle de la tenue vestimentaire par le partenaire</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q9" data-type="D"> Imposer la tenue</label>
-                    <label><input type="checkbox" name="q9" data-type="R"> Porter ce qu'on m'impose</label>
-                    <label><input type="checkbox" name="q9" data-type="L"> Alterner</label>
-                    <label><input type="checkbox" name="q9" data-type="A"> Inutile</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q10. Guidage physique (main derrière la tête, pousser à genoux)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q10" data-type="D"> Guider fermement</label>
-                    <label><input type="checkbox" name="q10" data-type="R"> Être guidé(e)</label>
-                    <label><input type="checkbox" name="q10" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q10" data-type="A"> Pas pour moi</label>
-                </div>
-            </div>
-
-            <!-- 2. ANAL & ANATOMIE -->
-            <h2 class="category-title">2. Pratiques Anal & Stimulation</h2>
-
-            <div class="question-card">
-                <div class="question-title">Q11. Analingus (stimuler l'anus avec la langue)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q11" data-type="D"> Donner</label>
-                    <label><input type="checkbox" name="q11" data-type="R"> Recevoir</label>
-                    <label><input type="checkbox" name="q11" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q11" data-type="A"> Pas du tout</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q12. Pénétration anale classique</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q12" data-type="D"> Pénétrer</label>
-                    <label><input type="checkbox" name="q12" data-type="R"> Être pénétré(e)</label>
-                    <label><input type="checkbox" name="q12" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q12" data-type="A"> Pas attiré(e)</label>
-                </div>
-            </div>
-
-            <!-- Question adaptée H/F -->
-            <div class="question-card gender-specific q-homme">
-                <div class="question-title">Q13 (Homme). Stimulation prostatique (doigt/massager) ou Pegging</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q13_h" data-type="R"> Curieux / Pratiquant</label>
-                    <label><input type="checkbox" name="q13_h" data-type="A"> Pas pour moi</label>
-                </div>
-            </div>
-            <div class="question-card gender-specific q-femme">
-                <div class="question-title">Q13 (Femme). Pegging (pénétrer un homme avec un strapon)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q13_f" data-type="D"> Enthousiaste</label>
-                    <label><input type="checkbox" name="q13_f" data-type="A"> Pas pour moi</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q14. Plugs anaux portés au quotidien ou en soirée</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q14" data-type="D"> Faire porter</label>
-                    <label><input type="checkbox" name="q14" data-type="R"> Porter</label>
-                    <label><input type="checkbox" name="q14" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q14" data-type="A"> Aucun attrait</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q15. Utilisation de sextoys imposants (dildos XL, dilatateurs)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q15" data-type="D"> Utiliser sur l'autre</label>
-                    <label><input type="checkbox" name="q15" data-type="R"> Recevoir</label>
-                    <label><input type="checkbox" name="q15" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q15" data-type="A"> Trop effrayant / Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q16. Double pénétration (DP)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q16" data-type="D"> Pénétrer à deux</label>
-                    <label><input type="checkbox" name="q16" data-type="R"> Être doublement pénétré(e)</label>
-                    <label><input type="checkbox" name="q16" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q16" data-type="A"> Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q17. Fisting anal (introduction progressive de la main)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q17" data-type="D"> Pratiquer</label>
-                    <label><input type="checkbox" name="q17" data-type="R"> Recevoir</label>
-                    <label><input type="checkbox" name="q17" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q17" data-type="A"> Limite absolue</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q18. Lavements / Enema préparatoire ritualisé</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q18" data-type="D"> Administrer</label>
-                    <label><input type="checkbox" name="q18" data-type="R"> Subir</label>
-                    <label><input type="checkbox" name="q18" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q18" data-type="A"> Pas pour moi</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q19. Asservissement anal (plug verrouillé, chasteté anale)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q19" data-type="D"> Contrôler</label>
-                    <label><input type="checkbox" name="q19" data-type="R"> Être verrouillé(e)</label>
-                    <label><input type="checkbox" name="q19" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q19" data-type="A"> Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q20. Exploration lente des zones érogènes profondes</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q20" data-type="D"> Prendre son temps</label>
-                    <label><input type="checkbox" name="q20" data-type="R"> Laisser explorer</label>
-                    <label><input type="checkbox" name="q20" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q20" data-type="A"> Sans intérêt</label>
-                </div>
-            </div>
-
-            <!-- 3. BDSM & SENSATIONS -->
-            <h2 class="category-title">3. BDSM & Impact Play</h2>
-
-            <div class="question-card">
-                <div class="question-title">Q21. Shibari / Cordes (art du bondage japonais)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q21" data-type="D"> Attacher (Rigger)</label>
-                    <label><input type="checkbox" name="q21" data-type="R"> Être attaché(e) (Model)</label>
-                    <label><input type="checkbox" name="q21" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q21" data-type="A"> Pas attiré(e)</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q22. Spanking (fessées à la main, paddle, martinet)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q22" data-type="D"> Donner</label>
-                    <label><input type="checkbox" name="q22" data-type="R"> Recevoir</label>
-                    <label><input type="checkbox" name="q22" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q22" data-type="A"> Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q23. Cravache & Impact Play lourd (fouet, canne)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q23" data-type="D"> Frapper</label>
-                    <label><input type="checkbox" name="q23" data-type="R"> Recevoir les coups</label>
-                    <label><input type="checkbox" name="q23" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q23" data-type="A"> Limite</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q24. Wax Play (gouttes de bougie chaude)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q24" data-type="D"> Faire couler</label>
-                    <label><input type="checkbox" name="q24" data-type="R"> Recevoir la cire</label>
-                    <label><input type="checkbox" name="q24" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q24" data-type="A"> Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q25. Pinces à seins / Pinces erotiques</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q25" data-type="D"> Poser les pinces</label>
-                    <label><input type="checkbox" name="q25" data-type="R"> Porter les pinces</label>
-                    <label><input type="checkbox" name="q25" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q25" data-type="A"> Pas pour moi</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q26. Privation sensorielle (bando, casque anti-bruit)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q26" data-type="D"> Priver l'autre de ses sens</label>
-                    <label><input type="checkbox" name="q26" data-type="R"> Être privé(e) de mes sens</label>
-                    <label><input type="checkbox" name="q26" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q26" data-type="A"> Inconfortable</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q27. Électro-stimulation (Estim)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q27" data-type="D"> Manipuler l'appareil</label>
-                    <label><input type="checkbox" name="q27" data-type="R"> Recevoir les impulsions</label>
-                    <label><input type="checkbox" name="q27" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q27" data-type="A"> Limite</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q28. Tenues Cuir / Latex / Rubber</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q28" data-type="D"> Aimer voir le partenaire vêtu</label>
-                    <label><input type="checkbox" name="q28" data-type="R"> Aimer porter du latex/cuir</label>
-                    <label><input type="checkbox" name="q28" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q28" data-type="A"> Sans intérêt</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q29. Aiguilles / Play Piercing (perçage éphémère)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q29" data-type="D"> Piquer</label>
-                    <label><input type="checkbox" name="q29" data-type="R"> Être piqué(e)</label>
-                    <label><input type="checkbox" name="q29" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q29" data-type="A"> Limite absolue</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q30. Marquage / Traces temporaires (morsures, griffures)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q30" data-type="D"> Laisser des marques</label>
-                    <label><input type="checkbox" name="q30" data-type="R"> Porter des marques</label>
-                    <label><input type="checkbox" name="q30" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q30" data-type="A"> Non</label>
-                </div>
-            </div>
-
-            <!-- 4. SOFT & ROMANCE -->
-            <h2 class="category-title">4. Soft, Tendresse & Sensualité</h2>
-
-            <div class="question-card">
-                <div class="question-title">Q31. Massage tantrique et érotique au long cours</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q31" data-type="D"> Masser</label>
-                    <label><input type="checkbox" name="q31" data-type="R"> Être massé(e)</label>
-                    <label><input type="checkbox" name="q31" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q31" data-type="A"> S'ennuie vite</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q32. Slow Sex (pénétration ultra-lente sans objectif d'orgasme)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q32" data-type="L"> Grand adepte</label>
-                    <label><input type="checkbox" name="q32" data-type="A"> Pas mon style</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q33. Câlins de fin de session (Aftercare doux)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q33" data-type="L"> Indispensable pour moi</label>
-                    <label><input type="checkbox" name="q33" data-type="A"> Pas nécessaire</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q34. Masturbation croisée / Regard prolongé</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q34" data-type="L"> Très excitant</label>
-                    <label><input type="checkbox" name="q34" data-type="A"> Bizarre / Bof</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q35. Dirty talk doux / Murmures à l'oreille</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q35" data-type="D"> Murmurer à l'autre</label>
-                    <label><input type="checkbox" name="q35" data-type="R"> Écouter l'autre</label>
-                    <label><input type="checkbox" name="q35" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q35" data-type="A"> Pas à l'aise</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q36. Bain ou douche érotique à deux</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q36" data-type="L"> Adore</label>
-                    <label><input type="checkbox" name="q36" data-type="A"> Pas pratique / Neutre</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q37. Caresses avec plumes / tissus doux</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q37" data-type="D"> Caresser</label>
-                    <label><input type="checkbox" name="q37" data-type="R"> Être caressé(e)</label>
-                    <label><input type="checkbox" name="q37" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q37" data-type="A"> Trop léger</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q38. Baisers passionnés et prolongés pendant l'acte</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q38" data-type="L"> Essentiel</label>
-                    <label><input type="checkbox" name="q38" data-type="A"> Secondaire</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q39. Jeux avec de la glace / sensation chaud-froid</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q39" data-type="D"> Appliquer</label>
-                    <label><input type="checkbox" name="q39" data-type="R"> Recevoir</label>
-                    <label><input type="checkbox" name="q39" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q39" data-type="A"> Détestable</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q40. Romantisme brut (bougies, musique, cadre soigné)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q40" data-type="L"> J'adore l'ambiance</label>
-                    <label><input type="checkbox" name="q40" data-type="A"> Préfère le brut / spontané</label>
-                </div>
-            </div>
-
-            <!-- 5. EXHIBITION & VOYEURISME -->
-            <h2 class="category-title">5. Exhibition & Voyeurisme</h2>
-
-            <div class="question-card">
-                <div class="question-title">Q41. Fréquenter des clubs libertins / Saunas coquins</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q41" data-type="L"> Partant(e) / Déjà fait</label>
-                    <label><input type="checkbox" name="q41" data-type="A"> Jamais de la vie</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q42. Voyeurisme discret (regarder d'autres couples faire l'amour)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q42" data-type="L"> Très excitant</label>
-                    <label><input type="checkbox" name="q42" data-type="A"> Aucun intérêt</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q43. Exhibitionnisme discret (faire l'amour en sachant qu'on peut être vus)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q43" data-type="L"> Stimulant</label>
-                    <label><input type="checkbox" name="q43" data-type="A"> Bloquant</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q44. Photos et vidéos coquines privées à deux</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q44" data-type="D"> Filmer/Photographier</label>
-                    <label><input type="checkbox" name="q44" data-type="R"> Être filmé(e)/photographié(e)</label>
-                    <label><input type="checkbox" name="q44" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q44" data-type="A"> Crainte pour la vie privée</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q45. Tenues très suggestives en public (sans sous-vêtements, décolleté plongeant)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q45" data-type="D"> Aimer que l'autre le fasse</label>
-                    <label><input type="checkbox" name="q45" data-type="R"> Aimer le faire</label>
-                    <label><input type="checkbox" name="q45" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q45" data-type="A"> Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q46. Dogging / Sexe en nature / Plage la nuit</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q46" data-type="L"> Super fantantasme</label>
-                    <label><input type="checkbox" name="q46" data-type="A"> Trop risqué / Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q47. Jeux devant un miroir sans fin</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q47" data-type="L"> Visuellement excitant</label>
-                    <label><input type="checkbox" name="q47" data-type="A"> Gênant</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q48. Cam / Cam à deux (cam libertine sur internet)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q48" data-type="L"> Pourquoi pas</label>
-                    <label><input type="checkbox" name="q48" data-type="A"> Hors de question</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q49. Nudisme / Naturisme érotique</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q49" data-type="L"> Libérateur</label>
-                    <label><input type="checkbox" name="q49" data-type="A"> Mal à l'aise</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q50. Soirées thématiques avec dress-code strict (Fetish, Glamour)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q50" data-type="L"> Ambiance recherchée</label>
-                    <label><input type="checkbox" name="q50" data-type="A"> Pas mon univers</label>
-                </div>
-            </div>
-
-            <!-- 6. MÉLANGISME & PLURALITÉ -->
-            <h2 class="category-title">6. Mélangisme & Pluralité (Style Wyylde)</h2>
-
-            <div class="question-card">
-                <div class="question-title">Q51. Échangisme doux (côte à côte avec un autre couple, sans mélange)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q51" data-type="L"> Excité(e) par l'idée</label>
-                    <label><input type="checkbox" name="q51" data-type="A"> Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q52. Échangisme accompli (mélange complet des partenaires)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q52" data-type="L"> Déjà fait / Souhaité</label>
-                    <label><input type="checkbox" name="q52" data-type="A"> Jalousie / Limite</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q53. Trio à deux femmes et un homme (MFF)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q53" data-type="L"> Partant(e)</label>
-                    <label><input type="checkbox" name="q53" data-type="A"> Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q54. Trio à deux hommes et une femme (MMF)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q54" data-type="L"> Partant(e)</label>
-                    <label><input type="checkbox" name="q54" data-type="A"> Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q55. Cuckolding / Hotwiving (soumission ou plaisir de voir l'autre avec quelqu'un)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q55" data-type="D"> Regarder mon/ma partenaire s'amuser</label>
-                    <label><input type="checkbox" name="q55" data-type="R"> Être celui/celle qui prend du plaisir ailleurs</label>
-                    <label><input type="checkbox" name="q55" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q55" data-type="A"> Inimaginable</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q56. Gangbang / Reverse Gangbang</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q56" data-type="D"> Faire partie des intervenants</label>
-                    <label><input type="checkbox" name="q56" data-type="R"> Être au centre de l'attention</label>
-                    <label><input type="checkbox" name="q56" data-type="A"> Trop extrême / Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q57. Candaule (offrir la vue de sa/son partenaire)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q57" data-type="L"> Excitant</label>
-                    <label><input type="checkbox" name="q57" data-type="A"> Pas pour moi</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q58. Soirée privée en petit groupe libertin</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q58" data-type="L"> Cadre idéal</label>
-                    <label><input type="checkbox" name="q58" data-type="A"> Pas à l'aise</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q59. Libertinage virtuel (échanges de messages coquins à plusieurs)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q59" data-type="L"> Bon début / Excitant</label>
-                    <label><input type="checkbox" name="q59" data-type="A"> Inutile si pas réel</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q60. Flirt poussé en soirée sans passage à l'acte obligatoire</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q60" data-type="L"> J'adore le jeu de séduction</label>
-                    <label><input type="checkbox" name="q60" data-type="A"> Frustrant / Non</label>
-                </div>
-            </div>
-
-            <!-- 7. SÉCURITÉ & CONSENTEMENT -->
-            <h2 class="category-title">7. Sécurité, Cadre & Consentement</h2>
-
-            <div class="question-card">
-                <div class="question-title">Q61. Emploi strict d'un Safeword (mot de sécurité)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q61" data-type="L"> Indispensable à tout jeu</label>
-                    <label><input type="checkbox" name="q61" data-type="A"> On se comprend sans ça</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q62. Négociation préalable des limites (check-list avant session)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q62" data-type="L"> Nécessaire et rassurant</label>
-                    <label><input type="checkbox" name="q62" data-type="A"> Tue la spontanéité</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q63. CNC (Consensual Non-Consent / Non-consentement simulé)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q63" data-type="D"> Jouer l'agresseur</label>
-                    <label><input type="checkbox" name="q63" data-type="R"> Jouer la victime</label>
-                    <label><input type="checkbox" name="q63" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q63" data-type="A"> Limite absolue</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q64. Dépistage IST récents obligatoire avant tout échange</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q64" data-type="L"> Règle d'or absolue</label>
-                    <label><input type="checkbox" name="q64" data-type="A"> Confiance au feeling</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q65. Préservatif systématique avec les tiers</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q65" data-type="L"> Obligatoire</label>
-                    <label><input type="checkbox" name="q65" data-type="A"> Négociable sous condition</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q66. Débriefing post-session (discuter de ce qui a plu ou non)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q66" data-type="L"> Très important pour progresser</label>
-                    <label><input type="checkbox" name="q66" data-type="A"> Pas nécessaire</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q67. Droit de stopper la session à tout moment sans justification</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q67" data-type="L"> Règle fondamentale respectée</label>
-                    <label><input type="checkbox" name="q67" data-type="A"> Risque de tout gâcher</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q68. Contrat écrit ou protocole moral établi en couple</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q68" data-type="L"> Rassurant pour le cadre</label>
-                    <label><input type="checkbox" name="q68" data-type="A"> Trop administratif</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q69. Respect strict de l'anonymat des partenaires</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q69" data-type="L"> Crucial</label>
-                    <label><input type="checkbox" name="q69" data-type="A"> Secondaire</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q70. Utilisation du code couleur (Vert / Orange / Rouge) en jeu</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q70" data-type="L"> Pratique et clair</label>
-                    <label><input type="checkbox" name="q70" data-type="A"> Préfère un seul mot</label>
-                </div>
-            </div>
-
-            <!-- 8. PRATIQUES HARD & FÉTICHES -->
-            <h2 class="category-title">8. Pratiques Hard & Fétichisme</h2>
-
-            <div class="question-card">
-                <div class="question-title">Q71. Cage de chasteté à clé gardée par l'autre</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q71" data-type="D"> Garder la clé</label>
-                    <label><input type="checkbox" name="q71" data-type="R"> Porter la cage</label>
-                    <label><input type="checkbox" name="q71" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q71" data-type="A"> Limite</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q72. Breathplay / Erotic Asphyxiation (contrôle de la respiration)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q72" data-type="D"> Contrôler le souffle</label>
-                    <label><input type="checkbox" name="q72" data-type="R"> Laisser couper le souffle</label>
-                    <label><input type="checkbox" name="q72" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q72" data-type="A"> Danger / Limite absolue</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q73. Urolagnia / Golden Shower (jeux de pipi)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q73" data-type="D"> Uriner sur l'autre</label>
-                    <label><input type="checkbox" name="q73" data-type="R"> Recevoir</label>
-                    <label><input type="checkbox" name="q73" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q73" data-type="A"> Dégoût / Limite</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q74. Food Play / Messy Play (nourriture sur le corps)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q74" data-type="L"> Sympa / Excitant</label>
-                    <label><input type="checkbox" name="q74" data-type="A"> Ça colle / Bof</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q75. Fétichisme des pieds (Foot Worship / Footjob)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q75" data-type="D"> Faire vénérer ses pieds</label>
-                    <label><input type="checkbox" name="q75" data-type="R"> Vénérer les pieds</label>
-                    <label><input type="checkbox" name="q75" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q75" data-type="A"> Aucun attrait</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q76. Medical Play (scénarios médicaux, sondes, stéthoscope)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q76" data-type="D"> Jouer le médecin/infirmier</label>
-                    <label><input type="checkbox" name="q76" data-type="R"> Jouer le patient</label>
-                    <label><input type="checkbox" name="q76" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q76" data-type="A"> Pas mon truc</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q77. Sounding (insertion de tiges médicales dans l'urètre)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q77" data-type="D"> Pratiquer</label>
-                    <label><input type="checkbox" name="q77" data-type="R"> Subir</label>
-                    <label><input type="checkbox" name="q77" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q77" data-type="A"> Limite absolue</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q78. Human Furniture / Objetification humaine</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q78" data-type="D"> Utiliser le partenaire comme objet</label>
-                    <label><input type="checkbox" name="q78" data-type="R"> Servir de meuble/table</label>
-                    <label><input type="checkbox" name="q78" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q78" data-type="A"> Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q79. Masques & Petplay (Ponyplay, Puppyplay)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q79" data-type="D"> Mener le jeu</label>
-                    <label><input type="checkbox" name="q79" data-type="R"> Incarné l'animal</label>
-                    <label><input type="checkbox" name="q79" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q79" data-type="A"> Ridicule / Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q80. Suspension BDSM complète au plafond</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q80" data-type="D"> Suspendre</label>
-                    <label><input type="checkbox" name="q80" data-type="R"> Être suspendu(e)</label>
-                    <label><input type="checkbox" name="q80" data-type="L"> Les deux</label>
-                    <label><input type="checkbox" name="q80" data-type="A"> Trop impressionnant / Non</label>
-                </div>
-            </div>
-
-            <!-- 9. PREFERENCES PHYSIQUES -->
-            <h2 class="category-title">9. Préférences Physiques (Attirance)</h2>
-
-            <!-- Version H (Attirance envers Femme) -->
-            <div class="gender-specific q-homme">
-                <div class="question-card">
-                    <div class="question-title">Q81 (H). Poitrine préférée</div>
-                    <div class="options">
-                        <label><input type="checkbox" name="q81_h" data-type="Physique"> Menue / Naturelle</label>
-                        <label><input type="checkbox" name="q81_h" data-type="Physique"> Généreuse / Pulpeuse</label>
-                    </div>
-                </div>
-                <div class="question-card">
-                    <div class="question-title">Q82 (H). Pilosité intime féminine</div>
-                    <div class="options">
-                        <label><input type="checkbox" name="q82_h" data-type="Physique"> Totalement rasée</label>
-                        <label><input type="checkbox" name="q82_h" data-type="Physique"> Ticket de métro / Naturelle</label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Version F (Attirance envers Homme) -->
-            <div class="gender-specific q-femme">
-                <div class="question-card">
-                    <div class="question-title">Q81 (F). Barbe & Pilosité faciale</div>
-                    <div class="options">
-                        <label><input type="checkbox" name="q81_f" data-type="Physique"> Barbe de 3 jours / Fournie</label>
-                        <label><input type="checkbox" name="q81_f" data-type="Physique"> Rasé de près</label>
-                    </div>
-                </div>
-                <div class="question-card">
-                    <div class="question-title">Q82 (F). Carrure masculine</div>
-                    <div class="options">
-                        <label><input type="checkbox" name="q82_f" data-type="Physique"> Athlétique / Musclé</label>
-                        <label><input type="checkbox" name="q82_f" data-type="Physique"> Nounours / Normal</label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Questions Physiques Communes (Q83 à Q90) -->
-            <div class="question-card">
-                <div class="question-title">Q83. Morphologie générale recherchée</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q83" data-type="Physique"> Mince / Élancé(e)</label>
-                    <label><input type="checkbox" name="q83" data-type="Physique"> Curvy / En chair / Athlétique</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q84. Tatouages et Piercings vus sur le partenaire</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q84" data-type="Physique"> Très attirant (Heavy Tattooed)</label>
-                    <label><input type="checkbox" name="q84" data-type="Physique"> Préfère la peau vierge</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q85. Style vestimentaire du quotidien</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q85" data-type="Physique"> Chic / Élégan(e)</label>
-                    <label><input type="checkbox" name="q85" data-type="Physique"> Alternative / Rock / Goth</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q86. Différence d'âge idéale</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q86" data-type="Physique"> Mon âge (à +/- 5 ans)</label>
-                    <label><input type="checkbox" name="q86" data-type="Physique"> Nettement plus âgé(e) / plus jeune</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q87. Charisme de la voix / Regard intense</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q87" data-type="Physique"> Critère numéro 1 pour moi</label>
-                    <label><input type="checkbox" name="q87" data-type="Physique"> Secondaire</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q88. Pilosité corporelle générale</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q88" data-type="Physique"> Integralement glabre / Épilé(e)</label>
-                    <label><input type="checkbox" name="q88" data-type="Physique"> Pilosité naturelle acceptée/aimée</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q89. Grande taille (Taille au-dessus de la moyenne)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q89" data-type="Physique"> Un vrai plus</label>
-                    <label><input type="checkbox" name="q89" data-type="Physique"> Aucune importance</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q90. Soin des mains et hygiène irréprochable</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q90" data-type="Physique"> Bloquant si pas parfait</label>
-                    <label><input type="checkbox" name="q90" data-type="Physique"> Normal</label>
-                </div>
-            </div>
-
-            <!-- 10. CADRE RELATIONNEL & FRÉQUENCE -->
-            <h2 class="category-title">10. Cadre Relationnel & Fréquence</h2>
-
-            <div class="question-card">
-                <div class="question-title">Q91. Relation libre / Polyamour assumé</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q91" data-type="L"> Mon mode de vie idéal</label>
-                    <label><input type="checkbox" name="q91" data-type="A"> Monogamie stricte uniquement</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q92. Rencontres éphémères (Plan cul / One night)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q92" data-type="L"> D'accord si le courant passe</label>
-                    <label><input type="checkbox" name="q92" data-type="A"> Besoin de régularité</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q93. Démisexualité (besoin de connexion émotionnelle pour s'ouvrir)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q93" data-type="L"> C'est tout à fait moi</label>
-                    <label><input type="checkbox" name="q93" data-type="A"> Le désir peut être purement physique</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q94. Fréquence des rapports / jeux coquins</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q94" data-type="L"> Très élevée (Quotidienne ou presque)</label>
-                    <label><input type="checkbox" name="q94" data-type="A"> Modérée à occasionnelle</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q95. Exclusivité du jeu BDSM (pratiquer du BDSM uniquement avec un(e) partenaire titulaire)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q95" data-type="L"> Oui, domaine réservé</label>
-                    <label><input type="checkbox" name="q95" data-type="A"> Non, possible avec d'autres</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q96. Distinction stricte entre Amour et Sexe</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q96" data-type="L"> Capable de séparer complètement</label>
-                    <label><input type="checkbox" name="q96" data-type="A"> Les deux sont indissociables</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q97. Voyages / Week-ends thématiques libertins</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q97" data-type="L"> Projet très enthousiasmant</label>
-                    <label><input type="checkbox" name="q97" data-type="A"> Trop engageant / Non</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q98. Communication quotidienne sur les fantasmes (Sexting)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q98" data-type="L"> Entretenir la flamme ainsi</label>
-                    <label><input type="checkbox" name="q98" data-type="A"> Préfère garder tout pour le réel</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q99. Discrétion absolue (Mode Incognito strict dans la vie courante)</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q99" data-type="L"> Imperatif absolu</label>
-                    <label><input type="checkbox" name="q99" data-type="A"> Assumé auprès des proches</label>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-title">Q100. Volonté de faire évoluer mes pratiques et de tester du neuf</div>
-                <div class="options">
-                    <label><input type="checkbox" name="q100" data-type="L"> Esprit très ouvert / Explorateur</label>
-                    <label><input type="checkbox" name="q100" data-type="A"> Zone de confort définie</label>
-                </div>
-            </div>
-
-            <div class="actions">
-                <button type="button" onclick="calculateResults()">Voir mes résultats</button>
-                <button type="button" onclick="resetForm()" class="btn-reset">Réinitialiser</button>
-            </div>
-
-        </form>
-
-        <!-- Résultats -->
-        <div id="results-container" style="display: none;">
-            <h2>Tes Résultats</h2>
-            <p id="profile-main-summary" style="text-align: center; font-weight: bold; font-size: 1.2em;"></p>
-            
-            <div id="scores-breakdown">
-                <div>Dominance (D) : <span id="val-D"></span>%</div>
-                <div class="score-bar-bg"><div id="bar-D" class="score-bar-fill"></div></div>
-
-                <div>Soumission (R) : <span id="val-R"></span>%</div>
-                <div class="score-bar-bg"><div id="bar-R" class="score-bar-fill"></div></div>
-
-                <div>Switch / Flexibilité (L) : <span id="val-L"></span>%</div>
-                <div class="score-bar-bg"><div id="bar-L" class="score-bar-fill"></div></div>
-
-                <div>Vanilla / Limites (A) : <span id="val-A"></span>%</div>
-                <div class="score-bar-bg"><div id="bar-A" class="score-bar-fill"></div></div>
-            </div>
-
-            <hr style="border-color: var(--border-color); margin: 20px 0;">
-            <p id="physique-summary"></p>
-
-            <div class="export-actions">
-                <button onclick="copyResults()">📋 Copier mes résultats</button>
-                <button onclick="downloadResults()">💾 Télécharger le bilan (.txt)</button>
-            </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q3. Soumission totale temporaire (obéissance aveugle)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q3" data-type="D" data-weight="3"> Diriger le jeu</label>
+          <label><input type="checkbox" name="q3" data-type="R" data-weight="3"> M'abandonner totalement</label>
+          <label><input type="checkbox" name="q3" data-type="L" data-weight="2"> Selon l'humeur (Switch)</label>
+          <label class="limit"><input type="checkbox" name="q3" data-type="A" data-weight="1"> Pas pour moi</label>
         </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q4. Protocole et formules de politesse (demander la permission)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q4" data-type="D" data-weight="2"> L'exiger</label>
+          <label><input type="checkbox" name="q4" data-type="R" data-weight="2"> L'appliquer</label>
+          <label><input type="checkbox" name="q4" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q4" data-type="A" data-weight="1"> Trop rigide / Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q5. Adoration du corps du partenaire (culte des pieds, du sexe...)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q5" data-type="D" data-weight="2"> Se faire adorer</label>
+          <label><input type="checkbox" name="q5" data-type="R" data-weight="2"> Adorer le partenaire</label>
+          <label><input type="checkbox" name="q5" data-type="L" data-weight="2"> Alterner</label>
+          <label class="limit"><input type="checkbox" name="q5" data-type="A" data-weight="1"> Sans opinion / Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q6. Contrôle des orgasmes (Orgasm Control / Denial)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q6" data-type="D" data-weight="3"> Décider quand l'autre jouit</label>
+          <label><input type="checkbox" name="q6" data-type="R" data-weight="3"> Laisser le contrôle de mon orgasme</label>
+          <label><input type="checkbox" name="q6" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q6" data-type="A" data-weight="1"> Pas attiré(e)</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q7. Châtiments et punitions scénarisées</div>
+        <div class="options">
+          <label><input type="checkbox" name="q7" data-type="D" data-weight="2"> Infliger la punition</label>
+          <label><input type="checkbox" name="q7" data-type="R" data-weight="2"> Être puni(e)</label>
+          <label><input type="checkbox" name="q7" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q7" data-type="A" data-weight="1"> Hors de question</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q8. Jeux de rôles avec asymétrie de pouvoir (Prof/Élève, Patron/Employé)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q8" data-type="D" data-weight="2"> Jouer l'autorité</label>
+          <label><input type="checkbox" name="q8" data-type="R" data-weight="2"> Jouer le/la dominé(e)</label>
+          <label><input type="checkbox" name="q8" data-type="L" data-weight="2"> Selon le scénario</label>
+          <label class="limit"><input type="checkbox" name="q8" data-type="A" data-weight="1"> Trop factice</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q9. Dégradation consensuelle / Humiliation douce</div>
+        <div class="options">
+          <label><input type="checkbox" name="q9" data-type="D" data-weight="3"> Être humiliant(e)</label>
+          <label><input type="checkbox" name="q9" data-type="R" data-weight="3"> Être humilié(e)</label>
+          <label><input type="checkbox" name="q9" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q9" data-type="A" data-weight="1"> Limite absolue</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q10. Contrôle de la tenue vestimentaire par le partenaire</div>
+        <div class="options">
+          <label><input type="checkbox" name="q10" data-type="D" data-weight="2"> Imposer la tenue</label>
+          <label><input type="checkbox" name="q10" data-type="R" data-weight="2"> Porter ce qu'on m'impose</label>
+          <label><input type="checkbox" name="q10" data-type="L" data-weight="2"> Alterner</label>
+          <label class="limit"><input type="checkbox" name="q10" data-type="A" data-weight="1"> Inutile</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q11. Guidage physique (main derrière la tête, pousser à genoux)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q11" data-type="D" data-weight="2"> Guider fermement</label>
+          <label><input type="checkbox" name="q11" data-type="R" data-weight="2"> Être guidé(e)</label>
+          <label><input type="checkbox" name="q11" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q11" data-type="A" data-weight="1"> Pas pour moi</label>
+        </div>
+      </div>
+
+      <!-- 2. ANAL & ANATOMIE -->
+      <h2 class="category-title" data-gender="both">2. Pratiques Anal & Stimulation</h2>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q12. Analingus (stimuler l'anus avec la langue)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q12" data-type="D" data-weight="2"> Donner</label>
+          <label><input type="checkbox" name="q12" data-type="R" data-weight="2"> Recevoir</label>
+          <label><input type="checkbox" name="q12" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q12" data-type="A" data-weight="1"> Pas du tout</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q13. Pénétration anale classique</div>
+        <div class="options">
+          <label><input type="checkbox" name="q13" data-type="D" data-weight="2"> Pénétrer</label>
+          <label><input type="checkbox" name="q13" data-type="R" data-weight="2"> Être pénétré(e)</label>
+          <label><input type="checkbox" name="q13" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q13" data-type="A" data-weight="1"> Pas attiré(e)</label>
+        </div>
+      </div>
+
+      <!-- Q14 : version Homme -->
+      <div class="question-card" data-gender="H">
+        <div class="question-title">Q14. Stimulation prostatique (doigt/massager) ou Pegging</div>
+        <div class="options">
+          <label><input type="checkbox" name="q14" data-type="R" data-weight="2"> Curieux / Pratiquant</label>
+          <label class="explore"><input type="checkbox" name="q14" data-type="A" data-weight="1"> À explorer</label>
+          <label class="limit"><input type="checkbox" name="q14" data-type="A" data-weight="1"> Pas pour moi</label>
+        </div>
+      </div>
+
+      <!-- Q14 : version Femme -->
+      <div class="question-card" data-gender="F">
+        <div class="question-title">Q14. Pegging (pénétrer un homme avec un strap-on)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q14" data-type="D" data-weight="2"> J'aime pratiquer</label>
+          <label class="explore"><input type="checkbox" name="q14" data-type="A" data-weight="1"> À explorer</label>
+          <label class="limit"><input type="checkbox" name="q14" data-type="A" data-weight="1"> Pas pour moi</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q15. Plugs anaux portés au quotidien ou en soirée</div>
+        <div class="options">
+          <label><input type="checkbox" name="q15" data-type="D" data-weight="2"> Faire porter</label>
+          <label><input type="checkbox" name="q15" data-type="R" data-weight="2"> Porter</label>
+          <label><input type="checkbox" name="q15" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q15" data-type="A" data-weight="1"> Aucun attrait</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q16. Utilisation de sextoys imposants (dildos XL, dilatateurs)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q16" data-type="D" data-weight="3"> Utiliser sur l'autre</label>
+          <label><input type="checkbox" name="q16" data-type="R" data-weight="3"> Recevoir</label>
+          <label><input type="checkbox" name="q16" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q16" data-type="A" data-weight="1"> Trop effrayant / Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q17. Double pénétration (DP)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q17" data-type="D" data-weight="3"> Pénétrer à deux</label>
+          <label><input type="checkbox" name="q17" data-type="R" data-weight="3"> Être doublement pénétré(e)</label>
+          <label><input type="checkbox" name="q17" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q17" data-type="A" data-weight="1"> Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q18. Fisting anal (introduction progressive de la main)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q18" data-type="D" data-weight="3"> Pratiquer</label>
+          <label><input type="checkbox" name="q18" data-type="R" data-weight="3"> Recevoir</label>
+          <label><input type="checkbox" name="q18" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q18" data-type="A" data-weight="1"> Limite absolue</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q19. Lavements / Enema préparatoire ritualisé</div>
+        <div class="options">
+          <label><input type="checkbox" name="q19" data-type="D" data-weight="2"> Administrer</label>
+          <label><input type="checkbox" name="q19" data-type="R" data-weight="2"> Subir</label>
+          <label><input type="checkbox" name="q19" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q19" data-type="A" data-weight="1"> Pas pour moi</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q20. Asservissement anal (plug verrouillé, chasteté anale)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q20" data-type="D" data-weight="3"> Contrôler</label>
+          <label><input type="checkbox" name="q20" data-type="R" data-weight="3"> Être verrouillé(e)</label>
+          <label><input type="checkbox" name="q20" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q20" data-type="A" data-weight="1"> Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q21. Exploration lente des zones érogènes profondes</div>
+        <div class="options">
+          <label><input type="checkbox" name="q21" data-type="D" data-weight="1"> Prendre son temps</label>
+          <label><input type="checkbox" name="q21" data-type="R" data-weight="1"> Laisser explorer</label>
+          <label><input type="checkbox" name="q21" data-type="L" data-weight="1"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q21" data-type="A" data-weight="1"> Sans intérêt</label>
+        </div>
+      </div>
+
+      <!-- 3. BDSM & SENSATIONS -->
+      <h2 class="category-title" data-gender="both">3. BDSM & Impact Play</h2>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q22. Shibari / Cordes (art du bondage japonais)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q22" data-type="D" data-weight="3"> Attacher (Rigger)</label>
+          <label><input type="checkbox" name="q22" data-type="R" data-weight="3"> Être attaché(e) (Model)</label>
+          <label><input type="checkbox" name="q22" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q22" data-type="A" data-weight="1"> Pas attiré(e)</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q23. Spanking (fessées à la main, paddle, martinet)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q23" data-type="D" data-weight="2"> Donner</label>
+          <label><input type="checkbox" name="q23" data-type="R" data-weight="2"> Recevoir</label>
+          <label><input type="checkbox" name="q23" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q23" data-type="A" data-weight="1"> Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q24. Cravache & Impact Play lourd (fouet, canne)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q24" data-type="D" data-weight="3"> Frapper</label>
+          <label><input type="checkbox" name="q24" data-type="R" data-weight="3"> Recevoir les coups</label>
+          <label><input type="checkbox" name="q24" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q24" data-type="A" data-weight="1"> Limite</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q25. Wax Play (gouttes de bougie chaude)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q25" data-type="D" data-weight="2"> Faire couler</label>
+          <label><input type="checkbox" name="q25" data-type="R" data-weight="2"> Recevoir la cire</label>
+          <label><input type="checkbox" name="q25" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q25" data-type="A" data-weight="1"> Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q26. Pinces à seins / Pinces érotiques</div>
+        <div class="options">
+          <label><input type="checkbox" name="q26" data-type="D" data-weight="2"> Poser les pinces</label>
+          <label><input type="checkbox" name="q26" data-type="R" data-weight="2"> Porter les pinces</label>
+          <label><input type="checkbox" name="q26" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q26" data-type="A" data-weight="1"> Pas pour moi</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q27. Privation sensorielle (bandeau, casque anti-bruit)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q27" data-type="D" data-weight="2"> Priver l'autre de ses sens</label>
+          <label><input type="checkbox" name="q27" data-type="R" data-weight="2"> Être privé(e) de mes sens</label>
+          <label><input type="checkbox" name="q27" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q27" data-type="A" data-weight="1"> Inconfortable</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q28. Électro-stimulation (Estim)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q28" data-type="D" data-weight="3"> Manipuler l'appareil</label>
+          <label><input type="checkbox" name="q28" data-type="R" data-weight="3"> Recevoir les impulsions</label>
+          <label><input type="checkbox" name="q28" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q28" data-type="A" data-weight="1"> Limite</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q29. Tenues Cuir / Latex / Rubber</div>
+        <div class="options">
+          <label><input type="checkbox" name="q29" data-type="D" data-weight="2"> Aimer voir le partenaire vêtu</label>
+          <label><input type="checkbox" name="q29" data-type="R" data-weight="2"> Aimer porter du latex/cuir</label>
+          <label><input type="checkbox" name="q29" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q29" data-type="A" data-weight="1"> Sans intérêt</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q30. Aiguilles / Play Piercing (perçage éphémère)</div>
+        <div class="warning-box">⚠ Pratique à haut risque : matériel stérile et hygiène irréprochable obligatoires.</div>
+        <div class="options">
+          <label><input type="checkbox" name="q30" data-type="D" data-weight="3"> Piquer</label>
+          <label><input type="checkbox" name="q30" data-type="R" data-weight="3"> Être piqué(e)</label>
+          <label><input type="checkbox" name="q30" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q30" data-type="A" data-weight="1"> Limite absolue</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q31. Marquage / Traces temporaires (morsures, griffures)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q31" data-type="D" data-weight="2"> Laisser des marques</label>
+          <label><input type="checkbox" name="q31" data-type="R" data-weight="2"> Porter des marques</label>
+          <label><input type="checkbox" name="q31" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q31" data-type="A" data-weight="1"> Non</label>
+        </div>
+      </div>
+
+      <!-- 4. SOFT & ROMANCE -->
+      <h2 class="category-title" data-gender="both">4. Soft, Tendresse & Sensualité</h2>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q32. Massage tantrique et érotique au long cours</div>
+        <div class="options">
+          <label><input type="checkbox" name="q32" data-type="D" data-weight="1"> Masser</label>
+          <label><input type="checkbox" name="q32" data-type="R" data-weight="1"> Être massé(e)</label>
+          <label><input type="checkbox" name="q32" data-type="L" data-weight="1"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q32" data-type="A" data-weight="1"> S'ennuie vite</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q33. Slow Sex (pénétration ultra-lente sans objectif d'orgasme)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q33" data-type="L" data-weight="1"> Grand adepte</label>
+          <label class="explore"><input type="checkbox" name="q33" data-type="A" data-weight="1"> À explorer</label>
+          <label class="limit"><input type="checkbox" name="q33" data-type="A" data-weight="1"> Pas mon style</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q34. Câlins de fin de session (Aftercare doux)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q34" data-type="L" data-weight="1"> Indispensable pour moi</label>
+          <label class="limit"><input type="checkbox" name="q34" data-type="A" data-weight="1"> Pas nécessaire</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q35. Masturbation croisée / Regard prolongé</div>
+        <div class="options">
+          <label><input type="checkbox" name="q35" data-type="L" data-weight="1"> Très excitant</label>
+          <label class="explore"><input type="checkbox" name="q35" data-type="A" data-weight="1"> À tester</label>
+          <label class="limit"><input type="checkbox" name="q35" data-type="A" data-weight="1"> Bizarre / Bof</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q36. Dirty talk doux / Murmures à l'oreille</div>
+        <div class="options">
+          <label><input type="checkbox" name="q36" data-type="D" data-weight="1"> Murmurer à l'autre</label>
+          <label><input type="checkbox" name="q36" data-type="R" data-weight="1"> Écouter l'autre</label>
+          <label><input type="checkbox" name="q36" data-type="L" data-weight="1"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q36" data-type="A" data-weight="1"> Pas à l'aise</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q37. Bain ou douche érotique à deux</div>
+        <div class="options">
+          <label><input type="checkbox" name="q37" data-type="L" data-weight="1"> Adore</label>
+          <label class="limit"><input type="checkbox" name="q37" data-type="A" data-weight="1"> Pas pratique / Neutre</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q38. Caresses avec plumes / tissus doux</div>
+        <div class="options">
+          <label><input type="checkbox" name="q38" data-type="D" data-weight="1"> Caresser</label>
+          <label><input type="checkbox" name="q38" data-type="R" data-weight="1"> Être caressé(e)</label>
+          <label><input type="checkbox" name="q38" data-type="L" data-weight="1"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q38" data-type="A" data-weight="1"> Trop léger</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q39. Baisers passionnés et prolongés pendant l'acte</div>
+        <div class="options">
+          <label><input type="checkbox" name="q39" data-type="L" data-weight="1"> Essentiel</label>
+          <label class="limit"><input type="checkbox" name="q39" data-type="A" data-weight="1"> Secondaire</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q40. Jeux avec de la glace / sensation chaud-froid</div>
+        <div class="options">
+          <label><input type="checkbox" name="q40" data-type="D" data-weight="1"> Appliquer</label>
+          <label><input type="checkbox" name="q40" data-type="R" data-weight="1"> Recevoir</label>
+          <label><input type="checkbox" name="q40" data-type="L" data-weight="1"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q40" data-type="A" data-weight="1"> Détestable</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q41. Romantisme brut (bougies, musique, cadre soigné)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q41" data-type="L" data-weight="1"> J'adore l'ambiance</label>
+          <label class="limit"><input type="checkbox" name="q41" data-type="A" data-weight="1"> Préfère le brut / spontané</label>
+        </div>
+      </div>
+
+      <!-- 5. EXHIBITION & VOYEURISME -->
+      <h2 class="category-title" data-gender="both">5. Exhibition & Voyeurisme</h2>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q42. Fréquenter des clubs libertins / Saunas coquins</div>
+        <div class="options">
+          <label><input type="checkbox" name="q42" data-type="L" data-weight="2"> Partant(e) / Déjà fait</label>
+          <label class="explore"><input type="checkbox" name="q42" data-type="A" data-weight="1"> Curieux(se)</label>
+          <label class="limit"><input type="checkbox" name="q42" data-type="A" data-weight="1"> Jamais de la vie</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q43. Voyeurisme discret (regarder d'autres couples)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q43" data-type="L" data-weight="2"> Très excitant</label>
+          <label class="limit"><input type="checkbox" name="q43" data-type="A" data-weight="1"> Aucun intérêt</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q44. Exhibitionnisme discret (en sachant qu'on peut être vus)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q44" data-type="L" data-weight="2"> Stimulant</label>
+          <label class="limit"><input type="checkbox" name="q44" data-type="A" data-weight="1"> Bloquant</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q45. Photos et vidéos coquines privées à deux</div>
+        <div class="options">
+          <label><input type="checkbox" name="q45" data-type="D" data-weight="2"> Filmer/Photographier</label>
+          <label><input type="checkbox" name="q45" data-type="R" data-weight="2"> Être filmé(e)/photographié(e)</label>
+          <label><input type="checkbox" name="q45" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q45" data-type="A" data-weight="1"> Crainte pour la vie privée</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q46. Tenues très suggestives en public (sans sous-vêtements, décolleté)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q46" data-type="D" data-weight="2"> Aimer que l'autre le fasse</label>
+          <label><input type="checkbox" name="q46" data-type="R" data-weight="2"> Aimer le faire</label>
+          <label><input type="checkbox" name="q46" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q46" data-type="A" data-weight="1"> Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q47. Dogging / Sexe en nature / Plage la nuit</div>
+        <div class="options">
+          <label><input type="checkbox" name="q47" data-type="L" data-weight="2"> Super fantasme</label>
+          <label class="explore"><input type="checkbox" name="q47" data-type="A" data-weight="1"> À explorer</label>
+          <label class="limit"><input type="checkbox" name="q47" data-type="A" data-weight="1"> Trop risqué / Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q48. Jeux devant un miroir sans fin</div>
+        <div class="options">
+          <label><input type="checkbox" name="q48" data-type="L" data-weight="1"> Visuellement excitant</label>
+          <label class="limit"><input type="checkbox" name="q48" data-type="A" data-weight="1"> Gênant</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q49. Cam / Cam à deux (diffusion sur internet)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q49" data-type="L" data-weight="2"> Pourquoi pas</label>
+          <label class="limit"><input type="checkbox" name="q49" data-type="A" data-weight="1"> Hors de question</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q50. Nudisme / Naturisme érotique</div>
+        <div class="options">
+          <label><input type="checkbox" name="q50" data-type="L" data-weight="1"> Libérateur</label>
+          <label class="limit"><input type="checkbox" name="q50" data-type="A" data-weight="1"> Mal à l'aise</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q51. Soirées thématiques avec dress-code strict (Fetish, Glamour)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q51" data-type="L" data-weight="2"> Ambiance recherchée</label>
+          <label class="limit"><input type="checkbox" name="q51" data-type="A" data-weight="1"> Pas mon univers</label>
+        </div>
+      </div>
+
+      <!-- 6. MÉLANGISME & PLURALITÉ -->
+      <h2 class="category-title" data-gender="both">6. Mélangisme & Pluralité</h2>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q52. Échangisme doux (côte à côte avec un autre couple)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q52" data-type="L" data-weight="2"> Excité(e) par l'idée</label>
+          <label class="explore"><input type="checkbox" name="q52" data-type="A" data-weight="1"> À explorer</label>
+          <label class="limit"><input type="checkbox" name="q52" data-type="A" data-weight="1"> Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q53. Échangisme accompli (mélange complet des partenaires)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q53" data-type="L" data-weight="3"> Déjà fait / Souhaité</label>
+          <label class="limit"><input type="checkbox" name="q53" data-type="A" data-weight="1"> Jalousie / Limite</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q54. Trio à deux femmes et un homme (MFF)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q54" data-type="L" data-weight="2"> Partant(e)</label>
+          <label class="explore"><input type="checkbox" name="q54" data-type="A" data-weight="1"> À explorer</label>
+          <label class="limit"><input type="checkbox" name="q54" data-type="A" data-weight="1"> Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q55. Trio à deux hommes et une femme (MMF)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q55" data-type="L" data-weight="2"> Partant(e)</label>
+          <label class="explore"><input type="checkbox" name="q55" data-type="A" data-weight="1"> À explorer</label>
+          <label class="limit"><input type="checkbox" name="q55" data-type="A" data-weight="1"> Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q56. Cuckolding / Hotwifing (voir l'autre avec quelqu'un)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q56" data-type="D" data-weight="3"> Regarder mon/ma partenaire s'amuser</label>
+          <label><input type="checkbox" name="q56" data-type="R" data-weight="3"> Être celui/celle qui prend du plaisir ailleurs</label>
+          <label><input type="checkbox" name="q56" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q56" data-type="A" data-weight="1"> Inimaginable</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q57. Gangbang / Reverse Gangbang</div>
+        <div class="options">
+          <label><input type="checkbox" name="q57" data-type="D" data-weight="3"> Faire partie des intervenants</label>
+          <label><input type="checkbox" name="q57" data-type="R" data-weight="3"> Être au centre de l'attention</label>
+          <label class="limit"><input type="checkbox" name="q57" data-type="A" data-weight="1"> Trop extrême / Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q58. Candaule (offrir la vue de sa/son partenaire)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q58" data-type="L" data-weight="2"> Excitant</label>
+          <label class="limit"><input type="checkbox" name="q58" data-type="A" data-weight="1"> Pas pour moi</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q59. Soirée privée en petit groupe libertin</div>
+        <div class="options">
+          <label><input type="checkbox" name="q59" data-type="L" data-weight="2"> Cadre idéal</label>
+          <label class="limit"><input type="checkbox" name="q59" data-type="A" data-weight="1"> Pas à l'aise</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q60. Libertinage virtuel (échanges de messages coquins à plusieurs)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q60" data-type="L" data-weight="1"> Bon début / Excitant</label>
+          <label class="limit"><input type="checkbox" name="q60" data-type="A" data-weight="1"> Inutile si pas réel</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q61. Flirt poussé en soirée sans passage à l'acte obligatoire</div>
+        <div class="options">
+          <label><input type="checkbox" name="q61" data-type="L" data-weight="1"> J'adore le jeu de séduction</label>
+          <label class="limit"><input type="checkbox" name="q61" data-type="A" data-weight="1"> Frustrant / Non</label>
+        </div>
+      </div>
+
+      <!-- 7. SÉCURITÉ & CONSENTEMENT -->
+      <h2 class="category-title" data-gender="both">7. Sécurité, Cadre & Consentement</h2>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q62. Emploi strict d'un Safeword (mot de sécurité)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q62" data-type="L" data-weight="2"> Indispensable à tout jeu</label>
+          <label class="limit"><input type="checkbox" name="q62" data-type="A" data-weight="1"> On se comprend sans ça</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q63. Négociation préalable des limites (check-list avant session)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q63" data-type="L" data-weight="2"> Nécessaire et rassurant</label>
+          <label class="limit"><input type="checkbox" name="q63" data-type="A" data-weight="1"> Tue la spontanéité</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q64. CNC (Consensual Non-Consent / Non-consentement simulé)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q64" data-type="D" data-weight="3"> Rôle dominant</label>
+          <label><input type="checkbox" name="q64" data-type="R" data-weight="3"> Rôle dominé</label>
+          <label><input type="checkbox" name="q64" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q64" data-type="A" data-weight="1"> Limite absolue</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q65. Dépistage IST récents obligatoire avant tout échange</div>
+        <div class="options">
+          <label><input type="checkbox" name="q65" data-type="L" data-weight="2"> Règle d'or absolue</label>
+          <label class="limit"><input type="checkbox" name="q65" data-type="A" data-weight="1"> Confiance au feeling</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q66. Préservatif systématique avec les tiers</div>
+        <div class="options">
+          <label><input type="checkbox" name="q66" data-type="L" data-weight="2"> Obligatoire</label>
+          <label class="limit"><input type="checkbox" name="q66" data-type="A" data-weight="1"> Négociable sous condition</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q67. Débriefing post-session (discuter de ce qui a plu ou non)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q67" data-type="L" data-weight="2"> Très important pour progresser</label>
+          <label class="limit"><input type="checkbox" name="q67" data-type="A" data-weight="1"> Pas nécessaire</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q68. Droit de stopper la session à tout moment sans justification</div>
+        <div class="options">
+          <label><input type="checkbox" name="q68" data-type="L" data-weight="2"> Règle fondamentale respectée</label>
+          <label class="limit"><input type="checkbox" name="q68" data-type="A" data-weight="1"> Risque de tout gâcher</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q69. Contrat écrit ou protocole moral établi en couple</div>
+        <div class="options">
+          <label><input type="checkbox" name="q69" data-type="L" data-weight="2"> Rassurant pour le cadre</label>
+          <label class="limit"><input type="checkbox" name="q69" data-type="A" data-weight="1"> Trop administratif</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q70. Respect strict de l'anonymat des partenaires</div>
+        <div class="options">
+          <label><input type="checkbox" name="q70" data-type="L" data-weight="2"> Crucial</label>
+          <label class="limit"><input type="checkbox" name="q70" data-type="A" data-weight="1"> Secondaire</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q71. Utilisation du code couleur (Vert / Orange / Rouge) en jeu</div>
+        <div class="options">
+          <label><input type="checkbox" name="q71" data-type="L" data-weight="2"> Pratique et clair</label>
+          <label class="limit"><input type="checkbox" name="q71" data-type="A" data-weight="1"> Préfère un seul mot</label>
+        </div>
+      </div>
+
+      <!-- 8. PRATIQUES HARD & FÉTICHES -->
+      <h2 class="category-title" data-gender="both">8. Pratiques Hard & Fétichisme</h2>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q72. Cage de chasteté à clé gardée par l'autre</div>
+        <div class="options">
+          <label><input type="checkbox" name="q72" data-type="D" data-weight="3"> Garder la clé</label>
+          <label><input type="checkbox" name="q72" data-type="R" data-weight="3"> Porter la cage</label>
+          <label><input type="checkbox" name="q72" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q72" data-type="A" data-weight="1"> Limite</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q73. Breathplay / Erotic Asphyxiation (contrôle de la respiration)</div>
+        <div class="warning-box">⚠ Pratique mortelle si mal exécutée. Aucune pression sur la trachée. Formation obligatoire.</div>
+        <div class="options">
+          <label><input type="checkbox" name="q73" data-type="D" data-weight="3"> Contrôler le souffle</label>
+          <label><input type="checkbox" name="q73" data-type="R" data-weight="3"> Laisser couper le souffle</label>
+          <label><input type="checkbox" name="q73" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q73" data-type="A" data-weight="1"> Danger / Limite absolue</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q74. Urolagnia / Golden Shower (jeux de pipi)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q74" data-type="D" data-weight="2"> Uriner sur l'autre</label>
+          <label><input type="checkbox" name="q74" data-type="R" data-weight="2"> Recevoir</label>
+          <label><input type="checkbox" name="q74" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q74" data-type="A" data-weight="1"> Dégoût / Limite</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q75. Food Play / Messy Play (nourriture sur le corps)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q75" data-type="L" data-weight="1"> Sympa / Excitant</label>
+          <label class="limit"><input type="checkbox" name="q75" data-type="A" data-weight="1"> Ça colle / Bof</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q76. Fétichisme des pieds (Foot Worship / Footjob)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q76" data-type="D" data-weight="2"> Faire vénérer ses pieds</label>
+          <label><input type="checkbox" name="q76" data-type="R" data-weight="2"> Vénérer les pieds</label>
+          <label><input type="checkbox" name="q76" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q76" data-type="A" data-weight="1"> Aucun attrait</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q77. Medical Play (scénarios médicaux, sondes, stéthoscope)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q77" data-type="D" data-weight="2"> Jouer le médecin/infirmier</label>
+          <label><input type="checkbox" name="q77" data-type="R" data-weight="2"> Jouer le patient</label>
+          <label><input type="checkbox" name="q77" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q77" data-type="A" data-weight="1"> Pas mon truc</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q78. Sounding (insertion de tiges médicales dans l'urètre)</div>
+        <div class="warning-box">⚠ Zone très sensible : matériel stérile, lubrifiant adapté, progression lente obligatoire.</div>
+        <div class="options">
+          <label><input type="checkbox" name="q78" data-type="D" data-weight="3"> Pratiquer</label>
+          <label><input type="checkbox" name="q78" data-type="R" data-weight="3"> Subir</label>
+          <label><input type="checkbox" name="q78" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q78" data-type="A" data-weight="1"> Limite absolue</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q79. Human Furniture / Objetification humaine</div>
+        <div class="options">
+          <label><input type="checkbox" name="q79" data-type="D" data-weight="2"> Utiliser le partenaire comme objet</label>
+          <label><input type="checkbox" name="q79" data-type="R" data-weight="2"> Servir de meuble/table</label>
+          <label><input type="checkbox" name="q79" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q79" data-type="A" data-weight="1"> Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q80. Masques & Petplay (Ponyplay, Puppyplay)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q80" data-type="D" data-weight="2"> Mener le jeu</label>
+          <label><input type="checkbox" name="q80" data-type="R" data-weight="2"> Incarner l'animal</label>
+          <label><input type="checkbox" name="q80" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q80" data-type="A" data-weight="1"> Ridicule / Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q81. Suspension BDSM complète au plafond</div>
+        <div class="options">
+          <label><input type="checkbox" name="q81" data-type="D" data-weight="3"> Suspendre</label>
+          <label><input type="checkbox" name="q81" data-type="R" data-weight="3"> Être suspendu(e)</label>
+          <label><input type="checkbox" name="q81" data-type="L" data-weight="2"> Les deux</label>
+          <label class="limit"><input type="checkbox" name="q81" data-type="A" data-weight="1"> Trop impressionnant / Non</label>
+        </div>
+      </div>
+
+      <!-- 9. PRÉFÉRENCES PHYSIQUES -->
+      <h2 class="category-title" data-gender="both">9. Préférences Physiques (Attirance)</h2>
+
+      <!-- Version Homme -->
+      <div class="question-card" data-gender="H">
+        <div class="question-title">Q82. Poitrine préférée</div>
+        <div class="options">
+          <label><input type="checkbox" name="q82" data-type="Physique" data-weight="1"> Menue / Naturelle</label>
+          <label><input type="checkbox" name="q82" data-type="Physique" data-weight="1"> Généreuse / Pulpeuse</label>
+          <label><input type="checkbox" name="q82" data-type="Physique" data-weight="1"> Peu importe</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="H">
+        <div class="question-title">Q83. Pilosité intime féminine</div>
+        <div class="options">
+          <label><input type="checkbox" name="q83" data-type="Physique" data-weight="1"> Totalement rasée</label>
+          <label><input type="checkbox" name="q83" data-type="Physique" data-weight="1"> Ticket de métro / Naturelle</label>
+          <label><input type="checkbox" name="q83" data-type="Physique" data-weight="1"> Peu importe</label>
+        </div>
+      </div>
+
+      <!-- Version Femme -->
+      <div class="question-card" data-gender="F">
+        <div class="question-title">Q82. Barbe & Pilosité faciale</div>
+        <div class="options">
+          <label><input type="checkbox" name="q82" data-type="Physique" data-weight="1"> Barbe de 3 jours / Fournie</label>
+          <label><input type="checkbox" name="q82" data-type="Physique" data-weight="1"> Rasé de près</label>
+          <label><input type="checkbox" name="q82" data-type="Physique" data-weight="1"> Peu importe</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="F">
+        <div class="question-title">Q83. Carrure masculine</div>
+        <div class="options">
+          <label><input type="checkbox" name="q83" data-type="Physique" data-weight="1"> Athlétique / Musclé</label>
+          <label><input type="checkbox" name="q83" data-type="Physique" data-weight="1"> Nounours / Normal</label>
+          <label><input type="checkbox" name="q83" data-type="Physique" data-weight="1"> Peu importe</label>
+        </div>
+      </div>
+
+      <!-- Questions communes -->
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q84. Morphologie générale recherchée</div>
+        <div class="options">
+          <label><input type="checkbox" name="q84" data-type="Physique" data-weight="1"> Mince / Élancé(e)</label>
+          <label><input type="checkbox" name="q84" data-type="Physique" data-weight="1"> Curvy / En chair / Athlétique</label>
+          <label><input type="checkbox" name="q84" data-type="Physique" data-weight="1"> Peu importe</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q85. Tatouages et Piercings vus sur le partenaire</div>
+        <div class="options">
+          <label><input type="checkbox" name="q85" data-type="Physique" data-weight="1"> Très attirant (Heavy Tattooed)</label>
+          <label><input type="checkbox" name="q85" data-type="Physique" data-weight="1"> Préfère la peau vierge</label>
+          <label><input type="checkbox" name="q85" data-type="Physique" data-weight="1"> Peu importe</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q86. Style vestimentaire du quotidien</div>
+        <div class="options">
+          <label><input type="checkbox" name="q86" data-type="Physique" data-weight="1"> Chic / Élégant(e)</label>
+          <label><input type="checkbox" name="q86" data-type="Physique" data-weight="1"> Alternative / Rock / Goth</label>
+          <label><input type="checkbox" name="q86" data-type="Physique" data-weight="1"> Casual / Streetwear</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q87. Différence d'âge idéale</div>
+        <div class="options">
+          <label><input type="checkbox" name="q87" data-type="Physique" data-weight="1"> Mon âge (à +/- 5 ans)</label>
+          <label><input type="checkbox" name="q87" data-type="Physique" data-weight="1"> Nettement plus âgé(e) / plus jeune</label>
+          <label><input type="checkbox" name="q87" data-type="Physique" data-weight="1"> Peu importe</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q88. Charisme de la voix / Regard intense</div>
+        <div class="options">
+          <label><input type="checkbox" name="q88" data-type="Physique" data-weight="1"> Critère numéro 1 pour moi</label>
+          <label><input type="checkbox" name="q88" data-type="Physique" data-weight="1"> Secondaire</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q89. Pilosité corporelle générale</div>
+        <div class="options">
+          <label><input type="checkbox" name="q89" data-type="Physique" data-weight="1"> Intégralement glabre / Épilé(e)</label>
+          <label><input type="checkbox" name="q89" data-type="Physique" data-weight="1"> Pilosité naturelle acceptée/aimée</label>
+          <label><input type="checkbox" name="q89" data-type="Physique" data-weight="1"> Peu importe</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q90. Grande taille (au-dessus de la moyenne)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q90" data-type="Physique" data-weight="1"> Un vrai plus</label>
+          <label><input type="checkbox" name="q90" data-type="Physique" data-weight="1"> Aucune importance</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q91. Soin des mains et hygiène irréprochable</div>
+        <div class="options">
+          <label><input type="checkbox" name="q91" data-type="Physique" data-weight="1"> Bloquant si pas parfait</label>
+          <label><input type="checkbox" name="q91" data-type="Physique" data-weight="1"> Normal</label>
+        </div>
+      </div>
+
+      <!-- 10. CADRE RELATIONNEL & FRÉQUENCE -->
+      <h2 class="category-title" data-gender="both">10. Cadre Relationnel & Fréquence</h2>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q92. Relation libre / Polyamour assumé</div>
+        <div class="options">
+          <label><input type="checkbox" name="q92" data-type="L" data-weight="1"> Mon mode de vie idéal</label>
+          <label class="limit"><input type="checkbox" name="q92" data-type="A" data-weight="1"> Monogamie stricte uniquement</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q93. Rencontres éphémères (Plan cul / One night)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q93" data-type="L" data-weight="1"> D'accord si le courant passe</label>
+          <label class="limit"><input type="checkbox" name="q93" data-type="A" data-weight="1"> Besoin de régularité</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q94. Démisexualité (besoin de connexion émotionnelle pour s'ouvrir)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q94" data-type="L" data-weight="1"> C'est tout à fait moi</label>
+          <label class="limit"><input type="checkbox" name="q94" data-type="A" data-weight="1"> Le désir peut être purement physique</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q95. Fréquence des rapports / jeux coquins</div>
+        <div class="options">
+          <label><input type="checkbox" name="q95" data-type="L" data-weight="1"> Très élevée (Quotidienne ou presque)</label>
+          <label class="limit"><input type="checkbox" name="q95" data-type="A" data-weight="1"> Modérée à occasionnelle</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q96. Exclusivité du jeu BDSM (pratiquer uniquement avec un partenaire titulaire)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q96" data-type="L" data-weight="1"> Oui, domaine réservé</label>
+          <label class="limit"><input type="checkbox" name="q96" data-type="A" data-weight="1"> Non, possible avec d'autres</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q97. Distinction stricte entre Amour et Sexe</div>
+        <div class="options">
+          <label><input type="checkbox" name="q97" data-type="L" data-weight="1"> Capable de séparer complètement</label>
+          <label class="limit"><input type="checkbox" name="q97" data-type="A" data-weight="1"> Les deux sont indissociables</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q98. Voyages / Week-ends thématiques libertins</div>
+        <div class="options">
+          <label><input type="checkbox" name="q98" data-type="L" data-weight="2"> Projet très enthousiasmant</label>
+          <label class="limit"><input type="checkbox" name="q98" data-type="A" data-weight="1"> Trop engageant / Non</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q99. Communication quotidienne sur les fantasmes (Sexting)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q99" data-type="L" data-weight="1"> Entretenir la flamme ainsi</label>
+          <label class="limit"><input type="checkbox" name="q99" data-type="A" data-weight="1"> Préfère garder tout pour le réel</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q100. Discrétion absolue (Mode Incognito strict dans la vie courante)</div>
+        <div class="options">
+          <label><input type="checkbox" name="q100" data-type="L" data-weight="1"> Impératif absolu</label>
+          <label class="limit"><input type="checkbox" name="q100" data-type="A" data-weight="1"> Assumé auprès des proches</label>
+        </div>
+      </div>
+
+      <div class="question-card" data-gender="both">
+        <div class="question-title">Q101. Volonté de faire évoluer mes pratiques et de tester du neuf</div>
+        <div class="options">
+          <label><input type="checkbox" name="q101" data-type="L" data-weight="1"> Esprit très ouvert / Explorateur</label>
+          <label class="limit"><input type="checkbox" name="q101" data-type="A" data-weight="1"> Zone de confort définie</label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" onclick="calculateResults()">Voir mes résultats</button>
+        <button type="button" onclick="resetForm()" class="btn-reset">Réinitialiser</button>
+      </div>
+
+    </form>
+
+    <!-- Résultats -->
+    <div id="results-container" style="display: none;">
+      <h2>Tes Résultats</h2>
+      <p id="profile-main-summary" class="profile-summary"></p>
+
+      <div id="scores-breakdown">
+        <div class="score-line"><span>Dominance (D)</span><span id="val-D"></span>%</div>
+        <div class="score-bar-bg"><div id="bar-D" class="score-bar-fill"></div></div>
+
+        <div class="score-line"><span>Soumission (R)</span><span id="val-R"></span>%</div>
+        <div class="score-bar-bg"><div id="bar-R" class="score-bar-fill"></div></div>
+
+        <div class="score-line"><span>Switch / Flexibilité (L)</span><span id="val-L"></span>%</div>
+        <div class="score-bar-bg"><div id="bar-L" class="score-bar-fill"></div></div>
+
+        <div class="score-line"><span>Vanilla / Limites (A)</span><span id="val-A"></span>%</div>
+        <div class="score-bar-bg"><div id="bar-A" class="score-bar-fill"></div></div>
+      </div>
+
+      <div class="section-block">
+        <h3>Préférences physiques</h3>
+        <p id="physique-summary"></p>
+        <div id="physique-chips" class="chips"></div>
+      </div>
+
+      <div class="section-block">
+        <h3>Pratiques qui te correspondent</h3>
+        <div id="pratiques-chips" class="chips"></div>
+      </div>
+
+      <div class="section-block">
+        <h3>Tes limites déclarées</h3>
+        <div id="limites-chips" class="chips"></div>
+      </div>
+
+      <div class="section-block">
+        <h3>À explorer</h3>
+        <div id="explore-chips" class="chips"></div>
+      </div>
+
+      <div class="export-actions">
+        <button onclick="copyResults()">📋 Copier mes résultats</button>
+        <button onclick="downloadResults()">💾 Télécharger le bilan (.txt)</button>
+      </div>
     </div>
+  </div>
+</div>
 
-    <script>
-        // Gestion de l'aiguillage Homme / Femme
-        function setGender(gender) {
-            document.querySelectorAll('.gender-specific').forEach(el => el.style.display = 'none');
-            if (gender === 'H') {
-                document.querySelectorAll('.q-homme').forEach(el => el.style.display = 'block');
-            } else if (gender === 'F') {
-                document.querySelectorAll('.q-femme').forEach(el => el.style.display = 'block');
-            }
-            updateProgress();
+<!-- Modal custom -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <h3 id="modal-title"></h3>
+    <p id="modal-message"></p>
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   ÉTAT GLOBAL
+   ============================================================ */
+let userGender = null;          // 'H' ou 'F'
+let lastComputedResults = null;
+
+const STORAGE_KEY = 'kink_quiz_state_v3';
+
+/* ============================================================
+   SÉLECTION DU GENRE (écran d'accueil)
+   ============================================================ */
+function selectGender(gender) {
+  userGender = gender;
+
+  // Masquer l'écran d'accueil, afficher le quiz
+  document.getElementById('intro-screen').style.display = 'none';
+  document.getElementById('quiz-wrapper').style.display = 'block';
+
+  // Filtrer les questions visibles selon le genre
+  applyGenderFilter();
+
+  // Indicateur de profil en haut
+  document.getElementById('gender-indicator').innerText =
+    gender === 'H' ? 'Profil : Homme' : 'Profil : Femme';
+
+  // Restaurer les réponses sauvegardées si elles existent
+  restoreState();
+
+  // Mettre à jour la barre de progression
+  updateProgress();
+
+  // Scroll en haut
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function applyGenderFilter() {
+  document.querySelectorAll('[data-gender]').forEach(el => {
+    const g = el.dataset.gender;
+    if (g === 'both') {
+      el.style.display = '';
+    } else if (g === userGender) {
+      el.style.display = '';
+    } else {
+      el.style.display = 'none';
+    }
+  });
+}
+
+/* ============================================================
+   PROGRESSION
+   ============================================================ */
+function getVisibleQuestionNames() {
+  const names = new Set();
+  document.querySelectorAll('.question-card').forEach(card => {
+    if (card.offsetParent === null) return; // caché
+    const input = card.querySelector('input[type="checkbox"]');
+    if (input) names.add(input.name);
+  });
+  return names;
+}
+
+function updateProgress() {
+  if (!userGender) return;
+
+  const visibleNames = getVisibleQuestionNames();
+  const answered = new Set();
+
+  document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+    if (visibleNames.has(cb.name)) answered.add(cb.name);
+  });
+
+  const total = visibleNames.size || 1;
+  const pct = Math.min(100, Math.round((answered.size / total) * 100));
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+document.addEventListener('change', (e) => {
+  if (e.target.matches('input[type="checkbox"]')) {
+    // Style visuel de la case cochée
+    const label = e.target.closest('label');
+    if (label) label.classList.toggle('checked', e.target.checked);
+
+    updateProgress();
+    saveState();
+  }
+});
+
+/* ============================================================
+   SAUVEGARDE / RESTAURATION
+   ============================================================ */
+function saveState() {
+  if (!userGender) return;
+  const state = { gender: userGender, answers: {} };
+  document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+    state.answers[cb.name + '::' + cb.value] = true;
+  });
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) { /* quota ou mode privé */ }
+}
+
+function restoreState() {
+  let raw;
+  try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return; }
+  if (!raw) return;
+
+  let state;
+  try { state = JSON.parse(raw); } catch (e) { return; }
+  if (!state || state.gender !== userGender) return;
+
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    const key = cb.name + '::' + cb.value;
+    if (state.answers && state.answers[key]) {
+      cb.checked = true;
+      const label = cb.closest('label');
+      if (label) label.classList.add('checked');
+    }
+  });
+}
+
+/* ============================================================
+   CALCUL DES RÉSULTATS
+   ============================================================ */
+function calculateResults() {
+  if (!userGender) {
+    showModal('Profil manquant', 'Merci de sélectionner Homme ou Femme.', [
+      { label: 'OK', action: closeModal }
+    ]);
+    return;
+  }
+
+  const checkedBoxes = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+    .filter(cb => cb.closest('.question-card') && cb.closest('.question-card').offsetParent !== null);
+
+  if (checkedBoxes.length === 0) {
+    showModal('Aucune réponse', 'Merci de cocher au moins quelques réponses avant de valider.', [
+      { label: 'OK', action: closeModal }
+    ]);
+    return;
+  }
+
+  // --- Scores pondérés D/R/L/A ---
+  const globalScores = { D: 0, R: 0, L: 0, A: 0 };
+  const physiqueLabels = [];
+  const pratiquesLabels = [];
+  const limitesLabels = [];
+  const exploreLabels = [];
+
+  checkedBoxes.forEach(cb => {
+    const type = cb.dataset.type;
+    const weight = parseInt(cb.dataset.weight || '1', 10);
+    const labelText = cb.parentElement.innerText.trim();
+
+    if (type === 'Physique') {
+      if (labelText && !labelText.toLowerCase().includes('peu importe')
+          && !labelText.toLowerCase().includes('aucune importance')) {
+        physiqueLabels.push(labelText);
+      }
+    } else if (globalScores[type] !== undefined) {
+      globalScores[type] += weight;
+
+      if (type === 'A') {
+        if (cb.parentElement.classList.contains('explore')) {
+          exploreLabels.push(labelText);
+        } else {
+          limitesLabels.push(labelText);
         }
+      } else {
+        pratiquesLabels.push(labelText);
+      }
+    }
+  });
 
-        // Progression de remplissage
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('change', updateProgress);
-        });
+  // --- Pourcentages normalisés ---
+  const total = globalScores.D + globalScores.R + globalScores.L + globalScores.A;
+  const pctD = total > 0 ? Math.round((globalScores.D / total) * 100) : 0;
+  const pctR = total > 0 ? Math.round((globalScores.R / total) * 100) : 0;
+  const pctL = total > 0 ? Math.round((globalScores.L / total) * 100) : 0;
+  const pctA = 100 - pctD - pctR - pctL; // évite les erreurs d'arrondi
 
-        function updateProgress() {
-            const answeredQuestions = new Set();
-            document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
-                answeredQuestions.add(cb.name);
-            });
-            
-            const totalQuestions = 100;
-            const percentage = Math.min(100, Math.round((answeredQuestions.size / totalQuestions) * 100));
-            document.getElementById('progress-bar').style.width = percentage + '%';
-        }
+  // --- Profil principal (avec gestion des égalités et du Switch) ---
+  const maxVal = Math.max(pctD, pctR, pctL, pctA);
+  let mainProfile = 'Switch / Polyvalent';
+  let mainDesc = '';
 
-        // Calculs des scores
-        let lastComputedResults = null;
+  if (maxVal === pctD && pctD > pctL && pctD > pctA) {
+    mainProfile = 'Dominant(e)';
+    mainDesc = 'Tu aimes mener, imposer ton cadre et garder le contrôle.';
+  } else if (maxVal === pctR && pctR > pctL && pctR > pctA) {
+    mainProfile = 'Soumis(e)';
+    mainDesc = 'Tu trouves ton plaisir dans l\'abandon du contrôle et la confiance en l\'autre.';
+  } else if (maxVal === pctL && pctL >= pctD && pctL >= pctR && pctL > pctA) {
+    mainProfile = 'Switch / Polyvalent';
+    mainDesc = 'Tu navigues entre domination et soumission selon le partenaire et l\'humeur.';
+  } else if (maxVal === pctA) {
+    mainProfile = 'Vanilla / Sélectif(ve)';
+    mainDesc = 'Tu privilégies la simplicité, la réciprocité ou tu as des limites claires.';
+  } else {
+    // Égalité entre plusieurs tendances
+    mainProfile = 'Profil mixte';
+    mainDesc = 'Tes tendances sont équilibrées entre plusieurs pôles.';
+  }
 
-        function calculateResults() {
-            const genderSelected = document.querySelector('input[name="user_gender"]:checked');
-            if (!genderSelected) {
-                alert("Merci de sélectionner 'Homme' ou 'Femme' à la première question.");
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                return;
-            }
+  // --- Affichage ---
+  document.getElementById('profile-main-summary').innerHTML =
+    `Profil dominant : <strong>${mainProfile}</strong><br><span style="font-weight:normal; font-size:0.9em; color: var(--text-muted);">${mainDesc}</span>`;
 
-            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
-            if (checkedBoxes.length === 0) {
-                alert("Merci de cocher au moins quelques réponses avant de valider !");
-                return;
-            }
+  setBar('D', pctD);
+  setBar('R', pctR);
+  setBar('L', pctL);
+  setBar('A', pctA);
 
-            let globalScores = { D: 0, R: 0, L: 0, A: 0 };
-            let physiqueChecked = 0;
+  // Physique
+  const physSummary = document.getElementById('physique-summary');
+  if (physiqueLabels.length === 0) {
+    physSummary.innerText = "Aucune préférence physique marquée (ou uniquement 'peu importe').";
+  } else {
+    physSummary.innerText = `${physiqueLabels.length} préférence(s) physique(s) retenue(s) :`;
+  }
+  renderChips('physique-chips', physiqueLabels, '');
 
-            checkedBoxes.forEach(cb => {
-                const type = cb.dataset.type;
-                if (type === 'Physique') {
-                    physiqueChecked++;
-                } else if (globalScores[type] !== undefined) {
-                    globalScores[type]++;
-                }
-            });
+  // Pratiques
+  renderChips('pratiques-chips', pratiquesLabels, '');
+  // Limites
+  renderChips('limites-chips', limitesLabels, 'limit');
+  // À explorer
+  renderChips('explore-chips', exploreLabels, 'explore');
 
-            const totalRolesChecked = globalScores.D + globalScores.R + globalScores.L + globalScores.A;
+  document.getElementById('results-container').style.display = 'block';
+  document.getElementById('results-container').scrollIntoView({ behavior: 'smooth' });
 
-            const pctD = totalRolesChecked > 0 ? Math.round((globalScores.D / totalRolesChecked) * 100) : 0;
-            const pctR = totalRolesChecked > 0 ? Math.round((globalScores.R / totalRolesChecked) * 100) : 0;
-            const pctL = totalRolesChecked > 0 ? Math.round((globalScores.L / totalRolesChecked) * 100) : 0;
-            const pctA = totalRolesChecked > 0 ? Math.round((globalScores.A / totalRolesChecked) * 100) : 0;
+  // Sauvegarde pour export
+  lastComputedResults = {
+    gender: userGender === 'H' ? 'Homme' : 'Femme',
+    mainProfile,
+    mainDesc,
+    pctD, pctR, pctL, pctA,
+    physiqueLabels,
+    pratiquesLabels,
+    limitesLabels,
+    exploreLabels,
+    date: new Date().toLocaleDateString('fr-FR')
+  };
+}
 
-            // Détermination du profil principal
-            let mainProfile = "Switch / Polyvalent";
-            const maxVal = Math.max(pctD, pctR, pctL, pctA);
-            if (maxVal === pctD) mainProfile = "Dominant(e)";
-            else if (maxVal === pctR) mainProfile = "Soumis(e)";
-            else if (maxVal === pctA) mainProfile = "Vanilla / Sélectif(ve)";
+function setBar(key, value) {
+  document.getElementById('val-' + key).innerText = value;
+  document.getElementById('bar-' + key).style.width = value + '%';
+}
 
-            // Mise à jour de l'affichage
-            document.getElementById('profile-main-summary').innerText = `Profil Dominant : ${mainProfile}`;
-            
-            document.getElementById('val-D').innerText = pctD;
-            document.getElementById('bar-D').style.width = pctD + '%';
-            
-            document.getElementById('val-R').innerText = pctR;
-            document.getElementById('bar-R').style.width = pctR + '%';
+function renderChips(containerId, items, cssClass) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  if (!items || items.length === 0) {
+    const empty = document.createElement('span');
+    empty.className = 'chip limit';
+    empty.innerText = '—';
+    container.appendChild(empty);
+    return;
+  }
+  // Dédoublonnage
+  const unique = [...new Set(items)];
+  unique.forEach(txt => {
+    const chip = document.createElement('span');
+    chip.className = 'chip' + (cssClass ? ' ' + cssClass : '');
+    chip.innerText = txt;
+    container.appendChild(chip);
+  });
+}
 
-            document.getElementById('val-L').innerText = pctL;
-            document.getElementById('bar-L').style.width = pctL + '%';
+/* ============================================================
+   RÉINITIALISATION
+   ============================================================ */
+function resetForm() {
+  showModal('Réinitialiser', 'Effacer toutes tes réponses et recommencer ?', [
+    { label: 'Annuler', action: closeModal, css: 'btn-reset' },
+    { label: 'Confirmer', action: () => {
+        document.getElementById('quiz-form').reset();
+        document.querySelectorAll('label.checked').forEach(l => l.classList.remove('checked'));
+        document.getElementById('results-container').style.display = 'none';
+        document.getElementById('progress-bar').style.width = '0%';
+        lastComputedResults = null;
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+        closeModal();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  ]);
+}
 
-            document.getElementById('val-A').innerText = pctA;
-            document.getElementById('bar-A').style.width = pctA + '%';
+/* ============================================================
+   EXPORT
+   ============================================================ */
+function getExportText() {
+  if (!lastComputedResults) return '';
+  const r = lastComputedResults;
+  const line = '─'.repeat(50);
 
-            document.getElementById('physique-summary').innerText = `Critères physiques sélectionnés : ${physiqueChecked} critère(s) retenu(s).`;
+  let txt = `=== MON PROFIL D'ATTIRANCE & PRATIQUES ===\n`;
+  txt += `Profil : ${r.gender}\n`;
+  txt += `Date   : ${r.date}\n\n`;
+  txt += `Tendance principale : ${r.mainProfile}\n`;
+  txt += `${r.mainDesc}\n\n`;
+  txt += `${line}\n`;
+  txt += `• Dominance (D)  : ${r.pctD}%\n`;
+  txt += `• Soumission (R) : ${r.pctR}%\n`;
+  txt += `• Switch (L)     : ${r.pctL}%\n`;
+  txt += `• Vanilla/Limite : ${r.pctA}%\n`;
+  txt += `${line}\n\n`;
 
-            document.getElementById('results-container').style.display = 'block';
-            document.getElementById('results-container').scrollIntoView({ behavior: 'smooth' });
+  txt += `PRÉFÉRENCES PHYSIQUES (${r.physiqueLabels.length}) :\n`;
+  txt += r.physiqueLabels.length ? r.physiqueLabels.map(x => '  • ' + x).join('\n') : '  —';
+  txt += `\n\n`;
 
-            // Sauvegarde pour l'export
-            lastComputedResults = {
-                gender: genderSelected.value === 'H' ? 'Homme' : 'Femme',
-                mainProfile,
-                pctD, pctR, pctL, pctA,
-                physiqueChecked,
-                date: new Date().toLocaleDateString('fr-FR')
-            };
-        }
+  txt += `PRATIQUES QUI TE CORRESPONDENT (${r.pratiquesLabels.length}) :\n`;
+  txt += r.pratiquesLabels.length ? [...new Set(r.pratiquesLabels)].map(x => '  • ' + x).join('\n') : '  —';
+  txt += `\n\n`;
 
-        // Réinitialisation du formulaire
-        function resetForm() {
-            if (confirm("Effacer toutes vos réponses et recommencer ?")) {
-                document.getElementById('quiz-form').reset();
-                document.querySelectorAll('.gender-specific').forEach(el => el.style.display = 'none');
-                document.getElementById('results-container').style.display = 'none';
-                document.getElementById('progress-bar').style.width = '0%';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
+  txt += `TES LIMITES DÉCLARÉES (${r.limitesLabels.length}) :\n`;
+  txt += r.limitesLabels.length ? [...new Set(r.limitesLabels)].map(x => '  • ' + x).join('\n') : '  —';
+  txt += `\n\n`;
 
-        // Génération du texte à exporter
-        function getExportText() {
-            if (!lastComputedResults) return "";
-            const r = lastComputedResults;
-            return `=== MON PROFIL D'ATTIRANCE & PRATIQUES ===\n` +
-                   `Genre renseigné : ${r.gender}\n` +
-                   `Date : ${r.date}\n\n` +
-                   `Tendance principale : ${r.mainProfile}\n` +
-                   `----------------------------------------\n` +
-                   `• Dominance (D)  : ${r.pctD}%\n` +
-                   `• Soumission (R) : ${r.pctR}%\n` +
-                   `• Switch (L)     : ${r.pctL}%\n` +
-                   `• Vanilla/Rejet  : ${r.pctA}%\n` +
-                   `----------------------------------------\n` +
-                   `Critères physiques cochés : ${r.physiqueChecked}\n` +
-                   `========================================`;
-        }
+  txt += `À EXPLORER (${r.exploreLabels.length}) :\n`;
+  txt += r.exploreLabels.length ? [...new Set(r.exploreLabels)].map(x => '  • ' + x).join('\n') : '  —';
+  txt += `\n\n${'='.repeat(50)}\n`;
 
-        function copyResults() {
-            const text = getExportText();
-            if (!text) return;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("Résultats copiés dans le presse-papier ! Tu peux les coller dans tes messages ou ton profil.");
-            });
-        }
+  return txt;
+}
 
-        function downloadResults() {
-            const text = getExportText();
-            if (!text) return;
-            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `profil-attirance-${new Date().toISOString().slice(0,10)}.txt`;
-            a.click();
-        }
-    </script>
+function copyResults() {
+  const text = getExportText();
+  if (!text) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showModal('Copié !', 'Tes résultats sont dans le presse-papier.', [
+        { label: 'OK', action: closeModal }
+      ]);
+    }).catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta);
+  showModal('Copié !', 'Tes résultats sont dans le presse-papier.', [
+    { label: 'OK', action: closeModal }
+  ]);
+}
+
+function downloadResults() {
+  const text = getExportText();
+  if (!text) return;
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `profil-attirance-${new Date().toISOString().slice(0,10)}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+
+/* ============================================================
+   MODAL CUSTOM (remplace alert/confirm)
+   ============================================================ */
+function showModal(title, message, buttons) {
+  document.getElementById('modal-title').innerText = title;
+  document.getElementById('modal-message').innerText = message;
+  const actions = document.getElementById('modal-actions');
+  actions.innerHTML = '';
+  buttons.forEach(btn => {
+    const b = document.createElement('button');
+    b.innerText = btn.label;
+    if (btn.css) b.className = btn.css;
+    b.onclick = btn.action;
+    actions.appendChild(b);
+  });
+  document.getElementById('modal-overlay').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('active');
+}
+
+// Fermer le modal en cliquant en dehors
+document.getElementById('modal-overlay').addEventListener('click', (e) => {
+  if (e.target.id === 'modal-overlay') closeModal();
+});
+
+/* ============================================================
+   INITIALISATION
+   ============================================================ */
+// Restaurer le genre si déjà choisi
+(function init() {
+  let raw;
+  try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return; }
+  if (!raw) return;
+  try {
+    const state = JSON.parse(raw);
+    if (state && state.gender) {
+      // On ne restaure pas directement pour forcer la confirmation du profil
+      // (l'utilisateur peut avoir changé). Mais on pourrait le faire.
+    }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>
