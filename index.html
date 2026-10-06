@@ -2035,11 +2035,11 @@ function saveState() {
   if (!userGender || !currentMode) return;
   const state = { gender: userGender, mode: currentMode, answers: {} };
   document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
-    state.answers[cb.name + '::' + cb.value] = true;
+    // On utilise l'ID unique de l'input comme clé (fiable, pas de collision)
+    state.answers[cb.id] = true;
   });
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
 }
-
 function restoreState() {
   let raw;
   try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return; }
@@ -2049,15 +2049,14 @@ function restoreState() {
   if (!state || state.gender !== userGender) return;
 
   document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-    const key = cb.name + '::' + cb.value;
-    if (state.answers && state.answers[key]) {
+    // On cherche par ID unique de l'input
+    if (state.answers && state.answers[cb.id]) {
       cb.checked = true;
       const label = cb.closest('label');
       if (label) label.classList.add('checked');
     }
   });
 }
-
 /* ============================================================
    COMPRESSION DU PROFIL (pour partage)
    - On n'encode QUE les réponses cochées + métadonnées
