@@ -842,17 +842,18 @@ const QUESTIONS = [
     ]
   },
   {
-    id: 'q20',
-    cat: 'anal',
-    gender: 'both',
-    mode: [60, 100],
-    title: "Jouet connecté (vibrant) porté en public, contrôlé à distance par le partenaire",
-    options: [
-      { text: "J'adore l'idée", type: 'L', weight: 2 },
-      { text: "À essayer", type: 'A', weight: 1, explore: true },
-      { text: "Pas pour moi", type: 'A', weight: 1 }
-    ]
-  },
+  id: 'q20',
+  cat: 'anal',
+  gender: 'both',
+  mode: [60, 100],
+  title: "Jouet connecté (vibrant) porté en public, contrôlé à distance par le partenaire",
+  options: [
+    { text: "Avoir la télécommande", type: 'D', weight: 2 },
+    { text: "Être à sa merci (le porter)", type: 'R', weight: 2 },
+    { text: "À essayer (dans les deux rôles)", type: 'A', weight: 1, explore: true },
+    { text: "Pas pour moi", type: 'A', weight: 1 }
+  ]
+},
 
   /* ============================================================
      SECTION 3 : BDSM & IMPACT (bdsm)
@@ -2168,7 +2169,23 @@ function calculateResults() {
     exploreByCat[key] = [];
   }
 
-  // Parcourir les cases cochées
+  /* --- ÉTAPE 1 : Calculer le max théorique par catégorie ---
+     On se base sur le tableau QUESTIONS filtré par mode + genre,
+     et non sur le DOM (qui pouvait donner des résultats faussés).
+     Pour chaque question, on prend le POIDS MAX de ses options
+     et on l'ajoute au max de sa catégorie. */
+  QUESTIONS.forEach(q => {
+    if (!q.mode.includes(currentMode)) return;
+    if (q.gender !== 'both' && q.gender !== userGender) return;
+    let maxW = 0;
+    q.options.forEach(opt => {
+      const w = parseInt(opt.weight || '1', 10);
+      if (w > maxW) maxW = w;
+    });
+    catMax[q.cat] = (catMax[q.cat] || 0) + maxW;
+  });
+
+  /* --- ÉTAPE 2 : Parcourir les cases cochées et cumuler les scores --- */
   checkedBoxes.forEach(cb => {
     const type = cb.dataset.type;
     const weight = parseInt(cb.dataset.weight || '1', 10);
@@ -2196,20 +2213,6 @@ function calculateResults() {
         }
       }
     }
-  });
-
-  // Calculer le max par catégorie
-  document.querySelectorAll('.question-card').forEach(card => {
-    if (card.offsetParent === null) return;
-    const cat = card.dataset.cat;
-    if (!cat) return;
-    const inputs = card.querySelectorAll('input[type="checkbox"]');
-    let maxWeight = 0;
-    inputs.forEach(inp => {
-      const w = parseInt(inp.dataset.weight || '1', 10);
-      if (w > maxWeight) maxWeight = w;
-    });
-    catMax[cat] = (catMax[cat] || 0) + maxWeight;
   });
 
   /* --- Pourcentages globaux --- */
@@ -2275,7 +2278,6 @@ function calculateResults() {
     timestamp: Date.now()
   };
 }
-
 function setBar(key, value) {
   document.getElementById('val-' + key).innerText = value;
   document.getElementById('bar-' + key).style.width = value + '%';
@@ -2290,6 +2292,7 @@ function renderCategoryAnalysis(catScores, catMax) {
 
   const rows = [];
   for (const key in CATEGORIES) {
+    // On ignore les catégories sans max défini (évite les 100% artificiels)
     if (!catMax[key] || catMax[key] === 0) continue;
     const pct = Math.min(100, Math.round((catScores[key] / catMax[key]) * 100));
     rows.push({ key, pct, ...CATEGORIES[key] });
@@ -2309,7 +2312,7 @@ function renderCategoryAnalysis(catScores, catMax) {
   });
 
   const top = rows.slice(0, 3).filter(r => r.pct >= 40);
-  const bottom = rows.filter(r => r.pct <= 15);
+  const bottom = rows.filter(r => r.pct > 0 && r.pct <= 15);
 
   const summary = document.createElement('div');
   summary.style.marginTop = '15px';
