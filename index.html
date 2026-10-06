@@ -2805,9 +2805,9 @@ function generateImageForFormat(format) {
 
   // Configuration selon le format
   const configs = {
-    story:   { W: 1080, H: 1920, titleSize: 42, profileSize: 72, barH: 32, catBarH: 24, padding: 80 },
-    post:    { W: 1080, H: 1080, titleSize: 36, profileSize: 60, barH: 28, catBarH: 20, padding: 70 },
-    message: { W: 1080, H: 1350, titleSize: 40, profileSize: 66, barH: 30, catBarH: 22, padding: 75 }
+    story:   { W: 1080, H: 1920 },
+    post:    { W: 1080, H: 1080 },
+    message: { W: 1080, H: 1350 }
   };
 
   const cfg = configs[format];
@@ -2816,6 +2816,15 @@ function generateImageForFormat(format) {
   canvas.width = W;
   canvas.height = H;
   const ctx = canvas.getContext('2d');
+
+  // Échelles adaptées à la hauteur
+  const scale = H / 1920;  // 1.0 pour story, ~0.56 pour post, ~0.70 pour message
+  const titleSize = 42 * scale;
+  const profileSize = 72 * scale;
+  const barH = 32 * scale;
+  const catBarH = 24 * scale;
+  const padding = 80 * scale;
+  const corner = 70 * scale;
 
   // --- FOND DÉGRADÉ ---
   const grad = ctx.createLinearGradient(0, 0, W, H);
@@ -2827,54 +2836,53 @@ function generateImageForFormat(format) {
 
   // --- BORDURE DÉCORATIVE ---
   ctx.strokeStyle = '#e50914';
-  ctx.lineWidth = 5;
-  ctx.strokeRect(40, 40, W - 80, H - 80);
+  ctx.lineWidth = 5 * scale;
+  ctx.strokeRect(padding, padding, W - 2*padding, H - 2*padding);
 
   // Coins décoratifs
-  ctx.lineWidth = 7;
-  const corner = 70;
-  ctx.beginPath(); ctx.moveTo(60, 60 + corner); ctx.lineTo(60, 60); ctx.lineTo(60 + corner, 60); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(W - 60 - corner, 60); ctx.lineTo(W - 60, 60); ctx.lineTo(W - 60, 60 + corner); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(60, H - 60 - corner); ctx.lineTo(60, H - 60); ctx.lineTo(60 + corner, H - 60); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(W - 60 - corner, H - 60); ctx.lineTo(W - 60, H - 60); ctx.lineTo(W - 60, H - 60 - corner); ctx.stroke();
+  ctx.lineWidth = 7 * scale;
+  ctx.beginPath(); ctx.moveTo(padding*0.8, padding*0.8 + corner); ctx.lineTo(padding*0.8, padding*0.8); ctx.lineTo(padding*0.8 + corner, padding*0.8); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W - padding*0.8 - corner, padding*0.8); ctx.lineTo(W - padding*0.8, padding*0.8); ctx.lineTo(W - padding*0.8, padding*0.8 + corner); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(padding*0.8, H - padding*0.8 - corner); ctx.lineTo(padding*0.8, H - padding*0.8); ctx.lineTo(padding*0.8 + corner, H - padding*0.8); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W - padding*0.8 - corner, H - padding*0.8); ctx.lineTo(W - padding*0.8, H - padding*0.8); ctx.lineTo(W - padding*0.8, H - padding*0.8 - corner); ctx.stroke();
 
   // --- TITRE ---
   ctx.textAlign = 'center';
   ctx.fillStyle = '#e50914';
-  ctx.font = `bold ${cfg.titleSize}px "Segoe UI", sans-serif`;
-  ctx.fillText('QUESTIONNAIRE D\'ATTIRANCE', W/2, 130);
-  ctx.font = `${cfg.titleSize * 0.55}px "Segoe UI", sans-serif`;
+  ctx.font = `bold ${titleSize}px "Segoe UI", sans-serif`;
+  ctx.fillText('QUESTIONNAIRE D\'ATTIRANCE', W/2, padding + titleSize);
+  ctx.font = `${titleSize * 0.55}px "Segoe UI", sans-serif`;
   ctx.fillStyle = '#a0a0a0';
-  ctx.fillText('& PRATIQUES', W/2, 130 + cfg.titleSize * 0.8);
+  ctx.fillText('& PRATIQUES', W/2, padding + titleSize + titleSize * 0.8);
 
   // Ligne décorative
   ctx.strokeStyle = '#e50914';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 2 * scale;
   ctx.beginPath();
-  ctx.moveTo(W/2 - 200, 195);
-  ctx.lineTo(W/2 + 200, 195);
+  ctx.moveTo(W/2 - 200*scale, padding + titleSize * 1.8);
+  ctx.lineTo(W/2 + 200*scale, padding + titleSize * 1.8);
   ctx.stroke();
 
   // --- PROFIL PRINCIPAL ---
-  let y = format === 'post' ? 290 : 330;
+  let y = padding + titleSize * 2.8;
   ctx.fillStyle = '#ffffff';
-  ctx.font = `bold ${cfg.profileSize}px "Segoe UI", sans-serif`;
+  ctx.font = `bold ${profileSize}px "Segoe UI", sans-serif`;
   ctx.fillText(r.mainProfile, W/2, y);
 
   // Description du profil
-  y += 50;
+  y += profileSize * 0.7;
   ctx.fillStyle = '#a0a0a0';
-  ctx.font = `italic 22px "Segoe UI", sans-serif`;
-  wrapTextCenter(ctx, r.mainDesc, W/2, y, W - 200, 30);
+  ctx.font = `italic ${22*scale}px "Segoe UI", sans-serif`;
+  wrapTextCenter(ctx, r.mainDesc, W/2, y, W - 2*padding, 30*scale);
 
   // Métadonnées
-  y += format === 'post' ? 80 : 100;
+  y += 60 * scale;
   ctx.fillStyle = '#666';
-  ctx.font = '18px "Segoe UI", sans-serif';
+  ctx.font = `${18*scale}px "Segoe UI", sans-serif`;
   ctx.fillText(`Profil ${r.gender}  •  Mode ${r.mode} questions  •  ${r.date}`, W/2, y);
 
   // --- BARRES D/R/L/A ---
-  y += format === 'post' ? 50 : 70;
+  y += 50 * scale;
   const bars = [
     { label: 'Dominance (D)', value: r.pctD, color: '#e50914', emoji: '👑' },
     { label: 'Soumission (R)', value: r.pctR, color: '#f39c12', emoji: '⛓️' },
@@ -2882,59 +2890,59 @@ function generateImageForFormat(format) {
     { label: 'Vanilla (A)', value: r.pctA, color: '#777777', emoji: '🤍' }
   ];
 
-  const barW = W - 2 * cfg.padding;
-  const barX = cfg.padding;
-  const lineGap = format === 'post' ? 75 : 85;
+  const barW = W - 2*padding;
+  const barX = padding;
+  const lineGap = 85 * scale;
 
   bars.forEach(b => {
     ctx.textAlign = 'left';
     ctx.fillStyle = '#e0e0e0';
-    ctx.font = `bold 24px "Segoe UI", sans-serif`;
+    ctx.font = `bold ${24*scale}px "Segoe UI", sans-serif`;
     ctx.fillText(`${b.emoji}  ${b.label}`, barX, y);
 
     ctx.textAlign = 'right';
     ctx.fillStyle = b.color;
-    ctx.font = `bold 30px "Segoe UI", sans-serif`;
-    ctx.fillText(b.value + '%', W - cfg.padding, y);
+    ctx.font = `bold ${30*scale}px "Segoe UI", sans-serif`;
+    ctx.fillText(b.value + '%', W - padding, y);
     ctx.textAlign = 'left';
 
     ctx.fillStyle = '#2a2a2a';
-    ctx.fillRect(barX, y + 14, barW, cfg.barH);
+    ctx.fillRect(barX, y + 14*scale, barW, barH);
 
     ctx.fillStyle = b.color;
-    ctx.fillRect(barX, y + 14, barW * (b.value / 100), cfg.barH);
+    ctx.fillRect(barX, y + 14*scale, barW * (b.value / 100), barH);
 
     y += lineGap;
   });
 
   // --- SÉPARATEUR ---
-  y += 15;
+  y += 15 * scale;
   ctx.strokeStyle = '#333';
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(cfg.padding, y);
-  ctx.lineTo(W - cfg.padding, y);
+  ctx.moveTo(padding, y);
+  ctx.lineTo(W - padding, y);
   ctx.stroke();
-  y += 45;
+  y += 45 * scale;
 
-  // --- TITRE CATÉGORIES ---
+  // --- TITRE PAIRES ---
   ctx.fillStyle = '#e50914';
-  ctx.font = `bold 28px "Segoe UI", sans-serif`;
+  ctx.font = `bold ${28*scale}px "Segoe UI", sans-serif`;
   ctx.textAlign = 'center';
   ctx.fillText('PROFIL PAR CATÉGORIE', W/2, y);
-  y += 55;
+  y += 55 * scale;
 
   // --- PAIRES ---
-  const catBarW = W - 2 * cfg.padding - 60;
-  const catLineGap = format === 'post' ? 55 : 65;
+  const catBarW = W - 2*padding - 60*scale;
+  const catLineGap = 65 * scale;
 
-  PAIRES.forEach((paire, paireIdx) => {
+  PAIRES.forEach((paire) => {
     // Titre de la paire
     ctx.textAlign = 'left';
     ctx.fillStyle = '#666';
-    ctx.font = `italic 16px "Segoe UI", sans-serif`;
-    ctx.fillText(paire.titre.toUpperCase(), cfg.padding, y);
-    y += 30;
+    ctx.font = `italic ${16*scale}px "Segoe UI", sans-serif`;
+    ctx.fillText(paire.titre.toUpperCase(), padding, y);
+    y += 30 * scale;
 
     // Les 2 catégories
     [paire.cat1, paire.cat2].forEach(catKey => {
@@ -2943,34 +2951,35 @@ function generateImageForFormat(format) {
 
       ctx.textAlign = 'left';
       ctx.fillStyle = '#e0e0e0';
-      ctx.font = `20px "Segoe UI", sans-serif`;
-      ctx.fillText(`${catInfo.emoji}  ${catInfo.label}`, cfg.padding, y);
+      ctx.font = `${20*scale}px "Segoe UI", sans-serif`;
+      ctx.fillText(`${catInfo.emoji}  ${catInfo.label}`, padding, y);
 
       ctx.textAlign = 'right';
       ctx.fillStyle = pct >= 60 ? '#e50914' : (pct >= 35 ? '#f39c12' : '#777');
-      ctx.font = `bold 20px "Segoe UI", sans-serif`;
-      ctx.fillText(pct + '%', W - cfg.padding, y);
+      ctx.font = `bold ${20*scale}px "Segoe UI", sans-serif`;
+      ctx.fillText(pct + '%', W - padding, y);
       ctx.textAlign = 'left';
 
       ctx.fillStyle = '#2a2a2a';
-      ctx.fillRect(cfg.padding, y + 8, catBarW, cfg.catBarH);
+      ctx.fillRect(padding, y + 8*scale, catBarW, catBarH);
 
       ctx.fillStyle = pct >= 60 ? '#e50914' : (pct >= 35 ? '#f39c12' : '#555');
-      ctx.fillRect(cfg.padding, y + 8, catBarW * (pct / 100), cfg.catBarH);
+      ctx.fillRect(padding, y + 8*scale, catBarW * (pct / 100), catBarH);
 
-      y += catLineGap - 15;
+      y += catLineGap - 15*scale;
     });
 
-    y += 15;  // espace entre les paires
+    y += 15 * scale;
   });
 
-  // --- PIED DE PAGE ---
-  if (format !== 'post') {
+  // --- PIED DE PAGE (uniquement si assez de place) ---
+  const placeDispo = H - y - padding;
+  if (placeDispo > 60 * scale) {
     ctx.textAlign = 'center';
     ctx.fillStyle = '#444';
-    ctx.font = `italic 16px "Segoe UI", sans-serif`;
-    ctx.fillText('Un questionnaire n\'est qu\'une photographie à un instant T.', W/2, H - 90);
-    ctx.fillText('Tes envies évolueront. Reviens le remplir dans 6 mois.', W/2, H - 65);
+    ctx.font = `italic ${16*scale}px "Segoe UI", sans-serif`;
+    ctx.fillText('Un questionnaire n\'est qu\'une photographie à un instant T.', W/2, H - padding - 30*scale);
+    ctx.fillText('Tes envies évolueront. Reviens le remplir dans 6 mois.', W/2, H - padding);
   }
 
   // --- TÉLÉCHARGEMENT ---
@@ -2986,7 +2995,6 @@ function generateImageForFormat(format) {
     URL.revokeObjectURL(url);
   }, 'image/png');
 }
-
 /* Helper : centrer un texte multi-lignes */
 function wrapTextCenter(ctx, text, x, y, maxWidth, lineHeight) {
   const words = text.split(' ');
