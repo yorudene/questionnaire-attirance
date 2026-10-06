@@ -2368,11 +2368,12 @@ function renderCategoryAnalysis(catScores, catScoresNorm) {
     container.appendChild(block);
   });
 
-  // Points forts : les catégories avec pct >= 60
+    // Points forts : les catégories avec pct >= 60
+  // Points faibles : les catégories avec pct <= 40 ET qui ne sont pas à 50/50
   const allItems = [];
   rows.forEach(r => r.items.forEach(i => allItems.push(i)));
   const top = allItems.filter(i => i.pct >= 60);
-  const bottom = allItems.filter(i => i.pct > 0 && i.pct <= 30);
+  const bottom = allItems.filter(i => i.pct > 0 && i.pct <= 40 && i.pct !== 50);
 
   const summary = document.createElement('div');
   summary.style.marginTop = '15px';
@@ -2416,16 +2417,19 @@ function renderCrossAnalysis(globalScores, catScores, catScoresNorm, domRole, ph
     paragraphes.push(`Tu es plutôt <strong>Vanilla / Sélectif(ve)</strong>. Tu sais ce qui te plaît et tu ne te forces pas.`);
   }
 
-  if (soft >= 50 && hard >= 40) {
-    paragraphes.push(`Tu combines <strong>tendresse (${soft}%)</strong> et <strong>intensité (${hard}%)</strong>. Tu aimes alterner.`);
-  } else if (soft >= 50) {
-    paragraphes.push(`Ton score <strong>Soft & Tendresse (${soft}%)</strong> est élevé. Tu recherches la connexion, la lenteur, la sensualité.`);
-  } else if (hard >= 50) {
-    paragraphes.push(`Ton score <strong>Hard & Fétichisme (${hard}%)</strong> est élevé. Assure-toi d'avoir un partenaire formé et consentant.`);
+  // Paires : BDSM ↔ Soft
+  const bdsmSoftTotal = bdsm + soft;
+  if (bdsmSoftTotal > 0) {
+    if (bdsm >= 70) {
+      paragraphes.push(`Tu penches nettement vers <strong>l'intensité (BDSM ${bdsm}%)</strong> plutôt que la douceur (${soft}%).`);
+    } else if (soft >= 70) {
+      paragraphes.push(`Tu penches nettement vers <strong>la tendresse (Soft ${soft}%)</strong> plutôt que l'intensité (${bdsm}%).`);
+    } else if (Math.abs(bdsm - soft) <= 20) {
+      paragraphes.push(`Tu combines <strong>intensité (${bdsm}%)</strong> et <strong>douceur (${soft}%)</strong> de manière équilibrée.`);
+    }
   }
-
   if (exhibition >= 40 || pluralite >= 40) {
-    paragraphes.push(`Intérêt marqué pour <strong>l'exhibition (${exhibition}%)</strong> et/ou la <strong>pluralité (${pluralite}%)</strong>.`);
+    paragraphes.push(`Tu penches nettement vers <strong>l'exhibition (${exhibition}%)</strong> et/ou la <strong>pluralité (${pluralite}%)</strong>.`);
   } else if (exhibition <= 15 && pluralite <= 15) {
     paragraphes.push(`Tu préfères clairement <strong>l'intimité à deux</strong>. Le regard extérieur n'est pas ton moteur.`);
   }
