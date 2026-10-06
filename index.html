@@ -511,13 +511,11 @@
         <div id="recommendations"></div>
       </div>
 
-      <div class="export-actions">
-        <button onclick="copyResults()">📋 Copier</button>
-        <button onclick="downloadResults()">💾 .txt</button>
-        <button onclick="shareResults()" class="btn-secondary">🔗 Partager</button>
-        <button onclick="exportImage()" class="btn-purple">🖼️ Image</button>
-        <button onclick="openCompare()" class="btn-purple">⚖️ Comparer</button>
-      </div>
+<div class="export-actions">
+  <button onclick="copyResults()">📋 Copier</button>
+  <button onclick="downloadResults()">💾 .txt</button>
+  <button onclick="openImageFormatModal()" class="btn-purple">🖼️ Image</button>
+ </div>
     </div>
   </div>
 </div>
@@ -2152,6 +2150,7 @@ function calculateResults() {
   }
 
   /* --- Collecte des données --- */
+  /* --- Collecter les données --- */
   const globalScores = { D: 0, R: 0, L: 0, A: 0 };
   const catScores = {};
   const catMax = {};
@@ -2169,13 +2168,16 @@ function calculateResults() {
   }
 
   /* --- ÉTAPE 1 : Calculer le max théorique par catégorie ---
-     On se base sur le tableau QUESTIONS filtré par mode + genre,
-     et non sur le DOM (qui pouvait donner des résultats faussés).
-     Pour chaque question, on prend le POIDS MAX de ses options
-     et on l'ajoute au max de sa catégorie. */
+     On se base sur le tableau QUESTIONS (les données, pas le DOM)
+     pour être sûr d'avoir les bons poids, même si le DOM n'est
+     pas encore rendu. */
   QUESTIONS.forEach(q => {
+    // Question dans le mode actuel ?
     if (!q.mode.includes(currentMode)) return;
+    // Question pour ce genre (ou mixte) ?
     if (q.gender !== 'both' && q.gender !== userGender) return;
+
+    // Poids MAX des options de cette question
     let maxW = 0;
     q.options.forEach(opt => {
       const w = parseInt(opt.weight || '1', 10);
@@ -2183,6 +2185,10 @@ function calculateResults() {
     });
     catMax[q.cat] = (catMax[q.cat] || 0) + maxW;
   });
+
+  // DEBUG : log pour vérifier que les max sont bien calculés
+  console.log('catMax calculés:', catMax);
+  console.log('Mode:', currentMode, 'Genre:', userGender);
 
   /* --- ÉTAPE 2 : Parcourir les cases cochées et cumuler les scores --- */
   checkedBoxes.forEach(cb => {
@@ -2333,7 +2339,10 @@ function renderCrossAnalysis(globalScores, catScores, catMax, domRole, physiqueL
   const container = document.getElementById('cross-analysis');
   container.innerHTML = '';
 
-  const pct = (cat) => catMax[cat] ? Math.round((catScores[cat] / catMax[cat]) * 100) : 0;
+  const pct = (cat) => {
+  if (!catMax[cat] || catMax[cat] === 0) return 0;
+  return Math.min(100, Math.round((catScores[cat] / catMax[cat]) * 100));
+};
   const paragraphes = [];
 
   const pouvoir = pct('pouvoir');
@@ -2617,65 +2626,6 @@ function renderResultsFromData(data) {
 }
 
 /* ============================================================
-   PARTAGE
-   ============================================================ */
-function shareResults() {
-  if (!lastComputedResults) {
-    showModal('Pas de résultats', 'Calcule d\'abord tes résultats.', [
-      { label: 'OK', action: closeModal }
-    ]);
-    return;
-  }
-
-  // Construire un profil compact à partager
-  const profileToShare = {
-    v: 1,
-    g: lastComputedResults.genderCode,
-    m: lastComputedResults.mode,
-    d: lastComputedResults.timestamp,
-    r: lastComputedResults
-  };
-
-  const encoded = compressProfile(profileToShare);
-  const baseUrl = window.location.origin + window.location.pathname;
-  const shareUrl = `${baseUrl}#p=${encoded}`;
-
-  const container = document.createElement('div');
-  container.innerHTML = `
-    <p>Voici ton lien de partage. Toute personne qui l'ouvre verra <strong>ton profil</strong> (pas le questionnaire).</p>
-    <div class="share-link" id="share-link-text">${shareUrl}</div>
-    <div class="share-warning">
-      ⚠️ Ne partage ce lien qu'avec des personnes de confiance. Il contient toutes tes réponses.
-    </div>
-  `;
-
-  showModal('🔗 Partager mon profil', container, [
-    { label: '📋 Copier le lien', action: () => {
-        navigator.clipboard.writeText(shareUrl).then(() => {
-          closeModal();
-          showModal('Lien copié !', 'Colle-le où tu veux.', [
-            { label: 'OK', action: closeModal }
-          ]);
-        }).catch(() => {
-          // Fallback
-          const ta = document.createElement('textarea');
-          ta.value = shareUrl;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-          closeModal();
-          showModal('Lien copié !', 'Colle-le où tu veux.', [
-            { label: 'OK', action: closeModal }
-          ]);
-        });
-      }
-    },
-    { label: 'Fermer', action: closeModal, css: 'btn-reset' }
-  ]);
-}
-
-/* ============================================================
    EXPORT TEXTE
    ============================================================ */
 function getExportText() {
@@ -2751,11 +2701,10 @@ function downloadResults() {
   document.body.removeChild(a);
   URL.revokeObjectURL(a.href);
 }
-
 /* ============================================================
-   EXPORT IMAGE (canvas)
+   SÉLECTION DU FORMAT D'IMAGE
    ============================================================ */
-function exportImage() {
+function openImageFormatModal() {
   if (!lastComputedResults) {
     showModal('Pas de résultats', 'Calcule d\'abord tes résultats.', [
       { label: 'OK', action: closeModal }
@@ -2763,76 +2712,166 @@ function exportImage() {
     return;
   }
 
+  const container = document.createElement('div');
+  container.innerHTML = `
+    <p style="margin-bottom:20px;">Choisis le format d'image à générer :</p>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <button onclick="closeModal(); generateImageForFormat('story')"
+              style="background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+                     padding:18px; font-size:1rem; border-radius:8px;">
+        📱 Story Instagram<br>
+        <span style="font-weight:normal; font-size:0.85em; opacity:0.9;">1080 × 1920 — vertical, idéal pour les stories</span>
+      </button>
+      <button onclick="closeModal(); generateImageForFormat('post')"
+              style="background: linear-gradient(135deg, #405de6, #5851db, #833ab4);
+                     padding:18px; font-size:1rem; border-radius:8px;">
+        🟪 Post Instagram<br>
+        <span style="font-weight:normal; font-size:0.85em; opacity:0.9;">1080 × 1080 — carré, idéal pour les posts</span>
+      </button>
+      <button onclick="closeModal(); generateImageForFormat('message')"
+              style="background: linear-gradient(135deg, #25d366, #128c7e);
+                     padding:18px; font-size:1rem; border-radius:8px;">
+        💬 Message / WhatsApp<br>
+        <span style="font-weight:normal; font-size:0.85em; opacity:0.9;">1080 × 1350 — portrait court, lisible sur mobile</span>
+      </button>
+    </div>
+  `;
+
+  showModal('🖼️ Format de l\'image', container, [
+    { label: 'Annuler', action: closeModal, css: 'btn-reset' }
+  ]);
+}
+
+/* ============================================================
+   GÉNÉRATION D'IMAGE — 3 FORMATS
+   ============================================================ */
+function generateImageForFormat(format) {
+  if (!lastComputedResults) return;
+
   const r = lastComputedResults;
-  const W = 800;
-  const H = 1000;
+
+  // Configuration selon le format
+  const configs = {
+    story:   { W: 1080, H: 1920, titleSize: 42, profileSize: 72, barH: 32, catBarH: 24, padding: 80 },
+    post:    { W: 1080, H: 1080, titleSize: 36, profileSize: 60, barH: 28, catBarH: 20, padding: 70 },
+    message: { W: 1080, H: 1350, titleSize: 40, profileSize: 66, barH: 30, catBarH: 22, padding: 75 }
+  };
+
+  const cfg = configs[format];
+  const W = cfg.W, H = cfg.H;
   const canvas = document.createElement('canvas');
   canvas.width = W;
   canvas.height = H;
   const ctx = canvas.getContext('2d');
 
-  // Fond
-  ctx.fillStyle = '#121212';
+  // --- FOND DÉGRADÉ ---
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, '#0a0a0f');
+  grad.addColorStop(0.5, '#121212');
+  grad.addColorStop(1, '#1a0a0f');
+  ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, H);
 
-  // Bordure
+  // --- BORDURE DÉCORATIVE ---
   ctx.strokeStyle = '#e50914';
-  ctx.lineWidth = 4;
-  ctx.strokeRect(20, 20, W - 40, H - 40);
+  ctx.lineWidth = 5;
+  ctx.strokeRect(40, 40, W - 80, H - 80);
 
-  // Titre
-  ctx.fillStyle = '#e50914';
-  ctx.font = 'bold 32px Segoe UI, sans-serif';
+  // Coins décoratifs
+  ctx.lineWidth = 7;
+  const corner = 70;
+  ctx.beginPath(); ctx.moveTo(60, 60 + corner); ctx.lineTo(60, 60); ctx.lineTo(60 + corner, 60); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W - 60 - corner, 60); ctx.lineTo(W - 60, 60); ctx.lineTo(W - 60, 60 + corner); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(60, H - 60 - corner); ctx.lineTo(60, H - 60); ctx.lineTo(60 + corner, H - 60); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W - 60 - corner, H - 60); ctx.lineTo(W - 60, H - 60); ctx.lineTo(W - 60, H - 60 - corner); ctx.stroke();
+
+  // --- TITRE ---
   ctx.textAlign = 'center';
-  ctx.fillText('Mon profil', W/2, 90);
-
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 28px Segoe UI, sans-serif';
-  ctx.fillText(r.mainProfile, W/2, 140);
-
+  ctx.fillStyle = '#e50914';
+  ctx.font = `bold ${cfg.titleSize}px "Segoe UI", sans-serif`;
+  ctx.fillText('QUESTIONNAIRE D\'ATTIRANCE', W/2, 130);
+  ctx.font = `${cfg.titleSize * 0.55}px "Segoe UI", sans-serif`;
   ctx.fillStyle = '#a0a0a0';
-  ctx.font = '16px Segoe UI, sans-serif';
-  ctx.fillText(`Profil : ${r.gender}  •  Mode : ${r.mode} questions  •  ${r.date}`, W/2, 175);
+  ctx.fillText('& PRATIQUES', W/2, 130 + cfg.titleSize * 0.8);
 
-  // Description
-  ctx.fillStyle = '#e0e0e0';
-  ctx.font = '15px Segoe UI, sans-serif';
-  wrapText(ctx, r.mainDesc, W/2, 215, W - 100, 22);
+  // Ligne décorative
+  ctx.strokeStyle = '#e50914';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(W/2 - 200, 195);
+  ctx.lineTo(W/2 + 200, 195);
+  ctx.stroke();
 
-  // Barres D/R/L/A
+  // --- PROFIL PRINCIPAL ---
+  let y = format === 'post' ? 290 : 330;
+  ctx.fillStyle = '#ffffff';
+  ctx.font = `bold ${cfg.profileSize}px "Segoe UI", sans-serif`;
+  ctx.fillText(r.mainProfile, W/2, y);
+
+  // Description du profil
+  y += 50;
+  ctx.fillStyle = '#a0a0a0';
+  ctx.font = `italic 22px "Segoe UI", sans-serif`;
+  wrapTextCenter(ctx, r.mainDesc, W/2, y, W - 200, 30);
+
+  // Métadonnées
+  y += format === 'post' ? 80 : 100;
+  ctx.fillStyle = '#666';
+  ctx.font = '18px "Segoe UI", sans-serif';
+  ctx.fillText(`Profil ${r.gender}  •  Mode ${r.mode} questions  •  ${r.date}`, W/2, y);
+
+  // --- BARRES D/R/L/A ---
+  y += format === 'post' ? 50 : 70;
   const bars = [
-    { label: 'Dominance (D)', value: r.pctD, color: '#e50914' },
-    { label: 'Soumission (R)', value: r.pctR, color: '#f39c12' },
-    { label: 'Switch (L)', value: r.pctL, color: '#3498db' },
-    { label: 'Vanilla (A)', value: r.pctA, color: '#777' }
+    { label: 'Dominance (D)', value: r.pctD, color: '#e50914', emoji: '👑' },
+    { label: 'Soumission (R)', value: r.pctR, color: '#f39c12', emoji: '⛓️' },
+    { label: 'Switch (L)', value: r.pctL, color: '#3498db', emoji: '🔄' },
+    { label: 'Vanilla (A)', value: r.pctA, color: '#777777', emoji: '🤍' }
   ];
 
-  let y = 320;
-  ctx.textAlign = 'left';
+  const barW = W - 2 * cfg.padding;
+  const barX = cfg.padding;
+  const lineGap = format === 'post' ? 75 : 85;
+
   bars.forEach(b => {
+    ctx.textAlign = 'left';
     ctx.fillStyle = '#e0e0e0';
-    ctx.font = 'bold 16px Segoe UI, sans-serif';
-    ctx.fillText(b.label, 60, y);
+    ctx.font = `bold 24px "Segoe UI", sans-serif`;
+    ctx.fillText(`${b.emoji}  ${b.label}`, barX, y);
+
     ctx.textAlign = 'right';
-    ctx.fillText(b.value + '%', W - 60, y);
+    ctx.fillStyle = b.color;
+    ctx.font = `bold 30px "Segoe UI", sans-serif`;
+    ctx.fillText(b.value + '%', W - cfg.padding, y);
     ctx.textAlign = 'left';
 
-    // Barre de fond
     ctx.fillStyle = '#2a2a2a';
-    ctx.fillRect(60, y + 10, W - 120, 16);
-    // Barre de remplissage
+    ctx.fillRect(barX, y + 14, barW, cfg.barH);
+
     ctx.fillStyle = b.color;
-    ctx.fillRect(60, y + 10, (W - 120) * (b.value / 100), 16);
-    y += 60;
+    ctx.fillRect(barX, y + 14, barW * (b.value / 100), cfg.barH);
+
+    y += lineGap;
   });
 
-  // Top catégories
-  y += 20;
-  ctx.fillStyle = '#e50914';
-  ctx.font = 'bold 20px Segoe UI, sans-serif';
-  ctx.fillText('Top catégories', 60, y);
-  y += 35;
+  // --- SÉPARATEUR ---
+  y += 15;
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(cfg.padding, y);
+  ctx.lineTo(W - cfg.padding, y);
+  ctx.stroke();
+  y += 45;
 
+  // --- TITRE CATÉGORIES ---
+  ctx.fillStyle = '#e50914';
+  ctx.font = `bold 28px "Segoe UI", sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('PROFIL PAR CATÉGORIE', W/2, y);
+  y += 55;
+
+  // --- CATÉGORIES ---
   const cats = [];
   for (const key in CATEGORIES) {
     if (!r.catMax[key]) continue;
@@ -2841,37 +2880,56 @@ function exportImage() {
   }
   cats.sort((a, b) => b.pct - a.pct);
 
-  cats.slice(0, 5).forEach(c => {
+  const catBarW = W - 2 * cfg.padding - 60;
+  const catLineGap = format === 'post' ? 45 : 55;
+  const maxCats = format === 'post' ? 8 : 10;
+
+  cats.slice(0, maxCats).forEach(c => {
+    ctx.textAlign = 'left';
     ctx.fillStyle = '#e0e0e0';
-    ctx.font = '15px Segoe UI, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText(`${c.emoji} ${c.label}`, 60, y);
+    ctx.font = `20px "Segoe UI", sans-serif`;
+    ctx.fillText(`${c.emoji}  ${c.label}`, cfg.padding, y);
+
     ctx.textAlign = 'right';
-    ctx.fillText(c.pct + '%', W - 60, y);
+    ctx.fillStyle = c.pct >= 60 ? '#e50914' : (c.pct >= 30 ? '#f39c12' : '#777');
+    ctx.font = `bold 20px "Segoe UI", sans-serif`;
+    ctx.fillText(c.pct + '%', W - cfg.padding, y);
     ctx.textAlign = 'left';
-    y += 28;
+
+    ctx.fillStyle = '#2a2a2a';
+    ctx.fillRect(cfg.padding, y + 8, catBarW, cfg.catBarH);
+
+    ctx.fillStyle = c.pct >= 60 ? '#e50914' : (c.pct >= 30 ? '#f39c12' : '#555');
+    ctx.fillRect(cfg.padding, y + 8, catBarW * (c.pct / 100), cfg.catBarH);
+
+    y += catLineGap;
   });
 
-  // Footer
-  ctx.fillStyle = '#666';
-  ctx.font = '13px Segoe UI, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('Questionnaire d\'Attirance & Pratiques', W/2, H - 50);
+  // --- PIED DE PAGE ---
+  if (format !== 'post') {
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#444';
+    ctx.font = `italic 16px "Segoe UI", sans-serif`;
+    ctx.fillText('Un questionnaire n\'est qu\'une photographie à un instant T.', W/2, H - 90);
+    ctx.fillText('Tes envies évolueront. Reviens le remplir dans 6 mois.', W/2, H - 65);
+  }
 
-  // Télécharger
+  // --- TÉLÉCHARGEMENT ---
+  const formatNames = { story: 'story', post: 'post', message: 'message' };
   canvas.toBlob(blob => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `profil-attirance-${new Date().toISOString().slice(0,10)}.png`;
+    a.download = `profil-attirance-${formatNames[format]}-${new Date().toISOString().slice(0,10)}.png`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  });
+  }, 'image/png');
 }
 
-function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+/* Helper : centrer un texte multi-lignes */
+function wrapTextCenter(ctx, text, x, y, maxWidth, lineHeight) {
   const words = text.split(' ');
   let line = '';
   const lines = [];
