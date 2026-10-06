@@ -1877,6 +1877,10 @@ function selectGender(gender) {
 function selectMode(mode) {
   currentMode = mode;
 
+  // On repart sur un test vierge (nouveau mode = nouveau test)
+  lastComputedResults = null;
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+
   // Masquer l'écran d'accueil, afficher le quiz
   document.getElementById('intro-screen').style.display = 'none';
   document.getElementById('quiz-wrapper').style.display = 'block';
@@ -1893,23 +1897,26 @@ function selectMode(mode) {
   // Générer les questions
   renderQuestions();
 
-  // Restaurer les réponses sauvegardées
-  restoreState();
+  // NE PAS restaurer les anciennes réponses (nouveau test)
+  // restoreState();  ← on enlève cet appel
 
   updateProgress();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
 function backToModeSelection() {
+  // Effacer les réponses en cours (on recommence)
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  lastComputedResults = null;
+
   // Cacher le quiz, revenir à la sélection de mode
   document.getElementById('quiz-wrapper').style.display = 'none';
   document.getElementById('intro-screen').style.display = 'block';
   document.getElementById('mode-selection').style.display = 'block';
   document.querySelector('.gender-buttons').style.display = 'flex';
   document.getElementById('results-container').style.display = 'none';
+  document.getElementById('progress-bar').style.width = '0%';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
 /* ============================================================
    RENDU DES QUESTIONS
    ============================================================ */
@@ -2089,8 +2096,15 @@ function resetForm() {
         document.getElementById('results-container').style.display = 'none';
         document.getElementById('progress-bar').style.width = '0%';
         lastComputedResults = null;
-        try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}   // déjà là
         closeModal();
+        // Retour à l'accueil, tout vierge
+        document.getElementById('quiz-wrapper').style.display = 'none';
+        document.getElementById('intro-screen').style.display = 'block';
+        document.querySelector('.gender-buttons').style.display = 'flex';
+        document.getElementById('mode-selection').style.display = 'none';
+        userGender = null;
+        currentMode = null;
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
