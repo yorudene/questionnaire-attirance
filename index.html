@@ -1948,18 +1948,18 @@ function renderQuestions() {
   });
 
   // Ordre des catégories
-  const catOrder = ['pouvoir', 'anal', 'bdsm', 'soft', 'exhibition', 'pluralite', 'securite', 'hard', 'physique', 'cadre'];
+    const catOrder = ['pouvoir', 'bdsm', 'hard', 'soft', 'exhibition', 'pluralite', 'securite', 'intimite', 'couple', 'physique'];
   const catTitles = {
     pouvoir:    '1. Dynamiques & Rôles',
-    anal:       '2. Pratiques Anal & Stimulation',
-    bdsm:       '3. BDSM & Impact Play',
+    bdsm:       '2. BDSM & Impact Play',
+    hard:       '3. Pratiques Hard & Fétichisme',
     soft:       '4. Soft, Tendresse & Sensualité',
     exhibition: '5. Exhibition & Voyeurisme',
     pluralite:  '6. Mélangisme & Pluralité',
-    securite:   '7. Sécurité, Cadre & Consentement',
-    hard:       '8. Pratiques Hard & Fétichisme',
-    physique:   '9. Préférences Physiques',
-    cadre:      '10. Cadre Relationnel & Fréquence'
+    securite:   '7. Sécurité & Cadre',
+    intimite:   '8. Intimité',
+    couple:     '9. Couple & Polyamour',
+    physique:   '10. Préférences Physiques'
   };
 
   catOrder.forEach(cat => {
@@ -2772,14 +2772,14 @@ function openImageFormatModal() {
       <button onclick="closeModal(); generateImageForFormat('story')"
               style="background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
                      padding:18px; font-size:1rem; border-radius:8px;">
-        📱 Story Instagram<br>
+        📱 Story Instagram / WhatsApp<br>
         <span style="font-weight:normal; font-size:0.85em; opacity:0.9;">1080 × 1920 — vertical, idéal pour les stories</span>
       </button>
       <button onclick="closeModal(); generateImageForFormat('post')"
               style="background: linear-gradient(135deg, #405de6, #5851db, #833ab4);
                      padding:18px; font-size:1rem; border-radius:8px;">
         🟪 Post Instagram<br>
-        <span style="font-weight:normal; font-size:0.85em; opacity:0.9;">1080 × 1080 — carré, idéal pour les posts</span>
+        <span style="font-weight:normal; font-size:0.85em; opacity:0.9;">1350 × 1350 — carré, idéal pour les posts</span>
       </button>
       <button onclick="closeModal(); generateImageForFormat('message')"
               style="background: linear-gradient(135deg, #25d366, #128c7e);
@@ -2794,7 +2794,6 @@ function openImageFormatModal() {
     { label: 'Annuler', action: closeModal, css: 'btn-reset' }
   ]);
 }
-
 /* ============================================================
    GÉNÉRATION D'IMAGE — 3 FORMATS
    ============================================================ */
@@ -2806,7 +2805,7 @@ function generateImageForFormat(format) {
   // Configuration selon le format
   const configs = {
     story:   { W: 1080, H: 1920 },
-    post:    { W: 1080, H: 1080 },
+    post:    { W: 1350, H: 1350 },
     message: { W: 1080, H: 1350 }
   };
 
